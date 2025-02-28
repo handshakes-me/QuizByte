@@ -5,10 +5,16 @@ const StudentSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true },
     verified: { type: Boolean, default: false },
     password: { type: String, required: true }, // Hashed password
-    prn: { type: String, required: true, unique: true }, // Unique student PRN
-    seatNumber: { type: String, required: true, unique: true },
-    organizationId: { type: mongoose.Schema.Types.ObjectId, ref: "Organization", required: true },
-    role: { type: String, default: "STUDENT" },
+    prn: { type: String, unique: true }, // Unique student PRN
+    organizations: [
+        { 
+            type: mongoose.Schema.ObjectId, 
+            ref: "Organization",
+            required: true,
+            unique: true,
+        }
+    ],
+    role: { type: String, default: "STUDENT", required: true  },
     resetPasswordToken: { type: String, expires: 900 },
 }, { timestamps: true });
 

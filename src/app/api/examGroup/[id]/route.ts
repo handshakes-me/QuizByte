@@ -1,5 +1,5 @@
 import dbConnect from "@/config/dbConnect";
-import { isAdmin } from "@/middlewares/authMiddleware";
+import { auth, isAdmin } from "@/middlewares/authMiddleware";
 import adminModel from "@/models/admin.model";
 import examGroupModel from "@/models/examGroup.model";
 import organizationModel from "@/models/organization.model";
@@ -18,6 +18,11 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
 
         // db connect
         await dbConnect();
+
+        const authResponse = auth(request);
+        if (authResponse instanceof NextResponse) {
+            return authResponse;
+        }
 
         // validate id
         const { id: examGroupId } = params;

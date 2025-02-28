@@ -30,8 +30,6 @@ export async function POST(req: NextRequest) {
             password,
             name,
             role,
-            prn,
-            seatNumber,
             token,
             organizationId
         } = await req.json();
@@ -79,7 +77,9 @@ export async function POST(req: NextRequest) {
             const html = await render(Welcome({ username: name, token: verificationToken }));
             await sendMail(email, "Welcome to the platform", html);
 
-            return NextResponse.json({ success: true, message: "Super Admin registered successfully", data: { ...user, password: undefined } }, { status: 201 });
+            user.password = undefined
+
+            return NextResponse.json({ success: true, message: "Super Admin registered successfully", data: user}, { status: 201 });
         }
 
         else if (role === "ADMIN") {
@@ -132,7 +132,7 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ success: true, message: "Admin registered successfully", data: user }, { status: 201 });
         }
 
-        else {
+        else if (role === 'STUDENT') {
             if (!name || !password || !email) {
                 return NextResponse.json({ success: false, error: "All fields are required" }, { status: 400 });
             }
@@ -158,11 +158,14 @@ export async function POST(req: NextRequest) {
             await user.save();
 
             const verificationToken = jwt.sign({ email }, process.env.JWT_SECRET!, { expiresIn: "1h" });
+
             // sehd mail
             const html = await render(Welcome({ username: name, token: verificationToken }));
             await sendMail(email, "Welcome to the platform", html);
 
-            return NextResponse.json({ success: true, message: "Student registered successfully", data: { ...user, password: undefined } }, { status: 201 });
+            user.password = undefined
+
+            return NextResponse.json({ success: true, message: "Student registered successfully", data: user }, { status: 201 });
         }
 
     } catch (e) {

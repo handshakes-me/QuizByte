@@ -5,7 +5,14 @@ import subjectModel from "@/models/subject.model";
 import mongoose from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 
-export const POST = async (request: NextRequest) => {
+interface requestType extends NextRequest {
+    user: {
+        id: string;
+        role: string;
+    };
+}
+
+export const POST = async (request: requestType) => {
     try {
 
         // dbConnect
@@ -50,6 +57,31 @@ export const POST = async (request: NextRequest) => {
 
         // response
         return NextResponse.json({ success: true, message: "Subject created successfully", data: subject }, { status: 201 })
+
+    } catch (e) {
+        console.error(e);
+        return NextResponse.json({ success: false, error: "Internal Server Error" }, { status: 500 });
+    }
+}
+
+export const GET = async (request: requestType) => {
+    try {
+
+        await dbConnect()
+
+        const authResponse = isAdmin(request);
+        if (authResponse instanceof NextResponse) {
+            return authResponse;
+        }
+
+        const examGroupId = request.nextUrl.searchParams.get('examGroupId')
+        if (!examGroupId) {
+            return NextResponse.json({ success: false, error: "Invalid exam group id" }, { status: 400 });
+        }
+
+        const subjects = await subjectModel.find({ examGroup: examGroupId })
+
+        return NextResponse.json({ success: true, message: "Subjects fetched successfully", data: subjects || [] }, { status: 200 })
 
     } catch (e) {
         console.error(e);

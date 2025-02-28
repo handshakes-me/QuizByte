@@ -9,13 +9,14 @@ ADMIN
 - create a new student invitation link ✅
 - create, update, delete a exam group ✅
 - create, update, delete subjects in exam group ✅ 
-- create exam -> marks and other details
+- create, update, delete exam ->     
 - create questions 
 - update exam
 - publish the results
 
 STUDENT
-- join org ✅
-- enroll in exam group -> select subjects for exam
+- join/leave org ✅
+- get all enrolled organization's list ✅
+- enroll in exam group -> select subjects for exam ✅
 - attend exam
 - view result

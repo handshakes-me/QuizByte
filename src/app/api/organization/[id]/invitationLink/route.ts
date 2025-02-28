@@ -1,10 +1,9 @@
 import dbConnect from "@/config/dbConnect";
-import { isAdmin, isSuperAdmin } from "@/middlewares/authMiddleware";
+import { isAdmin, isSuperAdmin, auth } from "@/middlewares/authMiddleware";
 import organizationModel from "@/models/organization.model";
 import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
 import adminModel from "@/models/admin.model";
-
 interface requestType extends NextRequest {
     user: {
         id: string
@@ -20,7 +19,7 @@ export async function PATCH(request: requestType, { params }: { params: { id: st
         if (authResponse instanceof NextResponse) {
             return authResponse;
         }
-        const id = params.id;
+        const { id } = await params;
 
         const organization = await organizationModel.findById(id);
 

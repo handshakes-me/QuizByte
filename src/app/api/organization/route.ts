@@ -73,7 +73,7 @@ export async function POST(req: requestType) {
     }
 }
 
-export async function GET(req: NextRequest) {
+export async function GET(req: requestType) {
 
     try {
 

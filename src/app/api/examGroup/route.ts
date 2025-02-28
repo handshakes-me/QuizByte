@@ -1,5 +1,5 @@
 import dbConnect from "@/config/dbConnect";
-import { isAdmin } from "@/middlewares/authMiddleware";
+import { auth, isAdmin } from "@/middlewares/authMiddleware";
 import adminModel from "@/models/admin.model";
 import examGroupModel from "@/models/examGroup.model";
 import organizationModel from "@/models/organization.model";
@@ -75,3 +75,40 @@ export async function POST(request: requestType) {
     }
 }
 
+export async function GET(request: requestType) {
+    try {
+
+        // connect db
+        await dbConnect();
+
+        // authenticate user
+        const authResponse = auth(request);
+        if (authResponse instanceof NextResponse) {
+            return authResponse;
+        }
+
+        // get request data
+        const organizationId = request?.nextUrl?.searchParams?.get('organizationId');
+
+        // validate data
+        if (!organizationId) {
+            return NextResponse.json({ success: false, error: "Missing required fields" }, { status: 400 });
+        }
+
+        // validation with db
+        const organization = await organizationModel.findById(organizationId)
+
+        if (!organization) {
+            return NextResponse.json({ success: false, error: "Organization not found" }, { status: 404 });
+        }
+
+        // get exam groups
+        const examGroups = await examGroupModel.find({ organizationId: organizationId })
+
+        // response
+        return NextResponse.json({ success: true, message: "Exam groups fetched successfully", data: examGroups }, { status: 200 })
+    } catch (error) {
+        console.error(error);
+        return NextResponse.json({ success: false, error: "Internal Server Error" }, { status: 500 });
+    }
+}

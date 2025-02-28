@@ -11,7 +11,6 @@ const OrganizationSchema = new mongoose.Schema({
             name: { type: String, required: true },
             email: { type: String, required: true, unique: true },
             prn: { type: String, required: true, unique: true },
-            seatNumber: { type: String, required: true, unique: true },
         }
     ],
     examGroups: [{ type: mongoose.Schema.Types.ObjectId, ref: "ExamGroup" }], // Exam groups under this organization
