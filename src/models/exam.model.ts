@@ -13,6 +13,7 @@ const ExamSchema = new mongoose.Schema({
     numberOfQuestions: { type: Number, required: true },
     marksPerQuestion: { type: Number, required: true },
     passingMarks: { type: Number, required: true },
+    hints: { type: Number, default: 0 },
     status: { type: String, enum: ["scheduled", "ongoing", "finished", "cancelled"], default: "scheduled" },
     isResultPublished: { type: Boolean, default: false },
     questions: [{ type: mongoose.Schema.Types.ObjectId, ref: "Question" }], // List of questions can be more than the number of questions for shuffled questions

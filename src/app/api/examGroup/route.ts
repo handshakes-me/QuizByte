@@ -4,6 +4,7 @@ import adminModel from "@/models/admin.model";
 import examGroupModel from "@/models/examGroup.model";
 import organizationModel from "@/models/organization.model";
 import studentModel from "@/models/student.model";
+import mongoose from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 
 interface requestType extends NextRequest {
@@ -102,8 +103,54 @@ export async function GET(request: requestType) {
             return NextResponse.json({ success: false, error: "Organization not found" }, { status: 404 });
         }
 
-        // get exam groups
-        const examGroups = await examGroupModel.find({ organizationId: organizationId })
+        const examGroups = await examGroupModel.aggregate([
+            { $match: { organizationId: new mongoose.Types.ObjectId(organizationId) } },
+
+            // Lookup subjects collection
+            {
+                $lookup: {
+                    from: "subjects", // Collection name
+                    localField: "subjects",
+                    foreignField: "_id",
+                    as: "subjects"
+                }
+            },
+
+            // Lookup students collection
+            {
+                $lookup: {
+                    from: "students", // Collection name
+                    localField: "students",
+                    foreignField: "_id",
+                    as: "students"
+                }
+            },
+
+            // Select only required fields
+            {
+                $project: {
+                    _id: 1,
+                    name: 1,
+                    description: 1,
+                    organizationId: 1,
+                    "subjects._id": 1,
+                    "subjects.name": 1,
+                    "subjects.code": 1,
+                    "subjects.description": 1,
+                    "students._id": 1,
+                    "students.name": 1,
+                    "students.email": 1,
+                    "students.prn": 1
+                }
+            }
+        ]);
+
+        // remove students list from output when student is fetching data
+        if (request.user.role === "STUDENT") {
+            examGroups.forEach((e: any) => {
+                e.students = undefined
+            })
+        }
 
         // response
         return NextResponse.json({ success: true, message: "Exam groups fetched successfully", data: examGroups }, { status: 200 })

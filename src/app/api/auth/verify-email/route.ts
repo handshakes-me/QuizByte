@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
         }
 
         if (user?.verified) {
-            return NextResponse.json({ success: true, error: "Email already verified" }, { status: 400 });
+            return NextResponse.json({ success: false, error: "Email already verified" }, { status: 400 });
         }
 
         user.verified = true;

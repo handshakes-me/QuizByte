@@ -4,7 +4,7 @@ const ExamAttemptSchema = new mongoose.Schema({
     examId: { type: mongoose.Schema.Types.ObjectId, ref: "Exam", required: true },
     studentId: { type: mongoose.Schema.Types.ObjectId, ref: "Student", required: true },
     startTime: { type: Date, default: Date.now }, // When student started the exam
-    status: { type: String, enum: ["pending", "completed", "auto-submitted"], default: "pending" },
+    status: { type: String, enum: ["pending", "in-progress", "completed", "auto-submitted"], default: "pending" },
     submittedAt: { type: Date },
     timeTaken: { type: Number }, // Time taken in seconds
     totalMarks: { type: Number, required: true }, // Same as exam's totalMarks
@@ -16,6 +16,7 @@ const ExamAttemptSchema = new mongoose.Schema({
             isCorrect: { type: Boolean, required: true } // Backend will validate and update this
         }
     ],
+    hintsUsed: { type: Number, default: 0 }, // Number of hints used by the student
     autoSubmitted: { type: Boolean, default: false }
 }, { timestamps: true });
 

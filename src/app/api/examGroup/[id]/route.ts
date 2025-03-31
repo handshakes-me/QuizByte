@@ -13,7 +13,7 @@ interface requestType extends NextRequest {
     }
 }
 
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: requestType, { params }: { params: { id: string } }) {
     try {
 
         // db connect
@@ -34,16 +34,59 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
             return NextResponse.json({ success: false, error: "Invalid exam group id" }, { status: 400 });
         }
 
-        // fetch exam groups
-        const examGroup = await examGroupModel.findById(examGroupId)
+        const examGroup = await examGroupModel.aggregate([
+            { $match: { _id: new mongoose.Types.ObjectId(examGroupId) } },
+        
+            // Lookup subjects collection
+            {
+                $lookup: {
+                    from: "subjects", // Name of the subjects collection
+                    localField: "subjects",
+                    foreignField: "_id",
+                    as: "subjects"
+                }
+            },
+        
+            // Lookup students collection
+            {
+                $lookup: {
+                    from: "students", // Name of the students collection
+                    localField: "students",
+                    foreignField: "_id",
+                    as: "students"
+                }
+            },
+        
+            // Select only required fields
+            {
+                $project: {
+                    name: 1,
+                    description: 1,
+                    "students._id": 1,
+                    "students.name": 1,
+                    "students.email": 1,
+                    "students.prn": 1,
+                    "subjects._id": 1,
+                    "subjects.name": 1,
+                    "subjects.code": 1,
+                    "subjects.description": 1
+                }
+            }
+        ]);
+        
 
         // validate
         if (!examGroup) {
             return NextResponse.json({ success: false, error: "Exam group not found" }, { status: 404 });
         }
 
+        // remove students list from output when student is fetching data
+        if (request.user.role === 'STUDENT') {
+            examGroup[0].students = undefined
+        }
+
         // response
-        return NextResponse.json({ success: true, message: "Exam groups fetched successfully", data: examGroup }, { status: 200 })
+        return NextResponse.json({ success: true, message: "Exam groups fetched successfully", data: examGroup[0] }, { status: 200 })
 
     } catch (e) {
         console.error(e);

@@ -40,7 +40,8 @@ export const PATCH = async (req: reqestType, { params }: { params: { id: string 
             numberOfQuestions,
             marksPerQuestion,
             passingMarks,
-            attemptCount
+            attemptCount,
+            hints
         } = await req.json()
 
         const admindId = req.user.id
@@ -92,6 +93,11 @@ export const PATCH = async (req: reqestType, { params }: { params: { id: string 
             return NextResponse.json({ success: false, message: "Duration must be greater than 0" }, { status: 400 });
         }
 
+        // hints validation
+        if(hints > numberOfQuestions) {
+            return NextResponse.json({ success: false, message: "Hints must be less than or equal to number of questions" }, { status: 400 });
+        }
+
         // validate marks 
         if (totalMarks && totalMarks <= 0) {
             return NextResponse.json({ success: false, message: "Total marks must be greater than 0" }, { status: 400 });
@@ -140,6 +146,10 @@ export const PATCH = async (req: reqestType, { params }: { params: { id: string 
 
         if (description) {
             exam.description = description
+        }
+
+        if(hints) {
+            exam.hints = hints
         }
 
         if (subjectId) {
@@ -211,7 +221,7 @@ export const GET = async (req: reqestType, { params }: { params: { id: string } 
 
         // fetch data
         const { id: examId } = await params
-        const exam = await examModel.findById(examId)
+        const exam = await examModel.findById(examId).populate("questions")
         if (!exam) {
             return NextResponse.json({ success: false, message: "Exam not found" }, { status: 404 });
         }
@@ -229,7 +239,9 @@ export const GET = async (req: reqestType, { params }: { params: { id: string } 
             return NextResponse.json({ success: false, message: "Unauthorized access" }, { status: 401 });
         }
 
-        exam.questions = undefined
+        if (user.role === "STUDENT") {
+            exam.questions = undefined
+        }
 
         // return response
         return NextResponse.json({ success: true, message: "Exam fetched successfully", data: exam }, { status: 200 });

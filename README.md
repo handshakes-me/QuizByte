@@ -9,10 +9,9 @@ ADMIN
 - create a new student invitation link ✅
 - create, update, delete a exam group ✅
 - create, update, delete subjects in exam group ✅ 
-- create, update, delete exam ->     
-- create questions 
-- update exam
-- publish the results
+- create, update, update exam status ✅
+- create questions ✅
+- publish the results ✅
 
 STUDENT
 - join/leave org ✅

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import QueryProvider from "@/components/common/QueryProvider";
+import { Toaster } from "@/components/ui/toaster";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,9 +15,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Exam online",
-  description: "Thia ia an online examination platform built using NEXT js",
-  
+  title: "QuizByte",
+  description: "QuizByte - A solution for your online examination needs",
+  icons: {
+    icon:  "/favicon.png",
+  },
 };
 
 export default function RootLayout({
@@ -28,7 +32,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <QueryProvider>
+          {children}
+        </QueryProvider>
+        <Toaster />
       </body>
     </html>
   );

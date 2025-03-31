@@ -13,10 +13,14 @@ export async function POST(req: NextRequest) {
 
     await dbConnect();
 
-    const { email, token, password } = await req.json();
+    const { email, token, password, confirmPassword } = await req.json();
 
-    if(!email || !token || !password) {
+    if(!email || !token || !password || !confirmPassword) {
         return NextResponse.json({ success: false, error: "All fields are required" }, { status: 400 });
+    }
+
+    if(password !== confirmPassword) {
+        return NextResponse.json({ success: false, error: "Passwords do not match" }, { status: 400 });
     }
 
     try {

@@ -28,6 +28,7 @@ export async function POST(req: NextRequest) {
         const {
             email,
             password,
+            confirmPassword,
             name,
             role,
             token,
@@ -36,6 +37,10 @@ export async function POST(req: NextRequest) {
 
         if (!role) {
             return NextResponse.json({ success: false, error: "Role is required" }, { status: 400 });
+        }
+
+        if (password !== confirmPassword) {
+            return NextResponse.json({ success: false, error: "Password and confirm password do not match" }, { status: 400 })
         }
 
         if (role !== "SUPERADMIN" && role !== "ADMIN" && role !== "STUDENT") {
@@ -79,7 +84,7 @@ export async function POST(req: NextRequest) {
 
             user.password = undefined
 
-            return NextResponse.json({ success: true, message: "Super Admin registered successfully", data: user}, { status: 201 });
+            return NextResponse.json({ success: true, message: "Super Admin registered successfully", data: user }, { status: 201 });
         }
 
         else if (role === "ADMIN") {
@@ -137,10 +142,16 @@ export async function POST(req: NextRequest) {
                 return NextResponse.json({ success: false, error: "All fields are required" }, { status: 400 });
             }
 
+            console.log("name : ", name);
+            console.log("password : ", password);
+            console.log("email : ", email);
+
             const isExists =
                 await superAdminModel.findOne({ email }) ||
                 await adminModel.findOne({ email }) ||
                 await studentModel.findOne({ email });
+
+            console.log("isExists : ", isExists)
 
             if (isExists) {
                 return NextResponse.json({ success: false, error: "User already exists" }, { status: 400 });

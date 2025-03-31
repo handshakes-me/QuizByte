@@ -38,7 +38,8 @@ export const POST = async (req: RequestType) => {
             numberOfQuestions,
             marksPerQuestion,
             passingMarks,
-            attemptCount
+            attemptCount,
+            hints
         } = await req.json()
 
         const admindId = req.user.id
@@ -55,7 +56,8 @@ export const POST = async (req: RequestType) => {
             !numberOfQuestions ||
             !marksPerQuestion ||
             !passingMarks ||
-            !attemptCount
+            !attemptCount || 
+            !hints
         ) {
             return NextResponse.json({ success: false, message: "All fields are required" }, { status: 400 });
         }
@@ -88,6 +90,11 @@ export const POST = async (req: RequestType) => {
         // validate duration
         if (duration <= 0) {
             return NextResponse.json({ success: false, message: "Duration must be greater than 0" }, { status: 400 });
+        }
+
+        // hints validation
+        if(hints > numberOfQuestions) {
+            return NextResponse.json({ success: false, message: "Hints must be less than or equal to number of questions" }, { status: 400 });
         }
 
         // validate marks 
@@ -145,7 +152,8 @@ export const POST = async (req: RequestType) => {
             numberOfQuestions,
             marksPerQuestion,
             passingMarks,
-            attemptCount
+            attemptCount,
+            hints
         })
 
         // save exam id in exam group
