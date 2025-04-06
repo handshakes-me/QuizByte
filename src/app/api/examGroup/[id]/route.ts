@@ -13,7 +13,7 @@ interface requestType extends NextRequest {
     }
 }
 
-export async function GET(request: requestType, context: { params: { id: string } }) {
+export async function GET(request: requestType, { params }: { params: Promise<{ id: string }> }) {
     try {
 
         // db connect
@@ -25,7 +25,7 @@ export async function GET(request: requestType, context: { params: { id: string 
         }
 
         // validate id
-        const { id: examGroupId } = context.params;
+        const { id: examGroupId } = await params;
         if (!examGroupId) {
             return NextResponse.json({ success: false, error: "Exam group id is required" }, { status: 400 });
         }
@@ -36,7 +36,7 @@ export async function GET(request: requestType, context: { params: { id: string 
 
         const examGroup = await examGroupModel.aggregate([
             { $match: { _id: new mongoose.Types.ObjectId(examGroupId) } },
-        
+
             // Lookup subjects collection
             {
                 $lookup: {
@@ -46,7 +46,7 @@ export async function GET(request: requestType, context: { params: { id: string 
                     as: "subjects"
                 }
             },
-        
+
             // Lookup students collection
             {
                 $lookup: {
@@ -56,7 +56,7 @@ export async function GET(request: requestType, context: { params: { id: string 
                     as: "students"
                 }
             },
-        
+
             // Select only required fields
             {
                 $project: {
@@ -73,7 +73,7 @@ export async function GET(request: requestType, context: { params: { id: string 
                 }
             }
         ]);
-        
+
 
         // validate
         if (!examGroup) {
@@ -94,7 +94,7 @@ export async function GET(request: requestType, context: { params: { id: string 
     }
 }
 
-export async function PATCH(request: requestType, { params }: { params: { id: string } }) {
+export async function PATCH(request: requestType, { params }: { params: Promise<{ id: string }> }) {
     try {
 
         // db connect
@@ -108,7 +108,7 @@ export async function PATCH(request: requestType, { params }: { params: { id: st
 
         // get data
         const { name, description } = await request.json()
-        const examGroupId = params.id
+        const { id: examGroupId } = await params
         const userId = request.user.id
 
         // validate id
@@ -147,7 +147,7 @@ export async function PATCH(request: requestType, { params }: { params: { id: st
     }
 }
 
-export async function DELETE(request: requestType, { params }: { params: { id: string } }) {
+export async function DELETE(request: requestType, { params }: { params: Promise<{ id: string }> }) {
     try {
 
         // db connect
@@ -160,7 +160,7 @@ export async function DELETE(request: requestType, { params }: { params: { id: s
         }
 
         // get data
-        const examGroupId = params.id
+        const { id: examGroupId } = await params
         const userId = request.user.id
 
         // validate id

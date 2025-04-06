@@ -15,7 +15,7 @@ interface reqestType extends NextRequest {
     }
 }
 
-export const PATCH = async (req: reqestType, context: { params: { id: string } }) => {
+export const PATCH = async (req: reqestType, { params }: { params: Promise<{ id: string }> }) => {
     try {
 
         // connect db
@@ -45,7 +45,7 @@ export const PATCH = async (req: reqestType, context: { params: { id: string } }
         } = await req.json()
 
         const admindId = req.user.id
-        const examId = context.params.id;
+        const { id: examId } = await params;
 
         // validate exam
         const exam = await examModel.findById(examId)
@@ -94,7 +94,7 @@ export const PATCH = async (req: reqestType, context: { params: { id: string } }
         }
 
         // hints validation
-        if(hints > numberOfQuestions) {
+        if (hints > numberOfQuestions) {
             return NextResponse.json({ success: false, message: "Hints must be less than or equal to number of questions" }, { status: 400 });
         }
 
@@ -148,7 +148,7 @@ export const PATCH = async (req: reqestType, context: { params: { id: string } }
             exam.description = description
         }
 
-        if(hints) {
+        if (hints) {
             exam.hints = hints
         }
 
@@ -204,7 +204,7 @@ export const PATCH = async (req: reqestType, context: { params: { id: string } }
     }
 }
 
-export const GET = async (req: reqestType, context: { params: { id: string } }) => {
+export const GET = async (req: reqestType, { params }: { params: Promise<{ id: string }> }) => {
     try {
 
         // db connect
@@ -220,7 +220,7 @@ export const GET = async (req: reqestType, context: { params: { id: string } }) 
         const user = await adminModel.findById(req.user.id) || await studentModel.findById(req.user.id)
 
         // fetch data
-        const examId = context.params.id;
+        const { id: examId } = await params;
         const exam = await examModel.findById(examId).populate("questions")
         if (!exam) {
             return NextResponse.json({ success: false, message: "Exam not found" }, { status: 404 });

@@ -11,7 +11,7 @@ interface requestType extends NextRequest {
     }
 }
 
-export async function PATCH(request: requestType, context: { params: { id: string } }) {
+export async function PATCH(request: requestType, { params }: { params: Promise<{ id: string }> }) {
     try {
         await dbConnect();
 
@@ -19,7 +19,7 @@ export async function PATCH(request: requestType, context: { params: { id: strin
         if (authResponse instanceof NextResponse) {
             return authResponse;
         }
-        const { id } = await context.params;
+        const { id } = await params;
 
         const organization = await organizationModel.findById(id);
 

@@ -11,7 +11,7 @@ interface requestType extends NextRequest {
     };
 }
 
-export const POST = async (req: requestType, context: { params: { id: string } }) => {
+export const POST = async (req: requestType, { params }: { params: Promise<{ id: string }> }) => {
     try {
         await dbConnect();
 
@@ -21,7 +21,7 @@ export const POST = async (req: requestType, context: { params: { id: string } }
         }
 
         const { prn, token } = await req.json() || {};
-        const { id } = await context.params;
+        const { id } = await params;
         const userId = req.user.id;
 
         if (!prn || !token) {
@@ -63,7 +63,7 @@ export const POST = async (req: requestType, context: { params: { id: string } }
     }
 };
 
-export const DELETE = async (req: requestType, context: { params: { id: string } }) => {
+export const DELETE = async (req: requestType, { params }: { params: Promise<{ id: string }> }) => {
     try {
         await dbConnect();
 
@@ -72,7 +72,7 @@ export const DELETE = async (req: requestType, context: { params: { id: string }
             return authResponse;
         }
 
-        const { id } = await context.params;
+        const { id } = await params;
         const userId = req.user.id;
 
         const organization = await organizationModel.findById(id);
