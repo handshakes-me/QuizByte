@@ -12,7 +12,7 @@ import UpdateEmailForm from "@/components/profile/UpdateEmailForm";
 import UpdatePasswordForm from "@/components/profile/UpdatePasswordForm";
 import { IoMdClose } from "react-icons/io";
 
-const page = () => {
+const Page = () => {
   const [formType, setFormType] = useState<
     "name" | "email" | "password" | null
   >(null);
@@ -132,4 +132,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

@@ -5,7 +5,6 @@ import superAdminModel from "@/models/superAdmin.model";
 import { render } from "@react-email/components";
 import bcrypt from "bcryptjs";
 import { NextRequest, NextResponse } from "next/server";
-import DropboxResetPasswordEmail from "../../../../../emails/ResetPassword";
 import PasswordUpdatedEmail from "../../../../../emails/PasswordUpdated";
 import { sendMail } from "@/utils/sendmail";
 

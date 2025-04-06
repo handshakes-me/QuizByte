@@ -59,7 +59,7 @@ const LogoutButton = () => {
           >
             <h4 className="font-semibold text-2xl">Are you sure?</h4>
             <p className="text-center text-sm font-light">
-              You'll be logged out from the account!
+              You&apos;ll be logged out from the account!
             </p>
             <span className="space-x-4">
               <Button onClick={() => setModalOpen(false)} variant="secondary">

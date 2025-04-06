@@ -11,13 +11,6 @@ import { Welcome } from "../../../../../emails/welcome";
 import dbConnect from "@/config/dbConnect";
 import jwt from "jsonwebtoken";
 
-type ResponseData = {
-    success: boolean
-    message?: string
-    error?: string
-    data?: any
-}
-
 const superAdminToken = process.env.SUPERADMIN_TOKEN!;
 
 export async function POST(req: NextRequest) {
@@ -32,7 +25,6 @@ export async function POST(req: NextRequest) {
             name,
             role,
             token,
-            organizationId
         } = await req.json();
 
         if (!role) {

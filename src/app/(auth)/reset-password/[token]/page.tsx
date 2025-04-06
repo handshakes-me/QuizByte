@@ -3,7 +3,7 @@ import React from "react";
 import ResetPasswordForm from "@/components/resetPassword/resetPasswordForm";
 import Link from "next/link";
 
-const page = () => {
+const Page = () => {
   return (
     <div className="min-h-screen bg-main-950 flex items-center justify-center">
       <div className="w-[580px] bg-main-50 min-h-[100px] p-10 rounded-lg">
@@ -27,4 +27,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
