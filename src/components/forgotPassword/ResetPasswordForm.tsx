@@ -78,11 +78,11 @@ const ForgotPasswordForm = () => {
           register={register}
           id="email"
           name="email"
-          icon={<MdOutlineMailOutline className="text-blue-700" />}
+          icon={<MdOutlineMailOutline className="text-sky-400" />}
           className="mt-1"
         />
         {errors.email && (
-          <p className="text-danger-500 mt-1">{errors.email.message}</p>
+          <p className="text-danger-500 mt-1 text-sm" >{errors.email.message}</p>
         )}
       </div>
 

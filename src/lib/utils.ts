@@ -9,5 +9,4 @@ export const USERROLE = {
   STUDENT: "STUDENT",
   ADMIN: "ADMIN",
   SUPERADMIN: "SUPERADMIN"
-
 }

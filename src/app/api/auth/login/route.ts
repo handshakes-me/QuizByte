@@ -28,6 +28,10 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ success: false, error: "User not found" }, { status: 404 });
         }
 
+        if(!user.verified) {
+            return NextResponse.json({ success: false, error: "User is not verified" }, { status: 400 });
+        }
+
         // Check if password is correct
         const isPasswordCorrect = await bcrypt.compare(password, user.password);
 

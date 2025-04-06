@@ -4,6 +4,9 @@ import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
 import { isAdmin, isStudent, isSuperAdmin } from '@/middlewares/authMiddleware';
 import superAdminModel from "@/models/superAdmin.model";
+import { sendMail } from "@/utils/sendmail";
+import AdminInvitationMail from "../../../../emails/AdminInvitation";
+import { render } from "@react-email/components";
 
 interface requestType extends NextRequest {
     user: {
@@ -27,16 +30,20 @@ export async function POST(req: requestType) {
         const { name, email, contactNumber } = await req.json();
         const userId = req.user.id
 
+        console.log("name : ", name);
+        console.log("email : ", email);
+        console.log("contactNumber : ", contactNumber);
+
         if (!name || !email || !contactNumber) {
             return NextResponse.json({ success: false, error: "Missing required fields" }, { status: 400 });
         }
 
         const user = await superAdminModel.findById(userId)
 
-        if(!user) {
+        if (!user) {
             return NextResponse.json({ success: false, error: "User not found" }, { status: 404 });
         }
-    
+
         const isUnique = await organizationModel.findOne({ email });
 
         if (isUnique) {
@@ -55,9 +62,9 @@ export async function POST(req: requestType) {
             token: adminToken,
             inviteLink: inviteLinkToken,
         });
-        
-        user.organizationId = organization._id
-        await user.save();
+
+        const mailTamplate = await render(AdminInvitationMail({ inviteLink: `${process.env.NEXT_BASE_URL}/signup?token=${adminToken}`, organizationName: name }))
+        await sendMail(email, `Invitation to join ${name} as admin`, mailTamplate)
 
         await organization.save();
 

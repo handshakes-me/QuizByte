@@ -37,6 +37,7 @@ const signUpSchema = z.object({
     .min(8, { message: "Confirm password must be at least 8 characters long" })
     .max(50, { message: "Confirm password cannot exceed 50 characters" }),
   role: z.string().optional().default("STUDENT"),
+  token: z.string().optional().default(""),
 });
 
 type FormData = z.infer<typeof signUpSchema>;
@@ -93,6 +94,7 @@ const SignupForm = () => {
     if (token) {
       setRole(USERROLE.ADMIN);
       setValue("role", USERROLE.ADMIN);
+      setValue("token", token);
     }
   }, []);
 
@@ -122,11 +124,11 @@ const SignupForm = () => {
           {role === USERROLE.ADMIN && (
             <p>
               Welcome You have been appointed as an{" "}
-              <span className="text-blue-500 font-semibold">Admin</span>.
+              <span className="text-sky-400 font-semibold">Admin</span>.
             </p>
           )}
           <p>
-            <span className="text-blue-500 font-semibold">Sign up</span> to get
+            <span className="text-sky-400 font-semibold">Sign up</span> to get
             started with the application
           </p>
         </div>
@@ -144,12 +146,12 @@ const SignupForm = () => {
             type="text"
             placeholder="Enter your name"
             id="name"
-            icon={<FaRegUser className="text-blue-700" />}
+            icon={<FaRegUser className="text-sky-400" />}
             className="mt-1"
             register={register}
           />
           {errors.name && (
-            <p className="text-danger-500 mt-1">{errors.name.message}</p>
+            <p className="text-danger-500 mt-1 text-sm" >{errors.name.message}</p>
           )}
         </div>
 
@@ -164,11 +166,11 @@ const SignupForm = () => {
             register={register}
             id="email"
             name="email"
-            icon={<MdOutlineMailOutline className="text-blue-700" />}
+            icon={<MdOutlineMailOutline className="text-sky-400" />}
             className="mt-1"
           />
           {errors.email && (
-            <p className="text-danger-500 mt-1">{errors.email.message}</p>
+            <p className="text-danger-500 mt-1 text-sm" >{errors.email.message}</p>
           )}
         </div>
 
@@ -183,11 +185,11 @@ const SignupForm = () => {
             register={register}
             id="password"
             name="password"
-            icon={<TbPassword className="text-blue-700" />}
+            icon={<TbPassword className="text-sky-400" />}
             className="mt-1"
           />
           {errors.password && (
-            <p className="text-danger-500 mt-1">{errors.password.message}</p>
+            <p className="text-danger-500 mt-1 text-sm" >{errors.password.message}</p>
           )}
         </div>
 
@@ -202,11 +204,11 @@ const SignupForm = () => {
             register={register}
             id="confirmPassword"
             name="confirmPassword"
-            icon={<TbPassword className="text-blue-700" />}
+            icon={<TbPassword className="text-sky-400" />}
             className="mt-1"
           />
           {errors.confirmPassword && (
-            <p className="text-danger-500 mt-1">
+            <p className="text-danger-500 mt-1 text-sm" >
               {errors.confirmPassword.message}
             </p>
           )}
@@ -214,7 +216,7 @@ const SignupForm = () => {
 
         <p className="text-center pt-4">
           By submitting the form you agree to our{" "}
-          <span className="text-blue-500 font-semibold cursor-pointer">
+          <span className="text-sky-400  font-semibold cursor-pointer">
             Terms of Service
           </span>{" "}
         </p>
@@ -233,7 +235,7 @@ const SignupForm = () => {
           already have an account?{" "}
           <Link
             href="/login"
-            className="text-blue-500 font-semibold cursor-pointer"
+            className="text-sky-400 font-semibold cursor-pointer"
           >
             Log in
           </Link>

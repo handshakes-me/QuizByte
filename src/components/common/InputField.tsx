@@ -32,7 +32,7 @@ const InputField = ({
 
   return (
     <span
-      className={`${className} flex items-center border border-main-700 px-3 py-1 rounded-lg transition-all focus-within:ring-1 focus-within:ring-main-500`}
+      className={`${className}  bg-main-50 flex items-center border border-main-700 px-3 py-1 rounded-lg transition-all focus-within:ring-1 focus-within:ring-main-500`}
     >
       {Icon && <span className="text-gray-500 px-1">{Icon}</span>}
       <Input
@@ -44,7 +44,7 @@ const InputField = ({
         required={required}
         name={name}
         id={id}
-        className="w-full bg-transparent placeholder:text-main-700 placeholder:text-base text-base bg-main-50 !border-none outline-none focus-visible:ring-0 !focus:ring-0 !focus:outline-none"
+        className="w-full bg-transparent placeholder:text-main-700 text-main-900 placeholder:text-base text-lg bg-main-50 !border-none outline-none focus-visible:ring-0 !focus:ring-0 !focus:outline-none"
         {...(register ? register(name) : {})}
         {...props}
       />

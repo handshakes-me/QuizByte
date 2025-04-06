@@ -104,7 +104,7 @@ export async function POST(req: NextRequest) {
             const organization = await organizationModel.findOne({ token });
 
             if (!organization) {
-                return NextResponse.json({ success: false, error: "Organization not found" }, { status: 404 });
+                return NextResponse.json({ success: false, error: "Admin token has already been used." }, { status: 404 });
             }
 
             if (!organization.token || organization.token !== token) {
@@ -142,16 +142,10 @@ export async function POST(req: NextRequest) {
                 return NextResponse.json({ success: false, error: "All fields are required" }, { status: 400 });
             }
 
-            console.log("name : ", name);
-            console.log("password : ", password);
-            console.log("email : ", email);
-
             const isExists =
                 await superAdminModel.findOne({ email }) ||
                 await adminModel.findOne({ email }) ||
                 await studentModel.findOne({ email });
-
-            console.log("isExists : ", isExists)
 
             if (isExists) {
                 return NextResponse.json({ success: false, error: "User already exists" }, { status: 400 });

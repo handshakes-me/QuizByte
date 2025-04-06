@@ -101,11 +101,11 @@ const ForgotPasswordForm = () => {
           register={register}
           id="email"
           name="email"
-          icon={<MdOutlineMailOutline className="text-blue-700" />}
+          icon={<MdOutlineMailOutline className="text-sky-400" />}
           className="mt-1"
         />
         {errors.email && (
-          <p className="text-danger-500 mt-1">{errors.email.message}</p>
+          <p className="text-danger-500 mt-1 text-sm" >{errors.email.message}</p>
         )}
       </div>
 
@@ -120,11 +120,11 @@ const ForgotPasswordForm = () => {
           register={register}
           id="password"
           name="password"
-          icon={<TbPassword className="text-blue-700" />}
+          icon={<TbPassword className="text-sky-400" />}
           className="mt-1"
         />
         {errors.password && (
-          <p className="text-danger-500 mt-1">{errors.password.message}</p>
+          <p className="text-danger-500 mt-1 text-sm" >{errors.password.message}</p>
         )}
       </div>
 
@@ -139,11 +139,11 @@ const ForgotPasswordForm = () => {
           register={register}
           id="confirmPassword"
           name="confirmPassword"
-          icon={<TbPassword className="text-blue-700" />}
+          icon={<TbPassword className="text-sky-400" />}
           className="mt-1"
         />
         {errors.confirmPassword && (
-          <p className="text-danger-500 mt-1">
+          <p className="text-danger-500 mt-1 text-sm" >
             {errors.confirmPassword.message}
           </p>
         )}

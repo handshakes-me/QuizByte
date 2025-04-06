@@ -1,4 +1,5 @@
 "use client";
+
 import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
@@ -13,7 +14,8 @@ import Link from "next/link";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-// import logo from '../'
+import { useDispatch } from "react-redux";
+import { setUser } from "@/slices/userSlice";
 
 const loginSchema = z.object({
   email: z.string().email(),
@@ -30,6 +32,7 @@ const signUp = async (data: FormData) => {
 
 const LoginForm = () => {
   const { toast } = useToast();
+  const dispatch = useDispatch();
   const router = useRouter();
 
   const {
@@ -45,6 +48,11 @@ const LoginForm = () => {
         title: data?.message || "User registered successfully",
         description: "Welcome back.",
       });
+
+      // save received user in state and localstorage
+      dispatch(setUser(data?.data));
+      localStorage.setItem("user", JSON.stringify(data?.data));
+
       reset();
       router.push("/dashboard");
     },
@@ -77,7 +85,7 @@ const LoginForm = () => {
     <main className="relative p-10 bg-main-50 rounded-xl w-[580px] border border-main-600 shadow-md shadow-main-950">
       {/* form header */}
       <div>
-        <Link href={'/'}>
+        <Link href={"/"}>
           <Image
             src={"/logo.png"}
             className="w-[170px]"
@@ -88,7 +96,7 @@ const LoginForm = () => {
         </Link>
         <div className="my-6 text-lg space-y-1">
           <p>
-            <span className="text-blue-500 font-semibold">Log in</span> with
+            <span className="text-sky-400 font-semibold">Log in</span> with
             your registered email and password.
           </p>
         </div>
@@ -107,11 +115,11 @@ const LoginForm = () => {
             register={register}
             id="email"
             name="email"
-            icon={<MdOutlineMailOutline className="text-blue-700" />}
+            icon={<MdOutlineMailOutline className="text-sky-400" />}
             className="mt-1"
           />
           {errors.email && (
-            <p className="text-danger-500 mt-1">{errors.email.message}</p>
+            <p className="text-danger-500 mt-1 text-sm" >{errors.email.message}</p>
           )}
         </div>
 
@@ -126,16 +134,16 @@ const LoginForm = () => {
             register={register}
             id="password"
             name="password"
-            icon={<TbPassword className="text-blue-700" />}
+            icon={<TbPassword className="text-sky-400" />}
             className="mt-1"
           />
           {errors.password && (
-            <p className="text-danger-500 mt-1">{errors.password.message}</p>
+            <p className="text-danger-500 mt-1 text-sm" >{errors.password.message}</p>
           )}
         </div>
 
         <Link href={"/forgot-password"}>
-          <p className="text-blue-500 text-sm font-semibold text-right mt-2 cursor-pointer">
+          <p className="text-sky-400 text-sm font-semibold text-right mt-2 cursor-pointer">
             Forgot password?
           </p>
         </Link>
@@ -153,7 +161,7 @@ const LoginForm = () => {
         <p className="text-center mt-4">
           Don't have an account?{" "}
           <Link
-            className="text-blue-500 font-semibold cursor-pointer"
+            className="text-sky-400 font-semibold cursor-pointer"
             href="/signup"
           >
             Sign in
