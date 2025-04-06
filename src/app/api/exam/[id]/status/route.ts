@@ -10,7 +10,7 @@ interface requestType extends NextRequest {
     }
 }
 
-export const PATCH = async (req: requestType, { params }: { params: { id: string } }) => {
+export const PATCH = async (req: requestType, context: { params: { id: string } }) => {
     try {
 
         // db connect
@@ -23,7 +23,7 @@ export const PATCH = async (req: requestType, { params }: { params: { id: string
         }
 
         // get data
-        const { id: examId } = await params
+        const examId = context.params.id;
 
         const { status } = await req.json()
         if (!status) {

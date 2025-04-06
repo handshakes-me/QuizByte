@@ -83,7 +83,7 @@ const calculateMarks = (validatedAnswers: ValidatedAnswer[], marksPerQuestion: n
 }
 
 // initiate exam attempt
-export const GET = async (req: requestType, { params }: { params: { id: string } }) => {
+export const GET = async (req: requestType, context: { params: { id: string } }) => {
     try {
 
         // db connect
@@ -99,7 +99,7 @@ export const GET = async (req: requestType, { params }: { params: { id: string }
         const { id: userId } = req.user;
 
         // const examId
-        const examId = await params.id
+        const examId = context.params.id;
 
         if (!examId) {
             return NextResponse.json({
@@ -235,7 +235,7 @@ export const GET = async (req: requestType, { params }: { params: { id: string }
 }
 
 // submit exam attempt
-export const POST = async (req: requestType, { params }: { params: { id: string } }) => {
+export const POST = async (req: requestType, context: { params: { id: string } }) => {
     try {
 
         // db connect
@@ -251,7 +251,7 @@ export const POST = async (req: requestType, { params }: { params: { id: string 
         const { id: userId } = req.user;
 
         // get exam data
-        const examId = await params.id
+        const examId = context.params.id;
 
         const {
             attemptId,

@@ -15,7 +15,7 @@ interface reqestType extends NextRequest {
     }
 }
 
-export const PATCH = async (req: reqestType, { params }: { params: { id: string } }) => {
+export const PATCH = async (req: reqestType, context: { params: { id: string } }) => {
     try {
 
         // connect db
@@ -45,7 +45,7 @@ export const PATCH = async (req: reqestType, { params }: { params: { id: string 
         } = await req.json()
 
         const admindId = req.user.id
-        const { id: examId } = await params
+        const examId = context.params.id;
 
         // validate exam
         const exam = await examModel.findById(examId)
@@ -204,7 +204,7 @@ export const PATCH = async (req: reqestType, { params }: { params: { id: string 
     }
 }
 
-export const GET = async (req: reqestType, { params }: { params: { id: string } }) => {
+export const GET = async (req: reqestType, context: { params: { id: string } }) => {
     try {
 
         // db connect
@@ -220,7 +220,7 @@ export const GET = async (req: reqestType, { params }: { params: { id: string } 
         const user = await adminModel.findById(req.user.id) || await studentModel.findById(req.user.id)
 
         // fetch data
-        const { id: examId } = await params
+        const examId = context.params.id;
         const exam = await examModel.findById(examId).populate("questions")
         if (!exam) {
             return NextResponse.json({ success: false, message: "Exam not found" }, { status: 404 });

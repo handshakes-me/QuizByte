@@ -13,7 +13,7 @@ interface requestType extends NextRequest {
     }
 }
 
-export async function GET(request: requestType, { params }: { params: { id: string } }) {
+export async function GET(request: requestType, context: { params: { id: string } }) {
     try {
 
         // db connect
@@ -25,7 +25,7 @@ export async function GET(request: requestType, { params }: { params: { id: stri
         }
 
         // validate id
-        const { id: examGroupId } = params;
+        const { id: examGroupId } = context.params;
         if (!examGroupId) {
             return NextResponse.json({ success: false, error: "Exam group id is required" }, { status: 400 });
         }

@@ -4,13 +4,13 @@ import subjectModel from "@/models/subject.model";
 import mongoose from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 
-export const PATCH = async (rqe: NextRequest, { params }: { params: { id: string } }) => {
+export const PATCH = async (rqe: NextRequest, context: { params: { id: string } }) => {
     try {
         // dbConnect
         await dbConnect();
 
         // get data
-        const subjectId = params.id
+        const subjectId = context.params.id
         const { name, description, code } = await rqe.json()
 
         // validate id
@@ -42,14 +42,14 @@ export const PATCH = async (rqe: NextRequest, { params }: { params: { id: string
     }
 }
 
-export const DELETE = async (req: NextRequest, { params }: { params: { id: string } }) => {
+export const DELETE = async (req: NextRequest, context: { params: { id: string } }) => {
     try {
 
         // connect db
         await dbConnect();
 
         // id
-        const subjectId = params.id
+        const subjectId = context.params.id
 
         // validation 
         if (mongoose.Types.ObjectId.isValid(subjectId) === false) {

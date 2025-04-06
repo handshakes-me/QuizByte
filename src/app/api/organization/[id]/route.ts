@@ -10,13 +10,13 @@ interface requestType extends NextRequest {
     }
 }
 
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(req: NextRequest, context: { params: { id: string } }) {
 
     try {
 
         await dbConnect();
 
-        const id = params.id
+        const id = context.params.id
 
         if (!id) {
             return NextResponse.json({ success: false, error: "Organization ID is required" }, { status: 400 });
@@ -38,7 +38,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 }
 
 // in use 
-export async function PATCH(req: requestType, { params }: { params: { id: string } }) {
+export async function PATCH(req: requestType, context: { params: { id: string } }) {
     try {
 
         await dbConnect();
@@ -50,7 +50,7 @@ export async function PATCH(req: requestType, { params }: { params: { id: string
         }
         
         const { name, contactNumber } = await req.json();
-        const id = await params.id
+        const id = await context.params.id
 
         if (!id) {
             return NextResponse.json({ success: false, error: "Organization ID is required" }, { status: 400 });

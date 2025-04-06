@@ -11,7 +11,7 @@ interface requestType extends NextRequest {
     }
 }
 
-export const PATCH = async (req: requestType, { params }: { params: { id: string } }) => {
+export const PATCH = async (req: requestType, context: { params: { id: string } }) => {
     try {
 
         // db connect
@@ -26,7 +26,7 @@ export const PATCH = async (req: requestType, { params }: { params: { id: string
         const { id: userId } = req?.user
 
         // get data
-        const questionId = await params.id;
+        const questionId = await context.params.id;
 
         const { questionText, options, correctAnswer, hint, explaination } = await req.json()
 
@@ -98,7 +98,7 @@ export const PATCH = async (req: requestType, { params }: { params: { id: string
     }
 } 
 
-export const DELETE = async (req: requestType, { params }: { params: { id: string } }) => {
+export const DELETE = async (req: requestType, context: { params: { id: string } }) => {
     try {
 
         // db connect
@@ -113,7 +113,7 @@ export const DELETE = async (req: requestType, { params }: { params: { id: strin
         const { id: userId } = req?.user
 
         // get data
-        const questionId = await params.id;
+        const questionId = await context.params.id;
 
         const question = await questionModel.findById(questionId);
 
