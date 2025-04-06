@@ -45,7 +45,7 @@ const CreateOrganizationForm = () => {
       const response = await axios.post("/api/organization", data);
       return response;
     },
-    onSuccess: (data) => {
+    onSuccess: () => {
       toast({
         title: "Organization created successfully",
         description: "Organization created successfully",

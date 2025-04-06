@@ -11,7 +11,7 @@ import MyButton from "../common/Button";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { useToast } from "@/hooks/use-toast";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { TbPassword } from "react-icons/tb";
 
 const resetPasswordSchema = z.object({
@@ -40,7 +40,6 @@ const ForgotPasswordForm = () => {
   const {
     handleSubmit,
     setValue,
-    getValues,
     register,
     setError,
     reset,
@@ -58,9 +57,6 @@ const ForgotPasswordForm = () => {
   const {
     mutate: resetPasswordMutate,
     isPending,
-    isSuccess,
-    isError,
-    error,
   } = useMutation({
     mutationFn: resetPassword,
     onSuccess: (data: any) => {

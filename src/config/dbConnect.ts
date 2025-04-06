@@ -7,7 +7,7 @@ if (!MONGODB_URI) {
 }
 
 type connectionType = {
-    isConnected?: Number;
+    isConnected?: number;
 };
 
 const connection: connectionType = {}

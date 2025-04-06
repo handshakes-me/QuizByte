@@ -38,9 +38,6 @@ const LoginForm = () => {
   const {
     mutate: loginMutate,
     isPending,
-    isSuccess,
-    isError,
-    error,
   } = useMutation({
     mutationFn: signUp,
     onSuccess: (data: any) => {
@@ -67,10 +64,7 @@ const LoginForm = () => {
 
   const {
     handleSubmit,
-    setValue,
-    getValues,
     register,
-    setError,
     reset,
     formState: { errors },
   } = useForm<FormData>({

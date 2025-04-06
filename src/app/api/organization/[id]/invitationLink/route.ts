@@ -1,5 +1,5 @@
 import dbConnect from "@/config/dbConnect";
-import { isAdmin, isSuperAdmin, auth } from "@/middlewares/authMiddleware";
+import { isAdmin } from "@/middlewares/authMiddleware";
 import organizationModel from "@/models/organization.model";
 import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";

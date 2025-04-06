@@ -7,7 +7,6 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Label } from "../ui/label";
 import InputField from "../common/InputField";
-import { MdOutlineMailOutline } from "react-icons/md";
 import { FaRegEdit, FaRegUser } from "react-icons/fa";
 import { IoIosPhonePortrait, IoMdClose } from "react-icons/io";
 import { useMutation } from "@tanstack/react-query";
@@ -63,7 +62,7 @@ const EditOrganizationForm = ({
       );
       return response;
     },
-    onSuccess: (data) => {
+    onSuccess: () => {
       toast({
         title: "Organization edited successfully",
         description: "Organization edited successfully",

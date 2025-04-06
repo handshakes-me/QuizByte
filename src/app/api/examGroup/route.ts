@@ -3,7 +3,6 @@ import { auth, isAdmin } from "@/middlewares/authMiddleware";
 import adminModel from "@/models/admin.model";
 import examGroupModel from "@/models/examGroup.model";
 import organizationModel from "@/models/organization.model";
-import studentModel from "@/models/student.model";
 import mongoose from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -147,7 +146,7 @@ export async function GET(request: requestType) {
 
         // remove students list from output when student is fetching data
         if (request.user.role === "STUDENT") {
-            examGroups.forEach((e: any) => {
+            examGroups.forEach((e) => {
                 e.students = undefined
             })
         }

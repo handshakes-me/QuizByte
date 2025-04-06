@@ -1,5 +1,4 @@
 import React from "react";
-import { FaRegEdit } from "react-icons/fa";
 import EditOrganizationForm from "./EditOrganizationForm";
 
 export type Organization = {

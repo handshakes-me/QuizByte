@@ -25,6 +25,7 @@ export function authorizeRole(requiredRole: string) {
       console.log(`${requiredRole} authorized...`)
 
     } catch (error) {
+      console.log("error : ", error)
       return NextResponse.json({ success: false, error: "Invalid or expired token" }, { status: 401 });
     }
   };
@@ -46,6 +47,7 @@ export const auth = (req: NextRequest) => {
 
     console.log("decoded token: ", decoded)
   } catch (error) {
+    console.log("error : ", error)
     return NextResponse.json({ success: false, error: "Invalid or expired token" }, { status: 401 })
   }
 };

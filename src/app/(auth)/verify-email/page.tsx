@@ -33,9 +33,9 @@ const Page = () => {
         });
       }
       setLoading(false);
-    } catch (error: any) {
+    } catch (error) {
       toast({
-        title: error?.response?.data?.error || "Verification failed",
+        title: "Verification failed",
         description: "Please try again after sometime",
         variant: "destructive",
       });

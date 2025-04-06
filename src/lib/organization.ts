@@ -1,5 +1,3 @@
-import { cookies } from "next/headers"
-import jwt from "jsonwebtoken";
 import organizationModel from "@/models/organization.model";
 import { getUserFromCookies } from "./userAuth";
 import { USERROLE } from "./utils";

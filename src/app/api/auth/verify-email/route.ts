@@ -4,6 +4,13 @@ import studentModel from "@/models/student.model";
 import superAdminModel from "@/models/superAdmin.model";
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
+
+type ErrorType = {
+    name: string;
+    message: string;
+    stack?: string;
+}
+
 export async function POST(req: NextRequest) {
     await dbConnect();
 
@@ -38,9 +45,11 @@ export async function POST(req: NextRequest) {
         await user.save();
         return NextResponse.json({ success: true, message: "Email verified successfully" }, { status: 200 });
 
-    } catch (e: any) {
+    } catch (e: unknown) {
+        const error = e as ErrorType;
+
         console.error("Error verifying email:", e);
-        if (e.name === "TokenExpiredError") {
+        if (error?.name === "TokenExpiredError") {
             return NextResponse.json({ success: false, error: "Token has expired" }, { status: 401 });
         }
         return NextResponse.json({ success: false, error: "Error verifying email" }, { status: 500 });

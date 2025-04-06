@@ -2,7 +2,7 @@ import dbConnect from "@/config/dbConnect";
 import organizationModel from "@/models/organization.model";
 import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
-import { isAdmin, isStudent, isSuperAdmin } from '@/middlewares/authMiddleware';
+import { isSuperAdmin } from '@/middlewares/authMiddleware';
 import superAdminModel from "@/models/superAdmin.model";
 import { sendMail } from "@/utils/sendmail";
 import AdminInvitationMail from "../../../../emails/AdminInvitation";

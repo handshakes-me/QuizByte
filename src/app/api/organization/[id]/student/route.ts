@@ -1,5 +1,5 @@
 import dbConnect from "@/config/dbConnect";
-import { isAdmin, isStudent } from "@/middlewares/authMiddleware";
+import { isStudent } from "@/middlewares/authMiddleware";
 import organizationModel from "@/models/organization.model";
 import studentModel from "@/models/student.model";
 import { NextRequest, NextResponse } from "next/server";

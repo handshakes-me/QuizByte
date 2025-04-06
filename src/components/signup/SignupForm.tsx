@@ -14,7 +14,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { useToast } from "@/hooks/use-toast";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -50,15 +49,11 @@ const signUp = async (data: FormData) => {
 const SignupForm = () => {
   const [role, setRole] = useState("");
   const searchParams = useSearchParams();
-  const router = useRouter();
   const { toast } = useToast();
 
   const {
     mutate: signUpMutate,
     isPending,
-    isSuccess,
-    isError,
-    error,
   } = useMutation({
     mutationFn: signUp,
     onSuccess: (data) => {
@@ -80,7 +75,6 @@ const SignupForm = () => {
   const {
     handleSubmit,
     setValue,
-    getValues,
     register,
     setError,
     reset,

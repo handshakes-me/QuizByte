@@ -11,7 +11,6 @@ import MyButton from "../common/Button";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { useToast } from "@/hooks/use-toast";
-import { useRouter } from "next/navigation";
 
 const forgotPasswordSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -27,14 +26,10 @@ const resetPassword = async (data: FormData) => {
 
 const ForgotPasswordForm = () => {
   const { toast } = useToast();
-  const router = useRouter();
 
   const {
     mutate: forgotPasswordMutation,
     isPending,
-    isSuccess,
-    isError,
-    error,
   } = useMutation({
     mutationFn: resetPassword,
     onSuccess: (data: any) => {
@@ -56,10 +51,7 @@ const ForgotPasswordForm = () => {
 
   const {
     handleSubmit,
-    setValue,
-    getValues,
     register,
-    setError,
     reset,
     formState: { errors },
   } = useForm<FormData>({

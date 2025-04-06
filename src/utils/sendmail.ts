@@ -1,5 +1,4 @@
 import transporter from "@/config/emailConfig";
-import { render } from "@react-email/components";
 
 export const sendMail = async (to: string, subject: string, html: string) => {
 

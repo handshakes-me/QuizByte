@@ -7,7 +7,10 @@ const UpdatePasswordForm = ({
     React.SetStateAction<"name" | "password" | "email" | null>
   >;
 }) => {
-  return <div>UpdatePasswordForm</div>;
+  return <div>
+    
+    <button onClick={() => setFormType(null)}>close</button>
+    UpdatePasswordForm</div>;
 };
 
 export default UpdatePasswordForm;

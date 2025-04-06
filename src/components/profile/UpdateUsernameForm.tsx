@@ -37,9 +37,6 @@ const UpdateUsernameForm = ({
 
   const {
     mutate: updateUsername,
-    isPending,
-    isError,
-    isSuccess,
   } = useMutation({
     mutationFn: async (data: FormData) => {
       const response = await axios.post("/api/auth/update-username", data);

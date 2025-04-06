@@ -10,7 +10,7 @@ import { CgLogOut } from "react-icons/cg";
 const LogoutButton = () => {
   const { toast } = useToast();
   const router = useRouter();
-  const [modalOpen, setModalOpen] = useState<Boolean>(false);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   const logout = async () => {
     try {
