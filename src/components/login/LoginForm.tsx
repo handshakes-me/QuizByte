@@ -25,7 +25,9 @@ const loginSchema = z.object({
 type FormData = z.infer<typeof loginSchema>;
 
 const signUp = async (data: FormData) => {
-  const response = await axios.post("/api/auth/login", data);
+  const response = await axios.post("/api/auth/login", data, {
+    withCredentials: true, // ⬅️ This is crucial
+  });
 
   return response.data;
 };
@@ -52,6 +54,7 @@ const LoginForm = () => {
 
       reset();
       router.push("/dashboard");
+      router.refresh();
     },
     onError: (error: any) => {
       toast({
