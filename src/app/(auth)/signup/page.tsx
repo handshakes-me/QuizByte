@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import SignupForm from "@/components/signup/SignupForm";
 import Image from "next/image";
 
@@ -15,7 +15,9 @@ const Page = () => {
         />
       </div>
       <div className="col-span-7 relative w-full h-screen flex items-center justify-center bg-main-900">
-        <SignupForm />
+        <Suspense fallback={<div className="text-white">Loading...</div>}>
+          <SignupForm />
+        </Suspense>
       </div>
     </div>
   );
