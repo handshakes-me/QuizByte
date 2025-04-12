@@ -45,6 +45,11 @@ export const POST = async (request: requestType) => {
             return NextResponse.json({ success: false, error: "Exam group not found" }, { status: 404 });
         }
 
+        const existingSubject = await subjectModel.findOne({ code });
+        if (existingSubject) {
+            return NextResponse.json({ success: false, error: "Subject code already exists" }, { status: 409 });
+        }
+
         // crate subject
         const subject = new subjectModel({ name, description, code, examGroup: examGroupId })
 
@@ -83,8 +88,12 @@ export const GET = async (request: requestType) => {
 
         return NextResponse.json({ success: true, message: "Subjects fetched successfully", data: subjects || [] }, { status: 200 })
 
-    } catch (e) {
+    } catch (e: unknown) {
+
+        const errorMessage =
+            e instanceof Error ? e.message : "Internal Server Error";
+
         console.error(e);
-        return NextResponse.json({ success: false, error: "Internal Server Error" }, { status: 500 });
+        return NextResponse.json({ success: false, error: errorMessage }, { status: 500 });
     }
 }

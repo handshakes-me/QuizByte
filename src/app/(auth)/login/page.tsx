@@ -4,7 +4,7 @@ import Image from "next/image";
 
 const Page = () => {
   return (
-    <div className="grid grid-cols-12 min-h-screen w-full">
+    <div className="grid grid-cols-12 max-h-screen overflow-hidden w-full">
       <div className="col-span-7 relative w-full h-screen flex items-center justify-center bg-main-900">
         <LoginForm />
       </div>

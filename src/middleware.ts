@@ -3,7 +3,12 @@ import type { NextRequest } from "next/server";
 
 export function middleware(req: NextRequest) {
   const token = req.cookies.get("token")?.value; // Get token from cookies
-  console.log("token : ", token)
+
+  if (!token) {
+    console.log("token not found!")
+    // return NextResponse.redirect(new URL("/login", req.url));
+  }
+
   const { pathname } = req.nextUrl;
 
   // Define public and protected routes

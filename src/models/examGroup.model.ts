@@ -5,7 +5,14 @@ const ExamGroupSchema = new mongoose.Schema({
     description: { type: String },
     organizationId: { type: mongoose.Schema.Types.ObjectId, ref: "Organization", required: true },
     exams: [{ type: mongoose.Schema.Types.ObjectId, ref: "Exam" }], // List of subject-wise exams
-    students: [{ type: mongoose.Schema.Types.ObjectId, ref: "Student" }], // List of students in the group
+    students: [
+        {
+            name: { type: String, required: true },
+            email: { type: String, required: true, unique: true, sparce: true },
+            prn: { type: String, required: true, unique: true, sparce: true },
+            joined: { type: Date, default: Date.now }
+        }
+    ], // List of students in the group
     subjects: [{ type: mongoose.Schema.Types.ObjectId, ref: "Subject" }], // List of subjects in the group
 }, { timestamps: true });
 

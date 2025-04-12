@@ -1,15 +1,17 @@
 import mongoose from 'mongoose'
 
 const subjectSchema = new mongoose.Schema({
-  name: { type: String, required: true, unique: true },
+  name: { type: String, required: true },
   code: { type: String, required: true, unique: true },
   description: { type: String, required: true },
   examGroup: { type: mongoose.Schema.Types.ObjectId, ref: 'ExamGroup', required: true },
   students: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Student',
-    },
+      name: { type: String, required: true },
+      email: { type: String, required: true, unique: true, sparce: true },
+      prn: { type: String, required: true, unique: true, sparce: true },
+      joined: { type: Date, default: Date.now }
+    }
   ],
 }, { timestamps: true })
 

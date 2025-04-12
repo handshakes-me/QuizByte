@@ -7,6 +7,7 @@ export type User = {
     role: string;
     createdAt: string;
     updatedAt: string;
+    organizationId?: string;
 };
 
 type UserState = {

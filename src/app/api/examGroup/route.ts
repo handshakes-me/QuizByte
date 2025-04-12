@@ -116,12 +116,21 @@ export async function GET(request: requestType) {
             },
 
             // Lookup students collection
+            // {
+            //     $lookup: {
+            //         from: "students", // Collection name
+            //         localField: "students",
+            //         foreignField: "_id",
+            //         as: "students"
+            //     }
+            // },
+
             {
                 $lookup: {
-                    from: "students", // Collection name
-                    localField: "students",
+                    from: "exams", // Collection name
+                    localField: "exams",
                     foreignField: "_id",
-                    as: "students"
+                    as: "exams"
                 }
             },
 
@@ -132,14 +141,12 @@ export async function GET(request: requestType) {
                     name: 1,
                     description: 1,
                     organizationId: 1,
+                    students: 1,
                     "subjects._id": 1,
                     "subjects.name": 1,
                     "subjects.code": 1,
                     "subjects.description": 1,
-                    "students._id": 1,
-                    "students.name": 1,
-                    "students.email": 1,
-                    "students.prn": 1
+                    "exams._id": 1,
                 }
             }
         ]);

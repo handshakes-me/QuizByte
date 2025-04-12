@@ -48,14 +48,20 @@ export const POST = async (req: requestType) => {
         }
 
         // validate if user is a member of the organization
-        const userExists = oraganization.students.some((e: { email: string }) => e?.email === user.email)
-        if (!userExists) {
+        const userInOrg = oraganization.students.find((e: { email: string }) => e?.email === user.email)
+        if (!userInOrg) {
             return NextResponse.json({ success: false, error: `You are not a student at ${oraganization.name}` }, { status: 404 });
         }
-
+        
         // update exam group
-        if (!examGroup.students.includes(id)) {
-            examGroup.students.push(id)
+        const alreadyEnrolled = examGroup.students.some((s: { email: string }) => s.email === user.email)
+        if (!alreadyEnrolled) {
+            examGroup.students.push({ 
+                name: user.name, 
+                email: user.email, 
+                prn: userInOrg.prn,
+                joined: new Date()
+            })
             await examGroup.save()
         }
 

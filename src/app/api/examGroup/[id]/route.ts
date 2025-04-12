@@ -48,12 +48,21 @@ export async function GET(request: requestType, { params }: { params: Promise<{ 
             },
 
             // Lookup students collection
+            // {
+            //     $lookup: {
+            //         from: "students", // Name of the students collection
+            //         localField: "students",
+            //         foreignField: "_id",
+            //         as: "students"
+            //     }
+            // },
+
             {
                 $lookup: {
-                    from: "students", // Name of the students collection
-                    localField: "students",
+                    from: "exams", // Name of the exams collection
+                    localField: "exams",
                     foreignField: "_id",
-                    as: "students"
+                    as: "exams"
                 }
             },
 
@@ -62,14 +71,26 @@ export async function GET(request: requestType, { params }: { params: Promise<{ 
                 $project: {
                     name: 1,
                     description: 1,
-                    "students._id": 1,
-                    "students.name": 1,
-                    "students.email": 1,
-                    "students.prn": 1,
+                    students: 1,
+                    // "students._id": 1,
+                    // "students.name": 1,
+                    // "students.email": 1,
                     "subjects._id": 1,
                     "subjects.name": 1,
                     "subjects.code": 1,
-                    "subjects.description": 1
+                    "subjects.description": 1,
+                    "exams._id": 1,
+                    "exams.title": 1,
+                    "exams.description": 1,
+                    "exams.subjectId": 1,
+                    "exams.startTime": 1,
+                    "exams.endTime": 1,
+                    "exams.duration": 1,
+                    "exams.totalMarks": 1,
+                    "exams.passingMarks": 1,
+                    "exams.numberOfQuestions": 1,
+                    "exams.hints": 1,
+                    "exams.attemptCount": 1,
                 }
             }
         ]);
@@ -83,6 +104,7 @@ export async function GET(request: requestType, { params }: { params: Promise<{ 
         // remove students list from output when student is fetching data
         if (request.user.role === 'STUDENT') {
             examGroup[0].students = undefined
+            examGroup[0].exams = undefined
         }
 
         // response

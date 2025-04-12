@@ -11,11 +11,15 @@ const OrganizationSchema = new mongoose.Schema({
             name: { type: String, required: true },
             email: { type: String, required: true, unique: true, sparce: true },
             prn: { type: String, required: true, unique: true, sparce: true },
-        }   
+            joined: { type: Date, default: Date.now }
+        }
     ],
+    createdAt: {
+        type: Date,
+        default: Date.now,
+    },
     examGroups: [{ type: mongoose.Schema.Types.ObjectId, ref: "ExamGroup" }], // Exam groups under this organization
 }, { timestamps: true });
 
 export default mongoose.models.Organization || mongoose.model("Organization", OrganizationSchema);
 
-    

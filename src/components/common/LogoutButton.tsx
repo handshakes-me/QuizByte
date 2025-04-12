@@ -7,7 +7,11 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { CgLogOut } from "react-icons/cg";
 
-const LogoutButton = () => {
+const LogoutButton = ({
+  className
+}: {
+  className?: string
+}) => {
   const { toast } = useToast();
   const router = useRouter();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
@@ -42,12 +46,12 @@ const LogoutButton = () => {
 
   return (
     <>
-      <Button variant={"destructive"} onClick={openLogoutModal}>
-        <span className="flex gap-x-1 items-center">
-          <CgLogOut />
+      <button className={`${className} px-4 py-2 `} onClick={openLogoutModal}>
+        <span className="flex items-center text-base gap-x-3 ">
+          <CgLogOut className="text-xl" />
           Logout
         </span>
-      </Button>
+      </button>
       {modalOpen && (
         <div
           onClick={() => setModalOpen(false)}

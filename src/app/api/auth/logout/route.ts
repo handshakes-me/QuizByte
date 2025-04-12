@@ -11,24 +11,24 @@ interface requestType extends NextRequest {
 export async function POST(req: requestType) {
     try {
 
-        const authResponse = auth(req);
-        if (authResponse instanceof NextResponse) {
-            return authResponse;
-        }
+        // const authResponse = auth(req);
+        // if (authResponse instanceof NextResponse) {
+        //     return authResponse;
+        // }
 
-        const user = req?.user;
+        // const user = req?.user;
 
         const response = NextResponse.json({
             success: true,
             message: "User logged in successfully",
         })
 
-        if(user.id && user.role) {
-            response.cookies.set("token", "", {
-                httpOnly: true,
-                expires: new Date(0)
-            })
-        }
+        // if(user.id && user.role) {
+        response.cookies.set("token", "", {
+            httpOnly: true,
+            expires: new Date(0)
+        })
+        // }
 
         return response;
 
