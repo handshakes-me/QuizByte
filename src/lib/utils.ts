@@ -48,14 +48,14 @@ export const ADMINPAGES = [
     href: "/dashboard/test-series",
     icon: HiOutlineCollection,
   },
+  // {
+  //   name: 'Subjects',
+  //   href: '/dashboard/subjects',
+  //   icon: IoMdBook,
+  // },
   {
-    name: 'Subjects',
-    href: '/dashboard/subjects',
-    icon: IoMdBook,
-  },
-  {
-    name: 'Exams',
-    href: '/dashboard/exams',
+    name: 'Tests',
+    href: '/dashboard/tests',
     icon: SiStudyverse,
   },
   {
@@ -94,8 +94,15 @@ export const STUDENTPAGES = [
   }
 ]
 
-export function getFormattedDate(isoString: string, time: boolean = true): string {
+export const EXAMGROUPSTATUS = {
+  INACTIVE: 'INACTIVE',
+  ACTIVE: "ACTIVE"
+}
+
+export function getFormattedDate(isoString?: string, time: boolean = true): string {
   try {
+    if (!isoString) return "Invalid Date";
+
     const date = new Date(isoString);
     if (isNaN(date.getTime())) throw new Error("Invalid date");
 

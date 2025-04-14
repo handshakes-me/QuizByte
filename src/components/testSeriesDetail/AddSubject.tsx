@@ -1,63 +1,48 @@
-"use client";
-
-import React, { use, useEffect, useState } from "react";
-import { Button } from "../ui/button";
-import { IoMdClose } from "react-icons/io";
+import { zodResolver } from "@hookform/resolvers/zod";
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { IoMdAdd, IoMdClose } from "react-icons/io";
+import { z } from "zod";
 import { Label } from "../ui/label";
 import InputField from "../common/InputField";
-import { FaRegUser } from "react-icons/fa";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { MdOutlineDescription } from "react-icons/md";
 import TextAreaField from "../common/TextAreaField";
+import { Button } from "../ui/button";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { useSelector } from "react-redux";
-import { RootState } from "@/app/store";
 import { useToast } from "@/hooks/use-toast";
+import { IoMdBook } from "react-icons/io";
+import { MdOutlineDescription } from "react-icons/md";
+import { PiQrCode } from "react-icons/pi";
 
 const formSchema = z.object({
-  name: z.string().min(1, "Test series name is required"),
-  description: z.string().min(1, "Test series description is required"),
-  organizationId: z.string(),
+  name: z.string().min(1, "Subject name is required"),
+  description: z.string().min(1, "Subject description is required"),
+  code: z.string().min(1, "Subject code is required"),
+  examGroupId: z.string().optional(),
 });
 
-type formDataType = z.infer<typeof formSchema>;
+type FormDataType = z.infer<typeof formSchema>;
 
-const AddTestSeriesForm = () => {
-  const { user } = useSelector((state: RootState) => state.user);
-  const [formOpen, setFormOpen] = useState(false);
+const AddSubject = ({ examGroupId }: { examGroupId: string }) => {
+  const [formOpen, setFormOpen] = useState<boolean>(false);
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    reset,
-    formState: { errors },
-  } = useForm<formDataType>({
-    resolver: zodResolver(formSchema),
-  });
 
-  useEffect(() => {
-    if (user) {
-      setValue("organizationId", user?.organizationId || "");
-    }
-  }, [user]);
-
-  const { mutate: createTestSeries, isPending } = useMutation({
-    mutationFn: async (data: formDataType) => {
-      const response = await axios.post("/api/examGroup", data);
+  const { mutate: addSubject, isPending } = useMutation({
+    mutationFn: async (formData: FormDataType) => {
+      const response = await axios.post(
+        `/api/subject`,
+        formData
+      );
       return response.data;
     },
     onSuccess: (data) => {
       if (data.success) {
-        queryClient.invalidateQueries({ queryKey: ["testSeries"] });
         toast({
-          title: "Test series created successfully",
-          description: "Test series created successfully",
+          title: "Subject added successfully",
+          description: "Subject added successfully",
         });
+        queryClient.invalidateQueries({ queryKey: ["examGroup"] });
       }
       reset();
       setFormOpen(false);
@@ -72,15 +57,41 @@ const AddTestSeriesForm = () => {
     },
   });
 
-  const submitHandler = async (data: formDataType) => {
-    createTestSeries(data);
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(formSchema),
+  });
+
+  const submitHandler = (data: FormDataType) => {
+    console.log(data);
+    addSubject(data);
   };
 
+  useEffect(() => {
+    setValue("examGroupId", examGroupId);
+  }, []);
+
+  useEffect(() => {
+    if (formOpen) {
+      setValue("name", "");
+      setValue("description", "");
+      setValue("code", "");
+    }
+  }, [formOpen])
+
   return (
-    <>
-      <Button onClick={() => setFormOpen(true)} className="btn btn-primary">
-        Add Test Series
-      </Button>
+    <div>
+      <button
+        className="h-full bg-sky-400 text-white p-2 text-xl rounded-md font-semibold shadow-sm shadow-main-950"
+        onClick={() => setFormOpen(true)}
+      >
+        <IoMdAdd />
+      </button>
       {formOpen && (
         <div
           onClick={() => setFormOpen(false)}
@@ -92,7 +103,7 @@ const AddTestSeriesForm = () => {
           >
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-semibold text-main-900">
-                Add a new test series
+                Add New subject
               </h2>
               <button className="text-xl" onClick={() => setFormOpen(false)}>
                 <IoMdClose />
@@ -102,14 +113,14 @@ const AddTestSeriesForm = () => {
             <form onSubmit={handleSubmit(submitHandler)}>
               <div className="mt-3">
                 <Label htmlFor="name" className="text-main-600 capitalize">
-                  Test series name
+                  Subject name
                 </Label>
                 <InputField
                   name="name"
                   type="text"
-                  icon={<FaRegUser className="text-sky-400" />}
+                  icon={<IoMdBook className="text-sky-400" />}
                   className="mt-1"
-                  placeholder="Test series"
+                  placeholder="Subject name"
                   register={register}
                 />
                 {errors.name && (
@@ -119,7 +130,24 @@ const AddTestSeriesForm = () => {
 
               <div className="mt-3">
                 <Label htmlFor="name" className="text-main-600 capitalize">
-                  Test series Description
+                  Subject code
+                </Label>
+                <InputField
+                  name="code"
+                  type="text"
+                  icon={<PiQrCode className="text-sky-400" />}
+                  className="mt-1"
+                  placeholder="Subject code"
+                  register={register}
+                />
+                {errors.code && (
+                  <span className="text-red-500 text-xs" >{errors.code.message}</span>
+                )}
+              </div>
+
+              <div className="mt-3">
+                <Label htmlFor="name" className="text-main-600 capitalize">
+                  Subject Description
                 </Label>
                 <TextAreaField
                   name="description"
@@ -127,7 +155,7 @@ const AddTestSeriesForm = () => {
                   resize={false}
                   icon={<MdOutlineDescription className="text-sky-400" />}
                   className="mt-1"
-                  placeholder="Test series"
+                  placeholder="Subject description"
                   register={register}
                   rows={4}
                 />
@@ -147,8 +175,8 @@ const AddTestSeriesForm = () => {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 
-export default AddTestSeriesForm;
+export default AddSubject;

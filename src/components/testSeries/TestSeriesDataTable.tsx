@@ -18,6 +18,8 @@ import {
 } from "@/components/ui/select";
 import { Input } from "../ui/input";
 import { IoIosClose } from "react-icons/io";
+import { IoMdArrowForward } from "react-icons/io";
+import { EXAMGROUPSTATUS } from "@/lib/utils";
 
 type subject = {
   name: string;
@@ -33,6 +35,7 @@ type TestSeries = {
   organizationId: string;
   students?: any[];
   subjects: subject[];
+  status: string;
   exams: any[];
 };
 
@@ -60,7 +63,7 @@ const TestSeriesDataTable = () => {
     enabled: !!user?.organizationId, // only run if org ID exists
   });
 
-  console.log("test series : ", testSeries)
+  console.log("test series : ", testSeries);
 
   if (isPending) {
     return (
@@ -122,6 +125,9 @@ const TestSeriesDataTable = () => {
                 Exams
               </th>
               <th className="px-4 py-4 text-left text-xs font-semibold text-main-900 uppercase tracking-wider">
+                Status
+              </th>
+              <th className="px-4 py-4 text-left text-xs font-semibold text-main-900 uppercase tracking-wider">
                 Actions
               </th>
             </tr>
@@ -156,12 +162,20 @@ const TestSeriesDataTable = () => {
                     {ts?.exams?.length ?? 0}
                   </td>
                   <td className="px-4 py-4 text-sm text-main-900 font-medium">
+                    <p
+                      className={`${ts.status === EXAMGROUPSTATUS.INACTIVE ? "text-danger-500" : "text-green-500"}`}
+                    >
+                      {ts?.status}
+                    </p>
+                  </td>
+                  <td className="px-4 py-4 text-sm text-main-900 font-medium">
                     <button
+                      className="text-white bg-main-300 p-1 rounded-full"
                       onClick={() =>
                         router.push(`/dashboard/test-series/${ts?._id}`)
                       }
                     >
-                      <FaRegEdit />
+                      <IoMdArrowForward />
                     </button>
                   </td>
                 </tr>

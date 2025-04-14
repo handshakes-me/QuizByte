@@ -8,8 +8,8 @@ const subjectSchema = new mongoose.Schema({
   students: [
     {
       name: { type: String, required: true },
-      email: { type: String, required: true, unique: true, sparce: true },
-      prn: { type: String, required: true, unique: true, sparce: true },
+      email: { type: String, required: true, unique: true, sparse: true },
+      prn: { type: String, required: true, unique: true, sparse: true },
       joined: { type: Date, default: Date.now }
     }
   ],

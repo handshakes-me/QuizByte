@@ -142,6 +142,7 @@ export async function GET(request: requestType) {
                     description: 1,
                     organizationId: 1,
                     students: 1,
+                    status: 1,
                     "subjects._id": 1,
                     "subjects.name": 1,
                     "subjects.code": 1,

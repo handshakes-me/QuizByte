@@ -3,8 +3,6 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { RiProfileLine } from "react-icons/ri";
-import { GrOrganization } from "react-icons/gr";
 import { usePathname } from "next/navigation";
 import LogoutButton from "./LogoutButton";
 import { useSelector } from "react-redux";
@@ -19,17 +17,16 @@ import {
 const Sidebar = () => {
   const pathname = usePathname();
   const { user } = useSelector((state: RootState) => state.user);
-  console.log("user : ", user);
 
   const linkClasses = (path: string) =>
     `flex gap-x-3 items-center hover:text-main-900 transition px-4 py-2 rounded-md ${
       pathname === path
-        ? "text-main-900 shadow-sm shadow-main-950 bg-sky-400 hover:text-main-900"
+        ? "text-white shadow-sm shadow-main-950 bg-sky-400 hover:text-white"
         : ""
     }`;
 
   return (
-    <section className="min-h-screen shadow-md bg-main-50 text-main-9000 w-[240px] border-r border-main-300 flex flex-col justify-between">
+    <section className="h-screen shadow-md bg-main-50 text-main-9000 w-[240px] border-r border-main-300 flex flex-col justify-between">
       <div className="">
         <div className="p-4">
           <Link

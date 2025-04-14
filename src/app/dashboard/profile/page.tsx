@@ -3,13 +3,13 @@
 import { RootState } from "@/app/store";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { formatRelative, subDays } from "date-fns";
 import { FaRegEdit } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import UpdateUsernameForm from "@/components/profile/UpdateUsernameForm";
 import UpdateEmailForm from "@/components/profile/UpdateEmailForm";
 import UpdatePasswordForm from "@/components/profile/UpdatePasswordForm";
 import { IoMdClose } from "react-icons/io";
+import { getFormattedDate } from "@/lib/utils";
 
 const Page = () => {
   const [formType, setFormType] = useState<
@@ -95,7 +95,7 @@ const Page = () => {
           <h3 className="text-main-900/60 text-sm">Joined</h3>
           <span className="flex gap-x-6 items-center">
             <h4 className="text-lg">
-              {formatRelative(subDays(new Date(), 3), new Date())}
+              {getFormattedDate(user?.createdAt, false)}
             </h4>
           </span>
         </div>

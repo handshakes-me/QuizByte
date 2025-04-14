@@ -5,7 +5,7 @@ import { Button } from "../ui/button";
 import { IoMdClose } from "react-icons/io";
 import { Label } from "../ui/label";
 import InputField from "../common/InputField";
-import { FaRegUser } from "react-icons/fa";
+import { FaRegEdit, FaRegUser } from "react-icons/fa";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,6 +14,15 @@ import TextAreaField from "../common/TextAreaField";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useToast } from "@/hooks/use-toast";
+import { EXAMGROUPSTATUS } from "@/lib/utils";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const formSchema = z.object({
   name: z.string().min(1, "Test series name is required"),
@@ -29,6 +38,7 @@ const EditTestSeriesForm = ({
     name: string;
     description: string;
     _id: string;
+    status: string;
   };
 }) => {
   const [formOpen, setFormOpen] = useState(false);
@@ -52,7 +62,10 @@ const EditTestSeriesForm = ({
 
   const { mutate: updateTestSeries, isPending } = useMutation({
     mutationFn: async (formData: formDataType) => {
-      const response = await axios.patch(`/api/examGroup/${data?._id}`, formData);
+      const response = await axios.patch(
+        `/api/examGroup/${data?._id}`,
+        formData
+      );
       return response.data;
     },
     onSuccess: (data) => {
@@ -75,15 +88,62 @@ const EditTestSeriesForm = ({
     },
   });
 
+  const { mutate: updateStatus, isPending: isUpdateStatusPending } =
+    useMutation({
+      mutationFn: async (status: string) => {
+        const response = await axios.post(
+          `/api/examGroup/${data?._id}/status`,
+          {
+            status,
+          }
+        );
+        return response.data;
+      },
+      onSuccess: (data) => {
+        if (data.success) {
+          toast({
+            title: "Status updated successfully",
+            description: "Status updated successfully",
+          });
+          queryClient.invalidateQueries({ queryKey: ["examGroup"] });
+        }
+      },
+      onError: (error: any) => {
+        console.log(error);
+        toast({
+          title: "Something went wrong",
+          description: error?.response?.data?.error || "Please try again later",
+          variant: "destructive",
+        });
+      },
+    });
+
   const submitHandler = async (data: formDataType) => {
     updateTestSeries(data);
   };
 
+  const handleStatusChange = (value: string) => {
+    updateStatus(value);
+  };
+
   return (
     <>
-      <Button onClick={() => setFormOpen(true)} className="btn btn-primary">
-        Edit Test Series
-      </Button>
+      <div className="flex gap-x-4">
+        <Select onValueChange={handleStatusChange} defaultValue={data?.status}>
+          <SelectTrigger className="w-[140px] border border-main-900 bg-white">
+            <SelectValue placeholder="Select a fruit" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectItem value={EXAMGROUPSTATUS.INACTIVE}>Inactive</SelectItem>
+              <SelectItem value={EXAMGROUPSTATUS.ACTIVE}>Active</SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+        <Button onClick={() => setFormOpen(true)}>
+          <FaRegEdit />
+        </Button>
+      </div>
       {formOpen && (
         <div
           onClick={() => setFormOpen(false)}
@@ -95,7 +155,7 @@ const EditTestSeriesForm = ({
           >
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-semibold text-main-900">
-                Edit test series
+                Edit test series details
               </h2>
               <button className="text-xl" onClick={() => setFormOpen(false)}>
                 <IoMdClose />
@@ -116,7 +176,7 @@ const EditTestSeriesForm = ({
                   register={register}
                 />
                 {errors.name && (
-                  <span className="text-red-500">{errors.name.message}</span>
+                  <span className="text-red-500 text-xs" >{errors.name.message}</span>
                 )}
               </div>
 
@@ -135,7 +195,7 @@ const EditTestSeriesForm = ({
                   rows={4}
                 />
                 {errors.description && (
-                  <span className="text-red-500">
+                  <span className="text-red-500 text-xs" >
                     {errors.description.message}
                   </span>
                 )}

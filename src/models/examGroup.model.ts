@@ -8,12 +8,17 @@ const ExamGroupSchema = new mongoose.Schema({
     students: [
         {
             name: { type: String, required: true },
-            email: { type: String, required: true, unique: true, sparce: true },
-            prn: { type: String, required: true, unique: true, sparce: true },
+            email: { type: String, required: true, unique: true, sparse: true },
+            prn: { type: String, required: true, unique: true, sparse: true },
             joined: { type: Date, default: Date.now }
         }
     ], // List of students in the group
+    status: {
+        type: String,
+        enum: ["ACTIVE", "INACTIVE"],
+        default: "INACTIVE"
+    },
     subjects: [{ type: mongoose.Schema.Types.ObjectId, ref: "Subject" }], // List of subjects in the group
 }, { timestamps: true });
 
-export default mongoose.models.ExamGroup || mongoose.model("ExamGroup", ExamGroupSchema);
+export default mongoose.models.ExamGroup || mongoose.model("ExamGroup", ExamGroupSchema); 

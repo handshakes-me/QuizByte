@@ -12,7 +12,7 @@ export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   // Define public and protected routes
-  const publicRoutes = ["/login", "/signup", "/reset-password", "forgot-password", "verify-email"];
+  const publicRoutes = ["/", "/login", "/signup", "/reset-password", "forgot-password", "verify-email"];
   const protectedRoutes = ["/dashboard", "/profile"];
 
   if (protectedRoutes.includes(pathname) && !token) {

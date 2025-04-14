@@ -1,5 +1,4 @@
-import AddTestSeriesForm from "@/components/testSeries/AddTestSeriesForm";
-import TestSeriesDataTable from "@/components/testSeries/TestSeriesDataTable";
+import ExamGroupTable from "@/components/tests/ExamGroupTable";
 import React from "react";
 
 const Page = () => {
@@ -9,16 +8,16 @@ const Page = () => {
         {/* page header */}
         <div className="mb-4 flex gap-x-4 justify-between items-center">
           <span className="">
-            <h2 className="text-2xl font-semibold">Test Series Management</h2>
+            <h2 className="text-2xl font-semibold">Test Management</h2>
             <p className="mt-2 font-normal text-base text-main-500">
-              Manage all test series here, 
+              Manage your test series and tests here
             </p>
           </span>
-          <AddTestSeriesForm />
+          {/* <AddTestSeriesForm /> */}
         </div>
 
         <div>
-          <TestSeriesDataTable />
+          <ExamGroupTable />
         </div>
       </div>
     </main>

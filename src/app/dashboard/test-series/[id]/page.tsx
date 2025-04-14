@@ -13,6 +13,7 @@ import { PiExam } from "react-icons/pi";
 import { LiaBookSolid } from "react-icons/lia";
 import SubjectsData from "@/components/testSeriesDetail/SubjectData";
 import StudentData from "@/components/testSeriesDetail/StudentData";
+import { EXAMGROUPSTATUS } from "@/lib/utils";
 
 const Page = () => {
   const { id } = useParams<{ id: string }>();
@@ -48,7 +49,14 @@ const Page = () => {
         {/* page header */}
         <div className="mb-4 flex gap-x-4 justify-between items-center">
           <span className="">
-            <h2 className="text-2xl font-semibold">{data?.name}</h2>
+            <span className="flex items-center gap-x-4">
+              <h2 className="text-2xl font-semibold">{data?.name}</h2>
+              <p
+                className={`px-4 rounded-full bg-white font-semibold text-xs border border-main-200 py-1 capitalize ${data?.status === EXAMGROUPSTATUS.ACTIVE ? "text-green-500" : "text-red-500"}`}
+              >
+                {data?.status?.toLowerCase()}
+              </p>
+            </span>
             <p className="mt-2 font-normal text-base text-main-500">
               {data?.description}
             </p>

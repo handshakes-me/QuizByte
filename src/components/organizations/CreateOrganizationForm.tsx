@@ -108,7 +108,7 @@ const CreateOrganizationForm = () => {
                   register={register}
                 />
                 {errors.name && (
-                  <span className="text-red-500">{errors.name.message}</span>
+                  <span className="text-red-500 text-xs" >{errors.name.message}</span>
                 )}
               </div>
               <div className="mt-3">
@@ -124,7 +124,7 @@ const CreateOrganizationForm = () => {
                   register={register}
                 />
                 {errors.email && (
-                  <span className="text-red-500">{errors.email.message}</span>
+                  <span className="text-red-500 text-xs" >{errors.email.message}</span>
                 )}
               </div>
               <div className="mt-3">
@@ -143,7 +143,7 @@ const CreateOrganizationForm = () => {
                   register={register}
                 />
                 {errors.contactNumber && (
-                  <span className="text-red-500">
+                  <span className="text-red-500 text-xs" >
                     {errors.contactNumber.message}
                   </span>
                 )}

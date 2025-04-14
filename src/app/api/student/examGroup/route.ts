@@ -35,6 +35,10 @@ export const POST = async (req: requestType) => {
             return NextResponse.json({ success: false, error: "Exam group not found" }, { status: 404 });
         }
 
+        if(examGroup.status === "INACTIVE") {
+            return NextResponse.json({ success: false, error: "Exam group is inactive" }, { status: 400 });
+       }
+
         // organization validation
         const oraganization = await organizationModel.findById(examGroup?.organizationId)
         if (!oraganization) {
