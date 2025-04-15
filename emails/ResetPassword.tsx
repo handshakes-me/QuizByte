@@ -1,3 +1,4 @@
+import { BASEURL } from "@/lib/utils";
 import {
   Body,
   Button,
@@ -16,10 +17,6 @@ interface DropboxResetPasswordEmailProps {
   username?: string;
   resetToken?: string;
 }
-
-const baseUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : "";
 
 export const DropboxResetPasswordEmail = ({
   username,
@@ -46,7 +43,7 @@ export const DropboxResetPasswordEmail = ({
             </Text>
             <Button
               style={button}
-              href={"http://localhost:3000/reset-password/" + resetToken}
+              href={`${BASEURL}/reset-password/${resetToken}`}
             >
               Reset password
             </Button>

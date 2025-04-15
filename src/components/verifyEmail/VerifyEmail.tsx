@@ -2,6 +2,7 @@
 
 import MyButton from "@/components/common/Button";
 import { useToast } from "@/hooks/use-toast";
+import { BASEURL } from "@/lib/utils";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
@@ -19,7 +20,7 @@ const VerifyEmail = () => {
     setLoading(true);
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/auth/verify-email",
+        `${BASEURL}/api/auth/verify-email`,
         { token }
       );
 
