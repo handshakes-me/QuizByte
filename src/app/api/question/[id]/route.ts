@@ -90,6 +90,7 @@ export const PATCH = async (req: requestType, { params }: { params: Promise<{ id
         }, { status: 200 })
 
     } catch (error) {
+        console.log("Error : ", error)
         return NextResponse.json({
             success: false,
             message: "Something went wrong",
@@ -152,6 +153,7 @@ export const DELETE = async (req: requestType, { params }: { params: Promise<{ i
         }, { status: 200 })
 
     } catch (error) {
+        console.log("Error : ", error)
         return NextResponse.json({
             success: false,
             message: "Something went wrong",

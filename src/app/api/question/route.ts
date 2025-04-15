@@ -125,6 +125,7 @@ export const POST = async (req: requestType) => {
         }, { status: 201 })
 
     } catch (error) {
+        console.log("Error : ", error)
         return NextResponse.json({
             success: false,
             message: "Something went wrong",

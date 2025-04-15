@@ -37,15 +37,15 @@ export async function POST(req: RequestType) {
             superAdminModel.findById(id) ||
             studentModel.findById(id);
 
-        if(!user) {
+        if (!user) {
             return NextResponse.json({
                 success: false,
                 message: "User not found",
             }, { status: 404 })
         }
-    
+
         const isPasswordCorrect = await bcrypt.compare(oldPassword, user.password);
-        if(!isPasswordCorrect) {
+        if (!isPasswordCorrect) {
             return NextResponse.json({
                 success: false,
                 message: "Old Password is incorrect",
@@ -63,6 +63,7 @@ export async function POST(req: RequestType) {
         }, { status: 200 })
 
     } catch (error) {
+        console.log("error ", error)
         return NextResponse.json({
             success: false,
             message: "Something went wrong",
