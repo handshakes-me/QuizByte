@@ -12,6 +12,7 @@ const StudentSchema = new mongoose.Schema({
             ref: "Organization",
             required: true,
             unique: true,
+            sparse: true
         }
     ],
     role: { type: String, default: "STUDENT", required: true  },
