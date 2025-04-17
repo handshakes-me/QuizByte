@@ -5,12 +5,10 @@ import { CgSandClock } from "react-icons/cg";
 import { HiOutlineLightBulb } from "react-icons/hi";
 import { RiNumbersLine } from "react-icons/ri";
 import { MdAccessTime } from "react-icons/md";
-import { BsQuestion } from "react-icons/bs";
+import { FaQuestion } from "react-icons/fa6";
 import { FiUserCheck } from "react-icons/fi";
 
 const ExamCard = ({ exam }: { exam: Exam }) => {
-  console.log("exam : ", exam);
-
   return (
     <div className="border p-4 rounded-md bg-white border-main-500 shadow-sm shadow-main-950">
       <h4 className="text-lg font-semibold mb-4">{exam?.title}</h4>
@@ -77,7 +75,7 @@ const ExamCard = ({ exam }: { exam: Exam }) => {
         <div className="w-full">
           <p className="text-base flex gap-x-4">
             <span className="font-semibold flex items-center gap-x-1 text-sm">
-              <BsQuestion />
+              <FaQuestion />
               No. of Questions
             </span>
             {exam.numberOfQuestions}
@@ -87,7 +85,7 @@ const ExamCard = ({ exam }: { exam: Exam }) => {
           <p className="text-base flex gap-x-4">
             <span className="font-semibold flex items-center gap-x-1 text-sm">
               <FiUserCheck />
-              Attempt Count
+              Attempts Allowed
             </span>
             {exam.attemptCount}
           </p>

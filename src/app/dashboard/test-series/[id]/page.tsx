@@ -14,6 +14,7 @@ import { LiaBookSolid } from "react-icons/lia";
 import SubjectsData from "@/components/testSeriesDetail/SubjectData";
 import StudentData from "@/components/testSeriesDetail/StudentData";
 import { EXAMGROUPSTATUS } from "@/lib/utils";
+import ExamData from "@/components/testSeriesDetail/ExamData";
 
 const Page = () => {
   const { id } = useParams<{ id: string }>();
@@ -79,6 +80,8 @@ const Page = () => {
         </div>
 
         <SubjectsData data={data} />
+
+        <ExamData data={data} />
 
         <StudentData data={data?.students} />
       </div>

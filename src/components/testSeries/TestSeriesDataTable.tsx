@@ -4,8 +4,8 @@ import { RootState } from "@/app/store";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Loader from "../common/Loader";
 import { FaRegEdit } from "react-icons/fa";
 import { useRouter } from "next/navigation";
@@ -20,6 +20,7 @@ import { Input } from "../ui/input";
 import { IoIosClose } from "react-icons/io";
 import { IoMdArrowForward } from "react-icons/io";
 import { EXAMGROUPSTATUS } from "@/lib/utils";
+import { setTestSeries } from "@/slices/testSeriesSlice";
 
 type subject = {
   name: string;
@@ -39,11 +40,18 @@ type TestSeries = {
   exams: any[];
 };
 
-const TestSeriesDataTable = () => {
+const TestSeriesDataTable = ({
+  actions = true,
+  status = true,
+}: {
+  actions?: boolean;
+  status?: boolean;
+}) => {
   const { user } = useSelector((state: RootState) => state.user);
   const [sort, setSort] = React.useState<"asc" | "dsc">("asc");
   const [searchTerm, setSearchTerm] = useState<string>("");
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const {
     data: testSeries,
@@ -63,7 +71,13 @@ const TestSeriesDataTable = () => {
     enabled: !!user?.organizationId, // only run if org ID exists
   });
 
-  console.log("test series : ", testSeries);
+  // console.log("test series : ", testSeries);
+
+  useEffect(() => {
+    if (testSeries && isSuccess) {
+      dispatch(setTestSeries(testSeries));
+    }
+  }, [testSeries, isSuccess, dispatch]);
 
   if (isPending) {
     return (
@@ -122,22 +136,26 @@ const TestSeriesDataTable = () => {
                 subjects
               </th>
               <th className="px-4 py-4 text-left text-xs font-semibold text-main-900 uppercase tracking-wider">
-                Exams
+                Tests
               </th>
-              <th className="px-4 py-4 text-left text-xs font-semibold text-main-900 uppercase tracking-wider">
-                Status
-              </th>
-              <th className="px-4 py-4 text-left text-xs font-semibold text-main-900 uppercase tracking-wider">
-                Actions
-              </th>
+              {status && (
+                <th className="px-4 py-4 text-left text-xs font-semibold text-main-900 uppercase tracking-wider">
+                  Status
+                </th>
+              )}
+              {actions && (
+                <th className="px-4 py-4 text-left text-xs font-semibold text-main-900 uppercase tracking-wider">
+                  Actions
+                </th>
+              )}
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-main-200 whitespace-nowrap">
             {(sort === "asc"
-              ? testSeries.sort((a: TestSeries, b: TestSeries) =>
+              ? [...testSeries].sort((a: TestSeries, b: TestSeries) =>
                   a.name.localeCompare(b.name)
                 )
-              : testSeries.sort((a: TestSeries, b: TestSeries) =>
+              : [...testSeries].sort((a: TestSeries, b: TestSeries) =>
                   b.name.localeCompare(a.name)
                 )
             )
@@ -161,23 +179,27 @@ const TestSeriesDataTable = () => {
                   <td className="px-4 py-4 text-sm text-main-900 font-medium">
                     {ts?.exams?.length ?? 0}
                   </td>
-                  <td className="px-4 py-4 text-sm text-main-900 font-medium">
-                    <p
-                      className={`${ts.status === EXAMGROUPSTATUS.INACTIVE ? "text-danger-500" : "text-green-500"}`}
-                    >
-                      {ts?.status}
-                    </p>
-                  </td>
-                  <td className="px-4 py-4 text-sm text-main-900 font-medium">
-                    <button
-                      className="text-white bg-main-300 p-1 rounded-full"
-                      onClick={() =>
-                        router.push(`/dashboard/test-series/${ts?._id}`)
-                      }
-                    >
-                      <IoMdArrowForward />
-                    </button>
-                  </td>
+                  {status && (
+                    <td className="px-4 py-4 text-sm text-main-900 font-medium">
+                      <p
+                        className={`${ts.status === EXAMGROUPSTATUS.INACTIVE ? "text-danger-500" : "text-green-500"}`}
+                      >
+                        {ts?.status}
+                      </p>
+                    </td>
+                  )}
+                  {actions && (
+                    <td className="px-4 py-4 text-sm text-main-900 font-medium">
+                      <button
+                        className="text-white bg-main-300 p-1 rounded-full"
+                        onClick={() =>
+                          router.push(`/dashboard/test-series/${ts?._id}`)
+                        }
+                      >
+                        <IoMdArrowForward />
+                      </button>
+                    </td>
+                  )}
                 </tr>
               ))}
           </tbody>

@@ -65,16 +65,15 @@ const AddSubject = ({ examGroupId }: { examGroupId: string }) => {
     formState: { errors },
   } = useForm({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      examGroupId: examGroupId,
+    },
   });
 
   const submitHandler = (data: FormDataType) => {
-    console.log(data);
+    // console.log(data);
     addSubject(data);
   };
-
-  useEffect(() => {
-    setValue("examGroupId", examGroupId);
-  }, []);
 
   useEffect(() => {
     if (formOpen) {

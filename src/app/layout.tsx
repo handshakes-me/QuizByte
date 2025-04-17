@@ -5,6 +5,7 @@ import QueryProvider from "@/components/common/QueryProvider";
 import { Toaster } from "@/components/ui/toaster";
 import { ReduxProvider } from "./ReduxProvider";
 import UserHydrator from "@/components/common/UserHydrator";
+import LocalizationProviderr from "@/components/common/LocalizationProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,13 +35,15 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} select-none ${geistMono.variable} antialiased`}
       >
-        <QueryProvider>
-          <ReduxProvider>
-            {/* hydrating local storage data into state memory */}
-            <UserHydrator /> 
-            {children}
-          </ReduxProvider>
-        </QueryProvider>
+        <LocalizationProviderr>
+          <QueryProvider>
+            <ReduxProvider>
+              {/* hydrating local storage data into state memory */}
+              <UserHydrator />
+              {children}
+            </ReduxProvider>
+          </QueryProvider>
+        </LocalizationProviderr>
         <Toaster />
       </body>
     </html>

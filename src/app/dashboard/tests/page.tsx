@@ -1,4 +1,5 @@
-import ExamGroupTable from "@/components/tests/ExamGroupTable";
+import AddTestForm from "@/components/tests/AddTestForm";
+import TestSeriesDataTable from "@/components/testSeries/TestSeriesDataTable";
 import React from "react";
 
 const Page = () => {
@@ -13,11 +14,11 @@ const Page = () => {
               Manage your test series and tests here
             </p>
           </span>
-          {/* <AddTestSeriesForm /> */}
+          <AddTestForm />
         </div>
 
         <div>
-          <ExamGroupTable />
+          <TestSeriesDataTable actions={false} status={false} />
         </div>
       </div>
     </main>
