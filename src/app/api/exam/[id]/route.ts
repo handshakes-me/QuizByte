@@ -1,6 +1,7 @@
 import dbConnect from "@/config/dbConnect";
 import { auth, isAdmin } from "@/middlewares/authMiddleware";
 import adminModel from "@/models/admin.model";
+import "@/models/question.model"; 
 import examModel from "@/models/exam.model";
 import examGroupModel from "@/models/examGroup.model";
 import studentModel from "@/models/student.model";
@@ -221,7 +222,7 @@ export const GET = async (req: reqestType, { params }: { params: Promise<{ id: s
 
         // fetch data
         const { id: examId } = await params;
-        const exam = await examModel.findById(examId).populate("questions")
+        const exam = await examModel.findById(examId).populate("questions subjectId")
         if (!exam) {
             return NextResponse.json({ success: false, message: "Exam not found" }, { status: 404 });
         }

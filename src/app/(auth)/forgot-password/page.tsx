@@ -1,3 +1,4 @@
+import QueryProvider from "@/components/common/QueryProvider";
 import ForgotPasswordForm from "@/components/forgotPassword/ResetPasswordForm";
 import Image from "next/image";
 import Link from "next/link";
@@ -22,7 +23,9 @@ const Page = () => {
           password
         </p>
 
-        <ForgotPasswordForm />
+        <QueryProvider>
+          <ForgotPasswordForm />
+        </QueryProvider>
       </div>
     </div>
   );

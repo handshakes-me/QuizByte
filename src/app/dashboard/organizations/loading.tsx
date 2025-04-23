@@ -1,3 +1,4 @@
+import ClientProvider from "@/components/common/ClientProvider";
 import Loader from "@/components/common/Loader";
 import CreateOrganizationForm from "@/components/organizations/CreateOrganizationForm";
 import React from "react";
@@ -8,7 +9,9 @@ const loading = () => {
       <section>
         <div className="flex items-center justify-between">
           <h2 className="text-2xl font-semibold">Organizations</h2>
-          <CreateOrganizationForm />
+          <ClientProvider>
+            <CreateOrganizationForm />
+          </ClientProvider>
         </div>
         <div className="w-full min-h-[640px] flex items-center justify-center">
           <Loader />

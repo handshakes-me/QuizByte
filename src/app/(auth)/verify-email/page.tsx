@@ -1,12 +1,15 @@
 "use client";
 
+import ClientProvider from "@/components/common/ClientProvider";
 import VerifyEmail from "@/components/verifyEmail/VerifyEmail";
 import React, { Suspense } from "react";
 
 const Page = () => {
   return (
     <Suspense fallback={<div className="text-white">Loading...</div>}>
-      <VerifyEmail />
+      <ClientProvider>
+        <VerifyEmail />
+      </ClientProvider>
     </Suspense>
   );
 };

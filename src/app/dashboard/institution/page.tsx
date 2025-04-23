@@ -1,3 +1,4 @@
+import ClientProvider from "@/components/common/ClientProvider";
 import InviteSection from "@/components/Institution/InviteSection";
 import StudentsTable from "@/components/Institution/StudentsTable";
 import { getOrganizationData } from "@/lib/organization";
@@ -85,10 +86,12 @@ const Page = async () => {
       </div>
 
       {/* Invite section */}
-      <InviteSection
-        inviteLink={organization?.inviteLink}
-        orgId={organization?._id}
-      />
+      <ClientProvider>
+        <InviteSection
+          inviteLink={organization?.inviteLink}
+          orgId={organization?._id}
+        />
+      </ClientProvider>
 
       <div className="my-8">
         <h3 className="text-2xl font-semibold mb-4">Students</h3>

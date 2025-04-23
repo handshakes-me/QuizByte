@@ -1,3 +1,4 @@
+import ClientProvider from "@/components/common/ClientProvider";
 import CreateOrganizationForm from "@/components/organizations/CreateOrganizationForm";
 import OrganizationDataTable from "@/components/organizations/OrganizationDataTable";
 import { getOrganizations } from "@/lib/organization";
@@ -26,7 +27,9 @@ const OrganizationPage = async () => {
       <section>
         <div className="flex items-center justify-between">
           <h2 className="text-2xl font-semibold">Organizations</h2>
-          <CreateOrganizationForm />
+          <ClientProvider>
+            <CreateOrganizationForm />
+          </ClientProvider>
         </div>
         <div className="overflow-x-auto my-8">
           <OrganizationDataTable data={organizations} />

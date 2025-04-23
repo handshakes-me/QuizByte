@@ -80,7 +80,7 @@ export async function GET(request: requestType, { params }: { params: Promise<{ 
                     "exams._id": 1,
                     "exams.title": 1,
                     "exams.description": 1,
-                    "exams.subjectId": 1,
+                    "exams.subjectId": 1, // I want to populate this
                     "exams.startTime": 1,
                     "exams.endTime": 1,
                     "exams.duration": 1,

@@ -9,6 +9,7 @@ const InputField = ({
   placeholder,
   value,
   onChange,
+  onKeyDown,
   required,
   name,
   className,
@@ -24,6 +25,7 @@ const InputField = ({
   placeholder: string;
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   required?: boolean;
   name: string;
   min?: number;
@@ -57,6 +59,7 @@ const InputField = ({
         aria-invalid={register && register[name]?.error ? "true" : "false"}
         required={required}
         name={name}
+        onKeyDown={onKeyDown}
         id={id}
         disabled={disabled}
         className="w-full bg-transparent placeholder:text-main-700 text-main-900 placeholder:text-base text-lg bg-main-50 !border-none outline-none focus-visible:ring-0 !focus:ring-0 !focus:outline-none"

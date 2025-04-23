@@ -30,7 +30,7 @@ const InviteSection = ({
       return data;
     },
     onSuccess: (data) => {
-      console.log("data : ", data);
+      // console.log("data : ", data);
       toast({
         title: "New link generated",
         description: "Share this link with your students",
@@ -69,7 +69,6 @@ const InviteSection = ({
   };
 
   const generateNewInvitationLink = () => {
-    console.log("generating new token");
     mutate();
   };
 

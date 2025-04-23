@@ -24,9 +24,10 @@ const Page = () => {
       const response = await axios.get(`/api/examGroup/${id}`);
       return response.data.data;
     },
+    enabled: !!id,
   });
 
-  //   console.log("data : ", data);
+    // console.log("data : ", data);
 
   if (isPending) {
     return (

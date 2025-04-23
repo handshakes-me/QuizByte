@@ -3,6 +3,7 @@ import { Exam, Subject } from "@/types";
 import ExamCard from "./ExamCard";
 import { Button } from "../ui/button";
 import CreateTest from "./CreateTest";
+import ClientProvider from "../common/ClientProvider";
 
 const ExamData = ({
   data,

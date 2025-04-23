@@ -13,6 +13,7 @@ import {
   SUPERADMINPAGES,
   USERROLE,
 } from "@/lib/utils";
+import ClientProvider from "./ClientProvider";
 
 const Sidebar = () => {
   const pathname = usePathname();
@@ -70,7 +71,9 @@ const Sidebar = () => {
         </div>
       </div>
       <div className="my-8 px-8 ">
-        <LogoutButton className="w-full" />
+        <ClientProvider>
+          <LogoutButton className="w-full" />
+        </ClientProvider>
       </div>
     </section>
   );

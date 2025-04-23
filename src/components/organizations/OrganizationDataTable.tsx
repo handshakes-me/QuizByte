@@ -1,5 +1,6 @@
 import React from "react";
 import EditOrganizationForm from "./EditOrganizationForm";
+import ClientProvider from "../common/ClientProvider";
 
 export type Organization = {
   email: string;
@@ -57,7 +58,9 @@ const OrganizationDataTable = ({ data }: { data: Organization[] }) => {
                   {org?.students?.length}
                 </td>
                 <td className="px-4 py-4 text-sm text-main-900 font-medium">
+                  <ClientProvider>
                     <EditOrganizationForm organization={org} />
+                  </ClientProvider>
                 </td>
               </tr>
             ))}

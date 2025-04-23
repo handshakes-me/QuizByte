@@ -53,11 +53,11 @@ export const ADMINPAGES = [
   //   href: '/dashboard/subjects',
   //   icon: IoMdBook,
   // },
-  {
-    name: 'Tests',
-    href: '/dashboard/tests',
-    icon: SiStudyverse,
-  },
+  // {
+  //   name: 'Tests',
+  //   href: '/dashboard/tests',
+  //   icon: SiStudyverse,
+  // },
   {
     name: 'Results',
     href: '/dashboard/results',
@@ -97,6 +97,14 @@ export const STUDENTPAGES = [
 export const EXAMGROUPSTATUS = {
   INACTIVE: 'INACTIVE',
   ACTIVE: "ACTIVE"
+}
+
+//"scheduled", "ongoing", "finished", "cancelled"
+export const EXAMSTATUS = {
+  SCHEDULED: 'scheduled',
+  ONGOING: "ongoing",
+  FINISHED: "finished",
+  CANCELLED: "cancelled"
 }
 
 export function getFormattedDate(isoString?: string, time: boolean = true): string {

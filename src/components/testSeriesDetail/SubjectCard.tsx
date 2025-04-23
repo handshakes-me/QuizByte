@@ -1,3 +1,5 @@
+'use client'
+
 import { Subject } from "@/types";
 import React, { useEffect, useState } from "react";
 import AddSubject from "./AddSubject";

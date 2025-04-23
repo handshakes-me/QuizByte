@@ -1,9 +1,12 @@
+'use client'
+
 import { Exam, Subject } from "@/types";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { IoMdAdd } from "react-icons/io";
 import AddSubject from "./AddSubject";
 import SubjectCard from "./SubjectCard";
+import ClientProvider from "../common/ClientProvider";
 
 const SubjectsData = ({
   data,
@@ -21,12 +24,12 @@ const SubjectsData = ({
       <div className="flex justify-between items-center">
         <h3 className="text-2xl font-semibold">Subjects</h3>
       </div>
-      <div className="flex items-center gap-y-4 flex-wrap gap-x-4 mt-4">
-        {data?.subjects?.map((sub: Subject) => (
-          <SubjectCard key={sub._id} data={sub} />
-        ))}
-        <AddSubject examGroupId={data?._id} />
-      </div>
+        <div className="flex items-center gap-y-4 flex-wrap gap-x-4 mt-4">
+          {data?.subjects?.map((sub: Subject) => (
+            <SubjectCard key={sub._id} data={sub} />
+          ))}
+          <AddSubject examGroupId={data?._id} />
+        </div>
     </div>
   );
 };

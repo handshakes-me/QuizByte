@@ -6,6 +6,8 @@ export interface Exam {
     totalMarks: number;
     passingMarks: number;
     numberOfQuestions: number;
+    questions: any[];
+    marksPerQuestion: number;
     attemptCount: number;
     hints: number;
     startTime: string; // ISO Date string
@@ -18,7 +20,7 @@ export interface Subject {
     name: string;
     description: string;
     code: string;
-};  
+};
 
 export interface Student {
     email: string;
@@ -26,4 +28,12 @@ export interface Student {
     _id: string;
     prn: string;
     joined: string;
+}
+
+export interface Question {
+    questionText: string;
+    options: string[];
+    correctAnswer: string;
+    hint: string;
+    _id: string
 }

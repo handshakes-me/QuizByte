@@ -10,6 +10,7 @@ import UpdateEmailForm from "@/components/profile/UpdateEmailForm";
 import UpdatePasswordForm from "@/components/profile/UpdatePasswordForm";
 import { IoMdClose } from "react-icons/io";
 import { getFormattedDate } from "@/lib/utils";
+import ClientProvider from "@/components/common/ClientProvider";
 
 const Page = () => {
   const [formType, setFormType] = useState<
@@ -28,7 +29,9 @@ const Page = () => {
                 <IoMdClose />
               </button>
             </span>
-            <UpdateUsernameForm setFormType={setFormType} />
+            <ClientProvider>
+              <UpdateUsernameForm setFormType={setFormType} />
+            </ClientProvider>
           </>
         );
       case "email":
@@ -40,7 +43,9 @@ const Page = () => {
                 <IoMdClose />
               </button>
             </span>
-            <UpdateEmailForm setFormType={setFormType} />
+            <ClientProvider>
+              <UpdateEmailForm setFormType={setFormType} />
+            </ClientProvider>
           </>
         );
       case "password":
@@ -52,7 +57,10 @@ const Page = () => {
                 <IoMdClose />
               </button>
             </span>
-            <UpdatePasswordForm setFormType={setFormType} />
+
+            <ClientProvider>
+              <UpdatePasswordForm setFormType={setFormType} />
+            </ClientProvider>
           </>
         );
       default:
