@@ -25,7 +25,8 @@ const LogoutButton = ({
           title: "Logout successful.",
         });
         setModalOpen(false);
-        router.push("/");
+        // router.push("/");
+        window.location.href = "/";
       } else {
         toast({
           title: "Logout failed.",

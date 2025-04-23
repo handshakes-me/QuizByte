@@ -41,7 +41,7 @@ const QuestionCard = ({ question }: { question: Question }) => {
   }
 
   return (
-    <div className="border border-main-300 rounded-md p-4">
+    <div className="border shadow-sm shadow-main-800 border-main-300 bg-white rounded-md p-4">
       <div className="flex justify-between items-start gap-x-4">
         <h3 className="font-semibold text-lg mb-2">
           Question: {question?.questionText}

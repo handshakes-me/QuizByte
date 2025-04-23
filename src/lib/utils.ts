@@ -65,7 +65,6 @@ export const ADMINPAGES = [
   }
 ]
 
-// update these pages
 export const STUDENTPAGES = [
   {
     name: "Profile",
