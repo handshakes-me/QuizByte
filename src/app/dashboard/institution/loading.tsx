@@ -1,9 +1,12 @@
-import React from 'react'
+import Loader from "@/components/common/Loader";
+import React from "react";
 
 const loading = () => {
   return (
-    <div>loading...</div>
-  )
-}
+    <div className="w-full h-screen flex items-center justify-center">
+      <Loader />
+    </div>
+  );
+};
 
-export default loading
+export default loading;

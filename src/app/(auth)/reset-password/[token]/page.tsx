@@ -2,6 +2,7 @@ import Image from "next/image";
 import React from "react";
 import ResetPasswordForm from "@/components/resetPassword/resetPasswordForm";
 import Link from "next/link";
+import ClientProvider from "@/components/common/ClientProvider";
 
 const Page = () => {
   return (
@@ -21,7 +22,9 @@ const Page = () => {
           Reset your password by entering your new password below
         </p>
 
-        <ResetPasswordForm />
+        <ClientProvider>
+          <ResetPasswordForm />
+        </ClientProvider>
       </div>
     </div>
   );
