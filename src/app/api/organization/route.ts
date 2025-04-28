@@ -30,9 +30,9 @@ export async function POST(req: requestType) {
         const { name, email, contactNumber } = await req.json();
         const userId = req.user.id
 
-        console.log("name : ", name);
-        console.log("email : ", email);
-        console.log("contactNumber : ", contactNumber);
+        // console.log("name : ", name);
+        // console.log("email : ", email);
+        // console.log("contactNumber : ", contactNumber);
 
         if (!name || !email || !contactNumber) {
             return NextResponse.json({ success: false, error: "Missing required fields" }, { status: 400 });

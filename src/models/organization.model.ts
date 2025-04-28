@@ -4,7 +4,7 @@ const OrganizationSchema = new mongoose.Schema({
     name: { type: String, required: true, unique: true },
     email: { type: String, required: true, unique: true },
     contactNumber: { type: String, required: true },
-    inviteLink: { type: String, unique: true }, // Auto-generated link for student registration also make a controller to create a new link
+    inviteLink: { type: String, unique: true, sparse: true }, // Auto-generated link for student registration also make a controller to create a new link
     token: { type: String, unique: true, sparse: true }, // token for admin registration, make it null after registration
     students: [
         {

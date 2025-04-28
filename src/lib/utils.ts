@@ -29,6 +29,11 @@ export const SUPERADMINPAGES = [
     name: "Organizations",
     href: "/dashboard/organizations",
     icon: GrOrganization,
+  },
+  {
+    name: 'statistics',
+    href: '/dashboard/statistics',
+    icon: GrOrganization,
   }
 ]
 

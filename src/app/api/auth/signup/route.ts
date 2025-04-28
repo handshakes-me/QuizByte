@@ -95,6 +95,8 @@ export async function POST(req: NextRequest) {
 
             const organization = await organizationModel.findOne({ token });
 
+            // console.log("organization : ", organization)
+
             if (!organization) {
                 return NextResponse.json({ success: false, error: "Admin token has already been used." }, { status: 404 });
             }
@@ -117,8 +119,14 @@ export async function POST(req: NextRequest) {
 
             user.password = undefined
 
-            organization.token = null;
-            await organization.save();
+            /// bug -> this creates unique value error
+            // organization.token = null;
+            // await organization.save();
+
+            // instead doing this to get along
+            await organizationModel.findByIdAndUpdate(organization._id, {
+                $unset: { token: "" }
+            });
 
             const verificationToken = jwt.sign({ email }, process.env.JWT_SECRET!, { expiresIn: "1h" });
 
