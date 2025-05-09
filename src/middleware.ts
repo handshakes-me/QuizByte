@@ -13,7 +13,16 @@ export function middleware(req: NextRequest) {
 
   // Define public and protected routes
   const publicRoutes = ["/", "/login", "/signup", "/reset-password", "/forgot-password", "/verify-email"];
-  const protectedRoutes = ["/dashboard", "/profile"];
+  const protectedRoutes = [
+    "/dashboard",
+    "/dashboard/profile",
+    '/dashboard/joinInstitution',
+    '/dashboard/institution',
+    '/dashboard/organization',
+    '/dashboard/results',
+    '/dashboard/statistics',
+    '/dashboard/subjects'
+  ];
 
   if (protectedRoutes.includes(pathname) && !token) {
     // If user is not logged in, redirect to login

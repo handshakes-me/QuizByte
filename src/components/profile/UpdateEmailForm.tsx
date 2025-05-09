@@ -7,9 +7,12 @@ const UpdateEmailForm = ({
     React.SetStateAction<"name" | "password" | "email" | null>
   >;
 }) => {
-  return <div>
-    <button onClick={() => setFormType(null)}>close</button>
-    UpdateEmailForm</div>;
+  return (
+    <div>
+      <button onClick={() => setFormType(null)}>close</button>
+      UpdateEmailForm
+    </div>
+  );
 };
 
 export default UpdateEmailForm;

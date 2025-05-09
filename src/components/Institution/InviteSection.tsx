@@ -51,7 +51,7 @@ const InviteSection = ({
   const copyLink = () => {
     try {
       navigator.clipboard.writeText(
-        BASEURL + "/joinInstitution?token=" + inviteLink
+        BASEURL + "/dashboard/joinInstitution?token=" + inviteLink
       );
       setCopied(true);
       toast({
@@ -85,7 +85,7 @@ const InviteSection = ({
       <h3 className="text-2xl font-semibold mb-4">Student Invitation Link</h3>
       <div className="bg-white rounded-md p-3 flex justify-between items-center">
         <p className="text-gray-500 line-clamp-1">
-          {BASEURL + "/joinInstitution?token=" + inviteLink}
+          {BASEURL + "/dashboard/joinInstitution?token=" + inviteLink}
         </p>
         <button
           className="p-2 rounded-full hover:bg-main-100 transition-all duration-300"

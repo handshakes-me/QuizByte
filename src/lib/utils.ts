@@ -77,25 +77,20 @@ export const STUDENTPAGES = [
     icon: RiProfileLine,
   },
   {
-    name: 'Test Series',
-    href: "/dashboard/test-series",
+    name: 'Instrututions',
+    href: "/dashboard/joined-institutions",
     icon: HiOutlineCollection,
   },
   {
-    name: 'Subjects',
-    href: '/dashboard/subjects',
-    icon: IoMdBook,
+    name: 'Test series',
+    href: "/dashboard/organization-test-series",
+    icon: HiOutlineCollection,
   },
   {
-    name: 'Exams',
-    href: '/dashboard/exams',
-    icon: SiStudyverse,
+    name: 'Tests',
+    href: "/dashboard/ongoing-tests",
+    icon: HiOutlineCollection,
   },
-  {
-    name: 'Results',
-    href: '/dashboard/results',
-    icon: PiExamDuotone
-  }
 ]
 
 export const EXAMGROUPSTATUS = {

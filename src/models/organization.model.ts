@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import '@/models/examGroup.model'
 
 const OrganizationSchema = new mongoose.Schema({
     name: { type: String, required: true, unique: true },

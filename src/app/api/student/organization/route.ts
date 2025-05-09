@@ -12,6 +12,7 @@ interface requestType extends NextRequest {
 }
 
 export const GET = async (req: requestType) => {
+
     try {
         await dbConnect();
 
@@ -31,16 +32,25 @@ export const GET = async (req: requestType) => {
             students: {
                 $elemMatch: { email: user?.email }
             }
-        }, {
-            name: 1,
-            email: 1,
-            contactNumber: 1
-        });
+        }).populate([
+            {
+                path: "examGroups",
+                select: "name description exams subjects status"
+            }
+        ]).lean();
         if (!organizations) {
             return NextResponse.json({ success: false, error: "Organization not found" }, { status: 404 });
         }
 
-        return NextResponse.json({ success: true, message: "oraganizations found", organizations }, { status: 200 });
+        organizations.forEach((org: any) => {
+            const activeExamGroups = org.examGroups.filter((grp: any) => grp.status === 'ACTIVE')
+            org.examGroups = activeExamGroups;
+            delete org.inviteLink;
+            delete org.token;
+            org.students = org?.students?.length;
+        });
+
+        return NextResponse.json({ success: true, message: "oraganizations found", data: organizations }, { status: 200 });
 
     } catch (error) {
         console.error("Error getting student:", error);
