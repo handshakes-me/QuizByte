@@ -11,6 +11,7 @@ interface requestType extends NextRequest {
     }
 }
 
+// refresh invitation link
 export async function PATCH(request: requestType, { params }: { params: Promise<{ id: string }> }) {
     try {
         await dbConnect();

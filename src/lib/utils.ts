@@ -6,6 +6,8 @@ import { HiOutlineCollection } from "react-icons/hi";
 import { IoMdBook } from "react-icons/io";
 import { PiExamDuotone } from "react-icons/pi";
 import { SiStudyverse } from "react-icons/si";
+import { GrSchedules } from "react-icons/gr";
+import { FaRegClock } from "react-icons/fa";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -82,14 +84,14 @@ export const STUDENTPAGES = [
     icon: HiOutlineCollection,
   },
   {
-    name: 'Test series',
-    href: "/dashboard/organization-test-series",
-    icon: HiOutlineCollection,
+    name: 'Upcoming Tests',
+    href: "/dashboard/upcoming-tests",
+    icon: GrSchedules,
   },
   {
-    name: 'Tests',
+    name: 'Ongoing Tests',
     href: "/dashboard/ongoing-tests",
-    icon: HiOutlineCollection,
+    icon: FaRegClock,
   },
 ]
 

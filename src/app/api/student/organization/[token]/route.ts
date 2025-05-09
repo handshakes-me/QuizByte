@@ -3,7 +3,7 @@ import { auth } from "@/middlewares/authMiddleware";
 import organizationModel from "@/models/organization.model";
 import { NextRequest, NextResponse } from "next/server";
 
-
+// get organization by token for student to join the organization
 export const GET = async (req: NextRequest, { params }: { params: Promise<{ token: string }> }) => {
     try {
 

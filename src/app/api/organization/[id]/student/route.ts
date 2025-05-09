@@ -11,6 +11,7 @@ interface requestType extends NextRequest {
     };
 }
 
+// join organization
 export const POST = async (req: requestType, { params }: { params: Promise<{ id: string }> }) => {
     try {
         await dbConnect();
@@ -63,6 +64,7 @@ export const POST = async (req: requestType, { params }: { params: Promise<{ id:
     }
 };
 
+// leave organization
 export const DELETE = async (req: requestType, { params }: { params: Promise<{ id: string }> }) => {
     try {
         await dbConnect();

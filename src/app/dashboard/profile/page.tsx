@@ -1,131 +1,113 @@
 "use client";
 
-import { RootState } from "@/app/store";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import { RootState } from "@/app/store";
 import { FaRegEdit } from "react-icons/fa";
+import { IoMdClose } from "react-icons/io";
 import { Button } from "@/components/ui/button";
 import UpdateUsernameForm from "@/components/profile/UpdateUsernameForm";
 import UpdateEmailForm from "@/components/profile/UpdateEmailForm";
 import UpdatePasswordForm from "@/components/profile/UpdatePasswordForm";
-import { IoMdClose } from "react-icons/io";
 import { getFormattedDate } from "@/lib/utils";
 import ClientProvider from "@/components/common/ClientProvider";
 
+type FormType = "name" | "email" | "password";
+
 const Page = () => {
-  const [formType, setFormType] = useState<
-    "name" | "email" | "password" | null
-  >(null);
+  const [formType, setFormType] = useState<FormType | null>(null);
   const { user } = useSelector((state: RootState) => state?.user);
 
-  const renderForm = (type: String) => {
-    switch (type) {
-      case "name":
-        return (
-          <>
-            <span className="flex items-start justify-between">
-              <h2 className="text-2xl font-semibold mb-2">Update Full Name</h2>
-              <button className="text-xl" onClick={() => setFormType(null)}>
-                <IoMdClose />
-              </button>
-            </span>
-            <ClientProvider>
-              <UpdateUsernameForm setFormType={setFormType} />
-            </ClientProvider>
-          </>
-        );
-      case "email":
-        return (
-          <>
-            <span className="flex items-start justify-between">
-              <h2 className="text-2xl font-semibold mb-2">Update Email</h2>
-              <button className="text-xl" onClick={() => setFormType(null)}>
-                <IoMdClose />
-              </button>
-            </span>
-            <ClientProvider>
-              <UpdateEmailForm setFormType={setFormType} />
-            </ClientProvider>
-          </>
-        );
-      case "password":
-        return (
-          <>
-            <span className="flex items-start justify-between">
-              <h2 className="text-2xl font-semibold mb-2">Update Password</h2>
-              <button className="text-xl" onClick={() => setFormType(null)}>
-                <IoMdClose />
-              </button>
-            </span>
+  const renderForm = (type: FormType) => {
+    const forms: Record<FormType, React.ReactNode> = {
+      name: <UpdateUsernameForm setFormType={setFormType} />,
+      email: <UpdateEmailForm setFormType={setFormType} />,
+      password: <UpdatePasswordForm setFormType={setFormType} />,
+    };
 
-            <ClientProvider>
-              <UpdatePasswordForm setFormType={setFormType} />
-            </ClientProvider>
-          </>
-        );
-      default:
-        return null;
-    }
+    const titles: Record<FormType, string> = {
+      name: "Update Full Name",
+      email: "Update Email",
+      password: "Update Password",
+    };
+
+    return (
+      <div className="space-y-4">
+        <div className="flex items-center justify-between border-b pb-2">
+          <h2 className="text-xl font-semibold">{titles[type]}</h2>
+          <button
+            onClick={() => setFormType(null)}
+            className="text-2xl text-gray-600 hover:text-red-500"
+          >
+            <IoMdClose />
+          </button>
+        </div>
+        <ClientProvider>{forms[type]}</ClientProvider>
+      </div>
+    );
   };
 
   return (
     <main className="">
-      <div className="w-full bg-main-50 text-main-900 rounded-md">
-        <h2 className="text-2xl font-semibold mb-4">Profile Information</h2>
+      <div className=" mx-auto bg-white shadow-md rounded-xl p-6 space-y-6">
+        <h2 className="text-2xl font-medium text-main-900">Profile Overview</h2>
 
-        <div className="my-6">
-          <h3 className="text-main-900/60 text-sm">Full Name</h3>
-          <span className="flex gap-x-4 items-center">
-            <h4 className="text-lg">{user?.name}</h4>
-            <button
-              onClick={() => setFormType("name")}
-              className="text-sky-400"
-            >
-              <FaRegEdit />
-            </button>
-          </span>
-        </div>
+        <div className="space-y-4">
+          <div>
+            <h3 className="text-sm text-gray-500">Full Name</h3>
+            <div className="flex items-center justify-start gap-x-8">
+              <p className="text-lg font-medium">{user?.name}</p>
+              <button
+                onClick={() => setFormType("name")}
+                className="text-sky-500 hover:text-sky-700 transition"
+              >
+                <FaRegEdit />
+              </button>
+            </div>
+          </div>
 
-        <div className="my-6">
-          <h3 className="text-main-900/60  text-sm">Email</h3>
-          <span className="flex gap-x-4 items-center">
-            <h4 className="text-lg">{user?.email}</h4>
-            <button
-              onClick={() => setFormType("email")}
-              className="text-sky-400"
-            >
-              <FaRegEdit />
-            </button>
-          </span>
-        </div>
+          <div>
+            <h3 className="text-sm text-gray-500">Email</h3>
+            <div className="flex items-center justify-between">
+              <p className="text-lg font-medium">{user?.email}</p>
+              {/* <button
+                onClick={() => setFormType("email")}
+                className="text-sky-500 hover:text-sky-700 transition"
+              >
+                <FaRegEdit />
+              </button> */}
+            </div>
+          </div>
 
-        <div className="my-6">
-          <h3 className="text-main-900/60 text-sm">Joined</h3>
-          <span className="flex gap-x-6 items-center">
-            <h4 className="text-lg">
+          <div>
+            <h3 className="text-sm text-gray-500">Joined On</h3>
+            <p className="text-lg font-medium">
               {getFormattedDate(user?.createdAt, false)}
-            </h4>
-          </span>
+            </p>
+          </div>
         </div>
 
-        <div className="my-6 flex gap-x-4">
-          <Button onClick={() => setFormType("password")}>
-            <span className="flex gap-x-2 items-center">
+        {/* <div>
+          <Button
+            onClick={() => setFormType("password")}
+            className="bg-sky-400 text-white hover:bg-sky-500"
+          >
+            <span className="flex items-center gap-2">
               <FaRegEdit />
               Update Password
             </span>
           </Button>
-        </div>
+        </div> */}
       </div>
 
       {formType && (
         <div
           onClick={() => setFormType(null)}
-          className="fixed inset-0 bg-black/40 flex items-center justify-center rounded-md"
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50"
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="relative p-6 bg-main-50 text-main-900 rounded-md w-[580px] shadow-sm shadow-main-950"
+            className="bg-white rounded-lg p-6 w-[90%] max-w-lg shadow-2xl animate-fadeIn"
           >
             {renderForm(formType)}
           </div>

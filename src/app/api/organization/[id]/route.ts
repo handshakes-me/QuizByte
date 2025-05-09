@@ -10,6 +10,7 @@ interface requestType extends NextRequest {
     }
 }
 
+// get organization by id
 export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
 
     try {
@@ -22,7 +23,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
             return NextResponse.json({ success: false, error: "Organization ID is required" }, { status: 400 });
         }
 
-        const organization = await organizationModel.findById(id);
+        const organization = await organizationModel.findById(id).populate("examGroups").populate("students");
 
         if (!organization) {
             return NextResponse.json({ success: false, error: "Organization not found" }, { status: 404 });
@@ -37,7 +38,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
 
 }
 
-// in use 
+// update organization by id
 export async function PATCH(req: requestType, { params }: { params: Promise<{ id: string }> }) {
     try {
 

@@ -15,7 +15,7 @@ const Page = () => {
     },
   });
 
-  console.log("data : ", data?.data);
+  // console.log("data : ", data?.data);
 
   if (isPending) {
     return (
