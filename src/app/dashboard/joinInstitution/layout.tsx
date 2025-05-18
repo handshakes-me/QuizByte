@@ -1,10 +1,14 @@
 "use client";
 
 import ClientProvider from "@/components/common/ClientProvider";
-import React from "react";
+import React, { Suspense } from "react";
 
 const layout = ({ children }: { children: React.ReactNode }) => {
-  return <ClientProvider>{children}</ClientProvider>;
+  return (
+    <Suspense>
+      <ClientProvider>{children}</ClientProvider>
+    </Suspense>
+  );
 };
 
 export default layout;
