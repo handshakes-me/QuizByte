@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import '@/models/question.model'
 
 const ExamSchema = new mongoose.Schema({
     title: { type: String, required: true }, // e.g., "Mathematics"

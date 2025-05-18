@@ -1,12 +1,14 @@
 "use client";
 
 import Loader from "@/components/common/Loader";
+import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import React from "react";
 
 const OngoingExamsPage = () => {
   const router = useRouter();
+  const [modalData, setModalData] = React.useState<any>(null);
 
   const { data, isPending } = useQuery({
     queryKey: ["ongoing-exams"],
@@ -76,13 +78,56 @@ const OngoingExamsPage = () => {
               </div>
 
               <button
-                onClick={() => router.push(`/student/attempt/${exam._id}`)}
+                onClick={() =>
+                  setModalData({
+                    examId: exam._id,
+                  })
+                }
                 className="mt-6 bg-sky-400 text-white text-sm font-medium py-2 px-4 rounded-lg hover:bg-sky-600 transition"
               >
                 Start Test
               </button>
             </div>
           ))}
+        </div>
+      )}
+      {modalData && (
+        <div onClick={() => setModalData(null)} className="">
+          <div className="fixed inset-0 bg-black bg-opacity-50 z-40"></div>
+          <div className="fixed inset-0 flex items-center justify-center z-50">
+            <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
+              <h3 className="text-xl font-semibold mb-4">Start Test</h3>
+              <p className="text-gray-700 mb-4">
+                Are you sure you want to start the test?
+              </p>
+              <div className="flex justify-end">
+                <Button
+                  onClick={async () => {
+                    try {
+                      const elem = document.documentElement;
+
+                      if (elem.requestFullscreen)
+                        await elem.requestFullscreen();
+                      else if ((elem as any).webkitRequestFullscreen)
+                        (elem as any).webkitRequestFullscreen();
+                      else if ((elem as any).msRequestFullscreen)
+                        (elem as any).msRequestFullscreen();
+
+                      setModalData(false);
+                      router.push(`/student/attempt/${modalData?.examId}`);
+                    } catch (err) {
+                      console.error("Fullscreen request failed:", err);
+                      alert(
+                        "Failed to enter fullscreen mode. Please try again."
+                      );
+                    }
+                  }}
+                >
+                  Start
+                </Button>
+              </div>
+            </div>
+          </div>
         </div>
       )}
     </div>

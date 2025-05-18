@@ -3,6 +3,7 @@ import { isStudent } from "@/middlewares/authMiddleware";
 import examModel from "@/models/exam.model";
 import examAttemptModel from "@/models/examAttempt.model";
 import examGroupModel from "@/models/examGroup.model";
+import studentModel from "@/models/student.model";
 import mongoose from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -108,6 +109,14 @@ export const GET = async (req: requestType, { params }: { params: Promise<{ id: 
             }, { status: 400 })
         }
 
+        const user = await studentModel.findById(userId);
+        if (!user) {
+            return NextResponse.json({
+                success: false,
+                message: "User not found"
+            }, { status: 404 })
+        }
+
         if (!mongoose.Types.ObjectId.isValid(examId)) {
             return NextResponse.json({
                 success: false,
@@ -116,7 +125,8 @@ export const GET = async (req: requestType, { params }: { params: Promise<{ id: 
         }
 
         // fetch exam details
-        const exam = await examModel.findById(examId).populate("questions").exec();
+        const examDoc = await examModel.findById(examId).populate("questions").exec();
+        const exam = examDoc.toObject(); // <-- convert full exam
         if (!exam) {
             return NextResponse.json({
                 success: false,
@@ -134,8 +144,10 @@ export const GET = async (req: requestType, { params }: { params: Promise<{ id: 
             }, { status: 404 })
         }
 
+        const studentExists = examGroup.students.find((e: any) => e.email === user?.email);
+
         // validate if student is allowed to attend this exam
-        if (!examGroup.students.includes(userId)) {
+        if (!studentExists) {
             return NextResponse.json({
                 success: false,
                 message: "You are not authorized to attempt this exam"
@@ -148,16 +160,18 @@ export const GET = async (req: requestType, { params }: { params: Promise<{ id: 
         // find any existing exam attempt is active
         const existingAttempt = examAttempts.find(attempt => attempt.status === "in-progress")
         if (existingAttempt) {
+
+            console.log(" exam : ", exam);
+
             // remove sensitive info from exam
-            exam.examGroupId = undefined
-            exam.attemptCount = undefined
-            exam.passingMarks = undefined
-            exam.questions.forEach((question: any) => {
-                question.correctAnswer = undefined
-                question.hint = undefined
-                question.explaination = undefined
-                question.examId = undefined
-            })
+            exam.questions = exam.questions.map((question: any) => {
+                question.hintExists = !!question.hint;
+                question.correctAnswer = undefined;
+                question.hint = undefined;
+                question.explaination = undefined;
+                question.examId = undefined;
+                return question;
+            });
 
             return NextResponse.json({
                 success: true,
@@ -168,6 +182,7 @@ export const GET = async (req: requestType, { params }: { params: Promise<{ id: 
                         _id: existingAttempt._id,
                         startTime: existingAttempt.startTime,
                         status: existingAttempt.status,
+                        hintsUsed: existingAttempt.hintsUsed
                     }
                 }
             }, { status: 200 })
@@ -177,14 +192,7 @@ export const GET = async (req: requestType, { params }: { params: Promise<{ id: 
             return NextResponse.json({
                 success: false,
                 message: "You have completed all the attempts for the following exam"
-            }, { status: 400 })
-        }
-
-        if (exam.status !== "ongoing") {
-            return NextResponse.json({
-                success: false,
-                message: "You are not allowed to attempt this exam at this time"
-            }, { status: 400 })
+            }, { status: 402 })
         }
 
         // create new examattempt instance in db
@@ -199,16 +207,21 @@ export const GET = async (req: requestType, { params }: { params: Promise<{ id: 
 
         await newExamAttempt.save()
 
+        console.log("exam : ", exam)
+
         // remove sensitive info from exam
         exam.examGroupId = undefined
         exam.attemptCount = undefined
         exam.passingMarks = undefined
-        exam.questions.forEach((question: any) => {
-            question.correctAnswer = undefined
-            question.hint = undefined
-            question.explaination = undefined
-            question.examId = undefined
-        })
+        exam.questions = exam.questions.map((question: any) => {
+            question.hintExists = !!question.hint;
+            question.correctAnswer = undefined;
+            question.hint = undefined;
+            question.explaination = undefined;
+            question.examId = undefined;
+            return question;
+        });
+
 
         // return exam questions to be desplyed in the frontend
         return NextResponse.json({
@@ -220,6 +233,7 @@ export const GET = async (req: requestType, { params }: { params: Promise<{ id: 
                     _id: newExamAttempt._id,
                     startTime: newExamAttempt.startTime,
                     status: newExamAttempt.status,
+                    hintsUsed: newExamAttempt.hintsUsed
                 }
             }
         }, { status: 200 })
