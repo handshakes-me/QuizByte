@@ -26,10 +26,12 @@ const Page = () => {
   }
 
   return (
-    <div className="">
+    <div className="min-h-screen">
       <h2 className="text-2xl font-medium mb-6">Upcoming Tests</h2>
       {data?.data?.length === 0 ? (
-        <p className="text-gray-500">No upcoming exams</p>
+        <div className="text-gray-500 min-h-[400px] texe-center flex items-center justify-center">
+          <p>No upcoming Tests found</p>
+        </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           {data?.data?.map((exam: any) => (

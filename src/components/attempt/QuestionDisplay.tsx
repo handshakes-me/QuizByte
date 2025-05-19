@@ -53,7 +53,7 @@ const QuestionDisplay = () => {
         questionId: currentQuestion._id,
       }),
     onSuccess: (data) => {
-      console.log("data : ", data);
+      // console.log("data : ", data);
       if (data.success) {
         dispatch(
           setQuestionHint({
@@ -103,11 +103,11 @@ const QuestionDisplay = () => {
   };
 
   return (
-    <div className="p-4 border border-black w-full flex-1">
-      <div className="mb-4">
-        <h2 className="text-xl font-medium flex items-center gap-x-4">
-          <FaRegQuestionCircle /> {currentQuestion?.questionText}
-        </h2>
+    <div className="px-12 py-8 border border-black w-full flex-1">
+      <div className="mb-8">
+        <div className="text-xl font-medium flex items-start gap-x-4">
+          <h3>{currentQuestion?.questionText} </h3>
+        </div>
         {currentQuestion?.hint && (
           <div className=" my-4">
             <h4 className="font-medium mb-1">Hint:</h4>
@@ -124,7 +124,7 @@ const QuestionDisplay = () => {
             key={index}
             onClick={() => handleOptionSelect(option)}
             className={`border w-full border-main-400 px-4 py-2 rounded-md text-start transition-all duration-200 ${
-              option === selectedAnswer ? "bg-green-500/70" : ""
+              option === selectedAnswer ? "bg-green-400/60" : ""
             }`}
           >
             {option}

@@ -35,7 +35,6 @@ const registerSchema = z.object({
 type RegisterFormData = z.infer<typeof registerSchema>;
 
 const RegisterForTestSeriesForm = ({ data }: { data: ExamGroup }) => {
-  console.log("data : ", data);
 
   const [formOpen, setFormOpen] = useState(false);
   const { toast } = useToast();
@@ -82,8 +81,7 @@ const RegisterForTestSeriesForm = ({ data }: { data: ExamGroup }) => {
   });
 
   const onSubmit = (formData: RegisterFormData) => {
-    console.log("formData : , ", formData);
-
+    // console.log("formData : , ", formData);
     registerMutation.mutate(formData);
   };
 

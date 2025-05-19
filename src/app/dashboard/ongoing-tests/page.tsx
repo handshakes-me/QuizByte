@@ -30,12 +30,10 @@ const OngoingExamsPage = () => {
 
   return (
     <div className="">
-      <h2 className="text-2xl font-semibold mb-6 text-sky-400">
-        Ongoing Tests
-      </h2>
+      <h2 className="text-2xl font-medium mb-6">Ongoing Tests</h2>
 
       {data?.data?.length === 0 ? (
-        <div className=" h-screen flex items-center justify-center">
+        <div className=" h-[400px] flex items-center justify-center">
           <p className="text-gray-500">No ongoing exams available</p>
         </div>
       ) : (
@@ -77,16 +75,16 @@ const OngoingExamsPage = () => {
                 </div>
               </div>
 
-              <button
+              <Button
                 onClick={() =>
                   setModalData({
                     examId: exam._id,
                   })
                 }
-                className="mt-6 bg-sky-400 text-white text-sm font-medium py-2 px-4 rounded-lg hover:bg-sky-600 transition"
+                className="mt-4"
               >
                 Start Test
-              </button>
+              </Button>
             </div>
           ))}
         </div>

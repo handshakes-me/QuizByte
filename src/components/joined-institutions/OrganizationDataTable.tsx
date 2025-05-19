@@ -1,8 +1,8 @@
 "use client";
-
 import { useRouter } from "next/navigation";
 import React from "react";
 import { IoMdArrowForward } from "react-icons/io";
+import { Button } from "../ui/button";
 
 type ExamGroup = {
   _id: string;
@@ -44,12 +44,11 @@ const OrganizationDataTable = ({ data }: { data: Organization[] }) => {
             </div>
           </div>
           <div className="mt-4">
-            <button
+            <Button
               onClick={() => router.push(`/dashboard/joined-institutions/${org._id}`)}
-              className="flex items-center gap-1 text-sm bg-sky-400 hover:bg-main-400 text-white px-4 py-2 rounded-md transition-all"
             >
-              Explore <IoMdArrowForward />
-            </button>
+              Explore Active test series <IoMdArrowForward />
+            </Button>
           </div>
         </div>
       ))}

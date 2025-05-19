@@ -110,17 +110,20 @@ const QuestionList = () => {
   };
 
   return (
-    <div className="w-[400px] bg-main-100 h-screen p-4 flex flex-col justify-between">
+    <div className="w-[400px] bg-main-100 h-screen px-8 py-8 flex flex-col justify-between">
       <div>
         <h2 className="text-2xl font-semibold mb-1">{title}</h2>
-        <div className="text-base mt-4 text-gray-700 mb-4">
-          Time left:{" "}
-          <span className="font-medium text-lg">{formatTime(timeLeft)}</span>{" "}
-          <br />
-          Hints:{" "}
-          <span className="font-medium">
-            {hintsUsed}/{hints}
-          </span>
+        <div className="text- mt-4 text-gray-700 mb-4">
+          <p className="mb-2">
+            Time left{" "}
+            <span className="font-medium text-lg">{formatTime(timeLeft)}</span>{" "}
+          </p>
+          <p>
+            Hints left{" "}
+            <span className="font-medium">
+              {hintsUsed}/{hints}
+            </span>
+          </p>
         </div>
 
         <h3 className="text-xl font-medium mb-4">Questions</h3>
