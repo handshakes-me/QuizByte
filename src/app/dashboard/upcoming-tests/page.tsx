@@ -3,6 +3,7 @@
 import Loader from "@/components/common/Loader";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
+import { FaClipboardList, FaCalendarAlt, FaClock } from "react-icons/fa";
 
 const Page = () => {
   const { data, isPending } = useQuery({
@@ -33,22 +34,56 @@ const Page = () => {
           <p>No upcoming Tests found</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {data?.data?.map((exam: any) => (
             <div
               key={exam._id}
-              className="border rounded-md shadow-sm bg-white p-6 hover:shadow-md transition-shadow"
+              className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 border border-main-400 overflow-hidden"
             >
-              <h3 className="text-xl font-medium mb-4 text-sky-400">
-                {exam.title}
-              </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-6 text-gray-700 text-sm sm:text-base">
-                <p><span className="font-medium">Subject:</span> {exam.subjectId.name}</p>
-                <p><span className="font-medium">Code:</span> {exam.subjectId.code}</p>
-                <p><span className="font-medium">Start Time:</span> {new Date(exam.startTime).toLocaleString()}</p>
-                <p><span className="font-medium">Duration:</span> {exam.duration} minutes</p>
-                <p><span className="font-medium">Total Marks:</span> {exam.totalMarks}</p>
-                <p><span className="font-medium">Questions:</span> {exam.numberOfQuestions}</p>
+              {/* Header */}
+              <div className="bg-sky-100 px-6 py-3 border-b border-sky-300">
+                <h3 className="text-sky-700 text-xl font-medium truncate capitalize">
+                  {exam.title}
+                </h3>
+              </div>
+
+              {/* Content */}
+              <div className="p-6 space-y-4">
+                <div className="flex items-center space-x-3 text-gray-700 text-sm sm:text-base">
+                  <FaClipboardList className="text-sky-500" />
+                  <p className="font-medium">
+                    {exam.subjectId.name} ({exam.subjectId.code})
+                  </p>
+                </div>
+
+                <div className="flex items-center space-x-4 text-gray-700 text-sm sm:text-base">
+                  <FaCalendarAlt className="text-sky-500" />
+                  <p>
+                    Start Time:{" "}
+                    <time dateTime={exam.startTime}>
+                      {new Date(exam.startTime).toLocaleString()}
+                    </time>
+                  </p>
+                </div>
+
+                <div className="flex items-center space-x-4 text-gray-700 text-sm sm:text-base">
+                  <FaClock className="text-sky-500" />
+                  <p>
+                    Duration:{" "}
+                    <span className="font-semibold">{exam.duration} mins</span>
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-2 gap-x-6 gap-y-2 text-gray-700 text-sm sm:text-base">
+                  <p>
+                    <span className="font-medium">Total Marks:</span>{" "}
+                    {exam.totalMarks}
+                  </p>
+                  <p>
+                    <span className="font-medium">Questions:</span>{" "}
+                    {exam.numberOfQuestions}
+                  </p>
+                </div>
               </div>
             </div>
           ))}

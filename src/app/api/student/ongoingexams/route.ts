@@ -3,6 +3,7 @@ import { isStudent } from "@/middlewares/authMiddleware";
 import examModel from "@/models/exam.model";
 import studentModel from "@/models/student.model";
 import subjectModel from "@/models/subject.model";
+import ExamAttempt from "@/models/examAttempt.model"; // Assuming this is the correct import
 import { NextRequest, NextResponse } from "next/server";
 
 interface requestType extends NextRequest {
@@ -34,7 +35,6 @@ export const GET = async (req: requestType) => {
 
     const subjectIds = subjects.map((subject) => subject._id);
 
-    // Current time
     const now = new Date();
 
     // Fetch exams that are ongoing
@@ -42,16 +42,41 @@ export const GET = async (req: requestType) => {
       subjectId: { $in: subjectIds },
       startTime: { $lte: now },
       endTime: { $gte: now },
-    //   status: "ongoing",
     })
-      .select("-questions -hints -isResultPublished -passingMarks -attemptCount")
+      .select("title subjectId startTime endTime attemptCount totalMarks duration") // Select necessary fields
       .populate("subjectId", "name code")
       .sort({ startTime: 1 });
+
+    // Fetch all attempts by current student for these exams
+    const examIds = exams.map((exam) => exam._id);
+
+    const attempts = await ExamAttempt.find({
+      examId: { $in: examIds },
+      studentId: req.user.id,
+    });
+
+    // Map examId to attempt count
+    const attemptsMap: Record<string, number> = {};
+    attempts.forEach((attempt) => {
+      const examIdStr = attempt.examId.toString();
+      attemptsMap[examIdStr] = (attemptsMap[examIdStr] || 0) + 1;
+    });
+
+    // Add remainingAttempts to each exam
+    const examsWithRemaining = exams.map((exam) => {
+      const attemptsMade = attemptsMap[exam._id.toString()] || 0;
+      const remainingAttempts = Math.max(0, exam.attemptCount - attemptsMade);
+      return {
+        ...exam.toObject(),
+        remainingAttempts,
+        attemptsMade,
+      };
+    });
 
     return NextResponse.json({
       success: true,
       message: "Ongoing exams fetched successfully",
-      data: exams,
+      data: examsWithRemaining,
     });
 
   } catch (error) {

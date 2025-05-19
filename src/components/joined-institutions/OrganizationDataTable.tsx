@@ -32,22 +32,39 @@ const OrganizationDataTable = ({ data }: { data: Organization[] }) => {
           key={org._id}
           className="bg-white border border-main-200 rounded-xl shadow-sm hover:shadow-md transition-shadow p-6 flex flex-col justify-between"
         >
-          <div>
-            <h3 className="text-xl font-semibold text-main-900 mb-2">
+          {/* Header */}
+          <div className="mb-4 border-b border-main-300 pb-2">
+            <h3 className="text-main-900 text-xl font-semibold truncate">
               {org.name}
             </h3>
-            <div className="text-sm text-main-700 space-y-1">
-              <p><span className="font-medium">Email:</span> {org.email}</p>
-              <p><span className="font-medium">Contact:</span> {org.contactNumber}</p>
-              <p><span className="font-medium">Students:</span> {org.students}</p>
-              <p><span className="font-medium">Test Series:</span> {org.examGroups.length}</p>
-            </div>
           </div>
-          <div className="mt-4">
+
+          {/* Content */}
+          <div className="text-main-700 text-sm space-y-2 flex-grow">
+            <p>
+              <span className="font-medium">Email:</span> {org.email}
+            </p>
+            <p>
+              <span className="font-medium">Contact:</span> {org.contactNumber}
+            </p>
+            <p>
+              <span className="font-medium">Students:</span> {org.students}
+            </p>
+            <p>
+              <span className="font-medium">Test Series:</span>{" "}
+              {org.examGroups.length}
+            </p>
+          </div>
+
+          {/* Button */}
+          <div className="mt-6">
             <Button
-              onClick={() => router.push(`/dashboard/joined-institutions/${org._id}`)}
+              onClick={() =>
+                router.push(`/dashboard/joined-institutions/${org._id}`)
+              }
+              className="w-full flex items-center justify-center gap-2 bg-main-500 hover:bg-main-600 text-white font-semibold py-3 rounded-lg transition"
             >
-              Explore Active test series <IoMdArrowForward />
+              Explore Active Test Series <IoMdArrowForward />
             </Button>
           </div>
         </div>

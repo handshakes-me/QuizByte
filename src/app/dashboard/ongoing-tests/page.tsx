@@ -5,6 +5,13 @@ import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import React from "react";
+import {
+  FaClock,
+  FaCalendarAlt,
+  FaClipboardList,
+  FaCheckCircle,
+  FaTimesCircle,
+} from "react-icons/fa";
 
 const OngoingExamsPage = () => {
   const router = useRouter();
@@ -41,50 +48,90 @@ const OngoingExamsPage = () => {
           {data?.data?.map((exam: any) => (
             <div
               key={exam._id}
-              className="border rounded-xl shadow hover:shadow-md transition bg-white p-6 flex flex-col justify-between"
+              className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 w-full mx-auto overflow-hidden border border-main-400"
             >
-              <div>
-                <h3 className="text-lg font-semibold text-sky-500 mb-2">
+              {/* Header Bar */}
+              <div className="bg-main-100 px-6 py-3 border-b border-main-400">
+                <h3 className="text-main-900 text-xl font-bold tracking-wide truncate">
                   {exam.title}
                 </h3>
-                <div className="text-sm text-gray-700 space-y-1">
-                  <p>
-                    <span className="font-medium">Subject:</span>{" "}
-                    {exam.subjectId.name}
-                  </p>
-                  <p>
-                    <span className="font-medium">Code:</span>{" "}
-                    {exam.subjectId.code}
-                  </p>
-                  <p>
-                    <span className="font-medium">Started At:</span>{" "}
-                    {new Date(exam.startTime).toLocaleString()}
-                  </p>
-                  <p>
-                    <span className="font-medium">Duration:</span>{" "}
-                    {exam.duration} minutes
-                  </p>
-                  <p>
-                    <span className="font-medium">Total Marks:</span>{" "}
-                    {exam.totalMarks}
-                  </p>
-                  <p>
-                    <span className="font-medium">Questions:</span>{" "}
-                    {exam.numberOfQuestions}
-                  </p>
-                </div>
               </div>
 
-              <Button
-                onClick={() =>
-                  setModalData({
-                    examId: exam._id,
-                  })
-                }
-                className="mt-4"
-              >
-                Start Test
-              </Button>
+              {/* Content */}
+              <div className="p-6 space-y-4">
+                <div className="flex items-center space-x-3 text-gray-600 text-sm">
+                  <FaClipboardList className="text-sky-500" />
+                  <p className="font-medium">
+                    {exam.subjectId.name} ({exam.subjectId.code})
+                  </p>
+                </div>
+
+                <div className="flex items-center space-x-4 text-gray-600 text-sm">
+                  <FaCalendarAlt className="text-sky-500" />
+                  <p>
+                    Starts:{" "}
+                    <time dateTime={exam.startTime}>
+                      {new Date(exam.startTime).toLocaleString()}
+                    </time>
+                  </p>
+                </div>
+
+                <div className="flex items-center space-x-4 text-gray-600 text-sm">
+                  <FaClock className="text-sky-500" />
+                  <p>
+                    Duration:{" "}
+                    <span className="font-semibold">{exam.duration} mins</span>
+                  </p>
+                </div>
+
+                <div className="flex justify-between text-gray-700 font-medium">
+                  <div>
+                    <p>Total Marks</p>
+                    <p className="text-lg">{exam.totalMarks}</p>
+                  </div>
+                </div>
+
+                {/* Attempts Info */}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    {exam.remainingAttempts > 0 ? (
+                      <FaCheckCircle className="text-green-500 w-5 h-5" />
+                    ) : (
+                      <FaTimesCircle className="text-red-500 w-5 h-5" />
+                    )}
+                    <p className="text-sm font-semibold text-gray-800">
+                      Attempts Left:{" "}
+                      <span
+                        className={
+                          exam.remainingAttempts > 0
+                            ? "text-green-600"
+                            : "text-red-600"
+                        }
+                      >
+                        {exam.remainingAttempts}
+                      </span>
+                    </p>
+                  </div>
+                  <p className="text-sm text-gray-500">
+                    Used: {exam.attemptsMade ?? 0}
+                  </p>
+                </div>
+
+                {/* Button */}
+                <Button
+                  onClick={() =>
+                    setModalData({
+                      examId: exam._id,
+                    })
+                  }
+                  disabled={exam.remainingAttempts === 0}
+                  className={`w-full py-3 rounded-lg text-white font-semibold transition ${exam.remainingAttempts === 0 ? "cursor-not-allowed": ""}`}
+                >
+                  {exam.remainingAttempts === 0
+                    ? "No Attempts Left"
+                    : "Start Test"}
+                </Button>
+              </div>
             </div>
           ))}
         </div>

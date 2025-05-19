@@ -46,7 +46,7 @@ const Page = () => {
             {data?.data?.map((examGroup: any) => (
               <div
                 key={examGroup._id}
-                className="mb-4 border flex justify-between items-center border-gray-300 p-4 rounded-lg shadow-sm shadow-main-900"
+                className="mb-4 border flex justify-between items-center bg-white border-gray-300 p-4 rounded-lg shadow-sm shadow-main-900"
               >
                 <div>
                   <h1 className="text-xl font-medium">{examGroup.name}</h1>
