@@ -29,7 +29,9 @@ const Page = () => {
     );
   }
 
-  // console.log("data : ", data);
+  const completedExams = data?.data?.exams?.filter(
+    (exam: any) => new Date(exam.endTime) < new Date()
+  );
 
   return (
     <main>
@@ -47,32 +49,36 @@ const Page = () => {
         <h3 className="text-xl font-medium">{data?.data?.name}</h3>
 
         <div className="mt-4">
-            {
-                data?.data?.subjects?.length === 0 ? (
-                    <div className="w-full h-screen flex justify-center items-center">
-                        <h3 className="text-2xl font-medium">No results found</h3>
-                    </div>
-                ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {
-                            data?.data?.exams?.map((exam: any) => (
-                                <div className="p-4 bg-white shadow-sm shadow-main-400 rounded-md hover:shadow-md transition-all duration-200" key={exam._id}>
-                                    {/* <h3 className="text-xs mb-1 text-main-600 font-medium">{exam?.code}</h3> */}
-                                    <h3 className="text-lg font-medium">{exam.title}</h3>
-                                    <p className="text-sm text-gray-500">{exam.description}</p>
-                                    <div className="mt-4">
-                                        <Button className="h-8 " onClick={() => router.push(`/dashboard/results/${params.id}/${exam?._id}`)}>
-                                            View Results
-                                        </Button>
-                                    </div>
-                                </div>
-                            ))
-                        }
-                    </div>
-                )
-            }
+          {completedExams?.length === 0 ? (
+            <div className="w-full h-screen flex justify-center items-center">
+              <h3 className="text-2xl font-medium">No completed exams found</h3>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {completedExams?.map((exam: any) => (
+                <div
+                  className="p-4 bg-white shadow-sm shadow-main-400 rounded-md hover:shadow-md transition-all duration-200"
+                  key={exam._id}
+                >
+                  <h3 className="text-lg font-medium">{exam.title}</h3>
+                  <p className="text-sm text-gray-500">{exam.description}</p>
+                  <div className="mt-4">
+                    <Button
+                      className="h-8"
+                      onClick={() =>
+                        router.push(
+                          `/dashboard/results/${params.id}/${exam._id}`
+                        )
+                      }
+                    >
+                      View Results
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
-
       </div>
     </main>
   );

@@ -51,9 +51,9 @@ export function ResultChart({
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
-        <CardTitle>{exam.title} – Pass vs Fail</CardTitle>
+        <CardTitle>{exam?.title} – Pass vs Fail</CardTitle>
         <CardDescription>
-          Passing marks: {exam.passingMarks}
+          Passing marks: {exam?.passingMarks}
         </CardDescription>
       </CardHeader>
 
@@ -90,7 +90,7 @@ export function ResultChart({
           Exam overview <TrendingUp className="h-4 w-4" />
         </div>
         <div className="leading-none text-muted-foreground">
-          {pass} / {attempts.length} students passed
+          {pass} / {attempts?.length} students passed
         </div>
       </CardFooter>
     </Card>

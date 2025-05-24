@@ -90,7 +90,7 @@ const TimeTakenChart = ({
       <CardHeader>
         <CardTitle>Time Distribution (mins)</CardTitle>
         <CardDescription>
-          Distribution of student completion time for {exam.title}
+          Distribution of student completion time for {exam?.title}
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -150,7 +150,7 @@ const TimeTakenChart = ({
           Distribution of completion time <TrendingUp className="h-4 w-4" />
         </div>
         <div className="leading-none text-muted-foreground">
-          Total Duration: {exam.duration} mins
+          Total Duration: {exam?.duration} mins
         </div>
       </CardFooter>
     </Card>

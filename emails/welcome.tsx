@@ -25,15 +25,15 @@ export const Welcome = ({
       <Preview>Verify your email address for {username}</Preview>
       <Container style={container}>
         <Img
-          src={`https://img.freepik.com/free-vector/bird-colorful-gradient-design-vector_343694-2506.jpg`}
+          src="https://res.cloudinary.com/dc8ipw43g/image/upload/fl_preserve_transparency/v1748109832/logo_mkfcgw.jpg?_s=public-apps"
           width="200"
-          height="150"
+          // height="150"
           alt="Exam Online"
           style={logo}
         />
         <Text style={paragraph}>Welcome {username},</Text>
         <Text style={paragraph}>
-          Welcome to Exam Online, get started with your account by clicking the
+          Welcome to QuizByte, get started with your account by clicking the
           button below.
         </Text>
         <Section style={btnContainer}>
@@ -47,7 +47,7 @@ export const Welcome = ({
         <Text style={paragraph}>
           Best,
           <br />
-          The Exam Online Team
+          The QuizByte Team
         </Text>
       </Container>
     </Body>

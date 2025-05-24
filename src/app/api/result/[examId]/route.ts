@@ -44,13 +44,13 @@ export const GET = async (req: RequestType, { params }: { params: Promise<{ exam
             );
         }
 
-        // const now = new Date();
-        // if (exam.endTime > now) {
-        //     return NextResponse.json(
-        //         { success: false, message: "Exam is not finished yet" },
-        //         { status: 400 }
-        //     );
-        // }
+        const now = new Date();
+        if (exam.endTime > now) {
+            return NextResponse.json(
+                { success: false, message: "Exam is not finished yet" },
+                { status: 400 }
+            );
+        }
 
         const examAttempts = await examAttemptModel.find({ examId: exam._id }).populate("studentId", "name email").sort({ createdAt: -1 });
         if (!examAttempts || examAttempts.length === 0) {

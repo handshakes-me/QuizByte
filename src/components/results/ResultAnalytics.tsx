@@ -58,25 +58,25 @@ const ResultAnalytics = ({
   };
 }) => {
   // Convert average time from seconds to minutes
-  const averageTimeMinutes = (data.averageTimeTaken / 60).toFixed(2);
+  const averageTimeMinutes = (data?.averageTimeTaken / 60).toFixed(2);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Card
           title="Total Attempts"
-          value={data.totalAttempts}
+          value={data?.totalAttempts}
           icon={<FaUserGraduate />}
         />
         <Card
           title="Completed Attempts"
-          value={data.completedAttempts}
+          value={data?.completedAttempts}
           icon={<FaCheckCircle />}
         />
         {/* <Card title="Auto Submitted" value={data.autoSubmitted} icon={<FaRobot />} /> */}
         <Card
           title="Average Marks"
-          value={data.averageMarks}
+          value={data?.averageMarks}
           icon={<FaStar />}
         />
         <Card
@@ -86,12 +86,12 @@ const ResultAnalytics = ({
         />
         <Card
           title="Average Hints Used"
-          value={data.averageHintsUsed}
+          value={data?.averageHintsUsed}
           icon={<FaLightbulb />}
         />
         <Card
           title="Passing Percentage"
-          value={`${data.passingPercentage}%`}
+          value={`${data?.passingPercentage}%`}
           icon={<FaPercentage />}
         />
       </div>

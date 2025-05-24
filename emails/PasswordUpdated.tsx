@@ -26,16 +26,16 @@ import {
           <Preview>Password updated</Preview>
           <Container style={container}>
             <Img
-              src={`https://img.freepik.com/free-vector/bird-colorful-gradient-design-vector_343694-2506.jpg`}
+              src="https://res.cloudinary.com/dc8ipw43g/image/upload/fl_preserve_transparency/v1748109832/logo_mkfcgw.jpg?_s=public-apps"
               width="200"
-              height="150"
+              // height="150"
               alt="Exam Online"
               style={logo}
             />
             <Section>
               <Text style={text}>Hi {username},</Text>
               <Text style={text}>
-                Someone recently updated your account's password. If this was you,
+                Someone recently updated your QuizByte account's password. If this was you,
                 you can ignore this email. If not, please reset your password
                 immediately.
               </Text>
@@ -59,11 +59,6 @@ import {
       </Html>
     );
   };
-  
-  PasswordUpdatedEmail.PreviewProps = {
-    username: "Alan",
-    resetToken: "https://dropbox.com",
-  } as DropboxResetPasswordEmailProps;
   
   export default PasswordUpdatedEmail;
   
@@ -89,19 +84,6 @@ import {
     fontWeight: "300",
     color: "#404040",
     lineHeight: "26px",
-  };
-  
-  const button = {
-    backgroundColor: "#007ee6",
-    borderRadius: "4px",
-    color: "#fff",
-    fontFamily: "'Open Sans', 'Helvetica Neue', Arial",
-    fontSize: "15px",
-    textDecoration: "none",
-    textAlign: "center" as const,
-    display: "block",
-    width: "210px",
-    padding: "14px 7px",
   };
   
   const anchor = {

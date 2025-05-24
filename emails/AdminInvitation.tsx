@@ -28,9 +28,9 @@ import {
         <Body style={main}>
           <Container style={container}>
             <Img
-              src="https://img.freepik.com/free-vector/bird-colorful-gradient-design-vector_343694-2506.jpg"
+              src="https://res.cloudinary.com/dc8ipw43g/image/upload/fl_preserve_transparency/v1748109832/logo_mkfcgw.jpg?_s=public-apps"
               width="200"
-              height="150"
+              // height="150"
               alt="QuizByte Logo"
               style={logo}
             />
