@@ -1,8 +1,10 @@
 import mongoose from "mongoose";
+import '@/models/student.model'
 
 const ExamAttemptSchema = new mongoose.Schema({
     examId: { type: mongoose.Schema.Types.ObjectId, ref: "Exam", required: true },
     studentId: { type: mongoose.Schema.Types.ObjectId, ref: "Student", required: true },
+    prn: { type: String, required: true },
     startTime: { type: Date, default: Date.now }, // When student started the exam
     status: { type: String, enum: ["pending", "in-progress", "completed", "auto-submitted"], default: "pending" },
     submittedAt: { type: Date },

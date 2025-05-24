@@ -146,6 +146,8 @@ export const GET = async (req: requestType, { params }: { params: Promise<{ id: 
 
         const studentExists = examGroup.students.find((e: any) => e.email === user?.email);
 
+        console.log("studentExists : ", studentExists);
+
         // validate if student is allowed to attend this exam
         if (!studentExists) {
             return NextResponse.json({
@@ -155,13 +157,11 @@ export const GET = async (req: requestType, { params }: { params: Promise<{ id: 
         }
 
         // validate if student has completed all the allowed attempts for this exam
-        const examAttempts = await examAttemptModel.find({ examId, studentId: userId }) || []
+        const examAttempts = await examAttemptModel.find({ examId, prn: studentExists?.prn }) || []
 
         // find any existing exam attempt is active
         const existingAttempt = examAttempts.find(attempt => attempt.status === "in-progress")
         if (existingAttempt) {
-
-            console.log(" exam : ", exam);
 
             // remove sensitive info from exam
             exam.questions = exam.questions.map((question: any) => {
@@ -199,6 +199,7 @@ export const GET = async (req: requestType, { params }: { params: Promise<{ id: 
         const newExamAttempt = new examAttemptModel({
             examId,
             studentId: userId,
+            prn: studentExists?.prn,
             attemptCount: examAttempts.length + 1,
             startTime: new Date(),
             status: "in-progress",
@@ -251,20 +252,12 @@ export const GET = async (req: requestType, { params }: { params: Promise<{ id: 
 // submit exam attempt
 export const POST = async (req: requestType, { params }: { params: Promise<{ id: string }> }) => {
     try {
+        await dbConnect();
 
-        // db connect
-        await dbConnect()
-
-        // auth
         const authResponse = isStudent(req);
-        if (authResponse instanceof NextResponse) {
-            return authResponse
-        }
+        if (authResponse instanceof NextResponse) return authResponse;
 
-        // get user id
         const { id: userId } = req.user;
-
-        // get exam data
         const { id: examId } = await params;
 
         const {
@@ -272,9 +265,9 @@ export const POST = async (req: requestType, { params }: { params: Promise<{ id:
             answers,
             autoSubmitted,
             hintsUsed
-        } = await req.json()
+        } = await req.json();
 
-        const attempt = await examAttemptModel.findById(attemptId)
+        const attempt = await examAttemptModel.findById(attemptId);
         if (!attempt) {
             return NextResponse.json({ success: false, message: "Exam attempt not found" }, { status: 404 });
         }
@@ -291,28 +284,57 @@ export const POST = async (req: requestType, { params }: { params: Promise<{ id:
             return NextResponse.json({ success: false, message: "Invalid exam id" }, { status: 400 });
         }
 
+        const user = await studentModel.findById(userId);
+        if (!user) {
+            return NextResponse.json({ success: false, message: "User not found" }, { status: 404 });
+        }
+
         const exam = await examModel.findById(examId).populate("questions").exec();
         if (!exam) {
             return NextResponse.json({ success: false, message: "Exam not found" }, { status: 404 });
         }
 
-        const validatedAnswers = validateAnswers(answers, exam.questions)
-        const obtainedMarks = calculateMarks(validatedAnswers, exam.marksPerQuestion)
+        // 🔍 Step 1: Get ExamGroup using exam.examGroupId
+        const examGroup = await examGroupModel.findById(exam.examGroupId);
+        if (!examGroup) {
+            return NextResponse.json({ success: false, message: "Exam group not found" }, { status: 404 });
+        }
 
-        attempt.status = "completed"
-        attempt.submittedAt = new Date()
-        attempt.timeTaken = (attempt.submittedAt.getTime() - attempt.startTime.getTime()) / 1000
-        attempt.attemptedQuestions = validatedAnswers
-        attempt.hintsUsed = hintsUsed
-        attempt.obtainedMarks = obtainedMarks
-        attempt.autoSubmitted = autoSubmitted
+        // 🔍 Step 2: Get student PRN from the examGroup
+        const studentInGroup = examGroup.students.find((student: any) => student.email === user?.email);
+        if (!studentInGroup) {
+            return NextResponse.json({ success: false, message: "Student not part of this exam group" }, { status: 404 });
+        }
 
-        attempt.save();
+        console.log("studentInGroup : ", studentInGroup);
 
-        return NextResponse.json({ success: true, message: "Exam attempt submitted successfully", data: { exam, attempt } }, { status: 200 });
+        const studentPRN = studentInGroup.prn;
+
+        // ✅ Step 3: Calculate and save attempt
+        const validatedAnswers = validateAnswers(answers, exam.questions);
+        const obtainedMarks = calculateMarks(validatedAnswers, exam.marksPerQuestion);
+
+        attempt.status = "completed";
+        attempt.submittedAt = new Date();
+        attempt.timeTaken = (attempt.submittedAt.getTime() - attempt.startTime.getTime()) / 1000;
+        attempt.attemptedQuestions = validatedAnswers;
+        attempt.hintsUsed = hintsUsed;
+        attempt.obtainedMarks = obtainedMarks;
+        attempt.autoSubmitted = autoSubmitted;
+
+        // ✅ Step 4: Store PRN
+        attempt.set("prn", studentPRN); // Assuming your model has a `prn` field
+
+        await attempt.save();
+
+        return NextResponse.json({
+            success: true,
+            message: "Exam attempt submitted successfully",
+            data: { exam, attempt }
+        }, { status: 200 });
 
     } catch (error) {
         console.log("error submitting exam : ", error);
         return NextResponse.json({ success: false, message: "Error while submitting exam", error }, { status: 500 });
     }
-}
+};

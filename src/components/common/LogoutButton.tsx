@@ -56,7 +56,7 @@ const LogoutButton = ({
       {modalOpen && (
         <div
           onClick={() => setModalOpen(false)}
-          className="inset-0 fixed bg-black/40 flex items-center justify-center"
+          className="inset-0 fixed bg-black/40 z-[999] flex items-center justify-center"
         >
           <div
             onClick={(e) => e.stopPropagation()}

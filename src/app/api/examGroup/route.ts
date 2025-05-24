@@ -134,6 +134,7 @@ export async function GET(request: requestType) {
                 }
             },
 
+
             // Select only required fields
             {
                 $project: {
