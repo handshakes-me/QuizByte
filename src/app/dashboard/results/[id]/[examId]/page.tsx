@@ -8,6 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useParams } from "next/navigation";
 import React, { useState } from "react";
+import { IoMdArrowBack } from "react-icons/io";
 
 const Page = () => {
   const [currentTab, setCurrentTab] = useState("results"); // Default tab is "results"
@@ -30,7 +31,7 @@ const Page = () => {
     );
   }
 
-  console.log("data : ", data?.data);
+  // console.log("data : ", data?.data);
 
   const analytics = data?.data?.analytics;
   const examAttempts = data?.data?.examAttempts || [];
@@ -79,7 +80,10 @@ const Page = () => {
   return (
     <div className="">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-medium">{examInfo?.title}'s results</h1>
+        <button className="flex items-center mb-4 text-xs font-semibold gap-x-1 hover:gap-x-2 transition-all duration-100 hover:text-sky-400" onClick={() => window.history.back()}>
+          <span className="text-xl "><IoMdArrowBack /></span>
+          <h1 className="text-xl font-medium capitalize">{examInfo?.title} results</h1>
+        </button>
         <div className="space-x-2">
           <Button
             variant="outline"

@@ -27,6 +27,8 @@ import dayjs, { Dayjs } from "dayjs";
 import { RiNumbersLine } from "react-icons/ri";
 import { HiOutlineLightBulb } from "react-icons/hi";
 import { FiUserCheck } from "react-icons/fi";
+import { duration } from "@mui/material";
+import { FiClock } from "react-icons/fi";
 
 const formSchema = z.object({
   title: z.string().min(1, "Test series name is required"), // ✅
@@ -35,8 +37,8 @@ const formSchema = z.object({
   examGroupId: z.string().min(1, "Exam group is required"), // ✅
   startTime: z.string().min(1, "Start time is required"), // ✅
   endTime: z.string().min(1, "End time is required"), // ✅
-  duration: z.number().optional(), // calculate // ✅
   totalMarks: z.coerce.number().min(1, "Total marks is required"), // ✅
+  duration: z.coerce.number().min(30, "Duration must be at least 30 minutes"), // ✅
   numberOfQuestions: z.coerce
     .number()
     .min(1, "Number of questions is required"), // ✅
@@ -123,10 +125,7 @@ const CreateTest = ({
       return;
     }
 
-    // Calculate duration in minutes
-    const durationMinutes = end.diff(start, "minute");
-
-    if (durationMinutes < 0) {
+    if (data.duration < 0) {
       toast({
         title: "Invalid Duration",
         description: "Please select valid start and end times.",
@@ -135,7 +134,7 @@ const CreateTest = ({
       return;
     }
 
-    if (durationMinutes < 30) {
+    if (data.duration < 30) {
       toast({
         title: "Invalid Duration",
         description: "Duration must be greater than 30 minutes",
@@ -144,7 +143,7 @@ const CreateTest = ({
       return;
     }
 
-    if (durationMinutes > 180) {
+    if (data.duration > 180) {
       toast({
         title: "Invalid Duration",
         description: "Duration must be less than 180 minutes",
@@ -153,10 +152,8 @@ const CreateTest = ({
       return;
     }
 
-    // Set it to the form data
-    data.duration = durationMinutes;
+    // console.log("submitted data  ", data);
 
-    // console.log("Final Form Data: ", data);
     createExam(data);
   };
 
@@ -383,6 +380,31 @@ const CreateTest = ({
                     {errors.attemptCount && (
                       <span className="text-red-500 text-xs">
                         {errors.attemptCount.message}
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                <div className="flex gap-x-4 w-full">
+                  {/* marks per question */}
+                  <div className="mt-2 w-full">
+                    <Label
+                      htmlFor="duration"
+                      className="text-main-600 capitalize"
+                    >
+                      Duration
+                    </Label>
+                    <InputField
+                      type="number"
+                      className="mt-1"
+                      register={register}
+                      placeholder="duration in minutes"
+                      name="duration"
+                      icon={<FiClock className="text-gray-400" />}
+                    />
+                    {errors.duration && (
+                      <span className="text-red-500 text-xs">
+                        {errors.duration.message}
                       </span>
                     )}
                   </div>
