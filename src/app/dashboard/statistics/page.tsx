@@ -1,7 +1,5 @@
-"use client";
-
-import { OrgInforGraph } from "@/components/statistics/orgInfoGraph";
-import { TestSeriesChart } from "@/components/statistics/TestSeriesChart";
+import ClientProvider from "@/components/common/ClientProvider";
+import StatisticsData from "@/components/superAdminStats/StatisticsData";
 import React from "react";
 
 const page = () => {
@@ -9,11 +7,9 @@ const page = () => {
     <main className="">
       <div className="w-full bg-main-50 text-main-900 rounded-md">
         <h2 className="text-2xl font-semibold mb-4">Statistics</h2>
-
-        <div className="grid grid-cols-2 gap-x-5">
-          <OrgInforGraph />
-          <TestSeriesChart />
-        </div>
+        <ClientProvider>
+          <StatisticsData />
+        </ClientProvider>
       </div>
     </main>
   );
