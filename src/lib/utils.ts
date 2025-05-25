@@ -8,6 +8,7 @@ import { PiExamDuotone } from "react-icons/pi";
 import { SiStudyverse } from "react-icons/si";
 import { GrSchedules } from "react-icons/gr";
 import { FaRegClock } from "react-icons/fa";
+import { TbBrandGoogleAnalytics } from "react-icons/tb";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -28,14 +29,14 @@ export const SUPERADMINPAGES = [
     icon: RiProfileLine,
   },
   {
-    name: "Organizations",
+    name: "Institutions",
     href: "/dashboard/organizations",
     icon: GrOrganization,
   },
   {
-    name: 'statistics',
+    name: 'Analytics',
     href: '/dashboard/statistics',
-    icon: GrOrganization,
+    icon: TbBrandGoogleAnalytics,
   }
 ]
 
@@ -55,16 +56,6 @@ export const ADMINPAGES = [
     href: "/dashboard/test-series",
     icon: HiOutlineCollection,
   },
-  // {
-  //   name: 'Subjects',
-  //   href: '/dashboard/subjects',
-  //   icon: IoMdBook,
-  // },
-  // {
-  //   name: 'Tests',
-  //   href: '/dashboard/tests',
-  //   icon: SiStudyverse,
-  // },
   {
     name: 'Results',
     href: '/dashboard/results',

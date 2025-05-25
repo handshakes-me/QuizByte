@@ -96,7 +96,7 @@ const SubjectCard = ({ data: subject }: { data: Subject }) => {
   });
 
   const submitHandler = (data: FormDataType) => {
-    console.log(data);
+    // console.log(data);
     editSubject(data);
   };
 

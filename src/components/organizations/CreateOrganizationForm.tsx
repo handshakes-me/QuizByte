@@ -76,7 +76,7 @@ const CreateOrganizationForm = () => {
 
   return (
     <div>
-      <Button onClick={() => setFormOpen(true)}>Add new organization</Button>
+      <Button onClick={() => setFormOpen(true)}>Register new Institution</Button>
       {formOpen && (
         <section
           onClick={() => setFormOpen(false)}
@@ -88,7 +88,7 @@ const CreateOrganizationForm = () => {
           >
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-semibold text-main-900">
-                Add a new Organization
+                Register new Institution
               </h2>
               <button className="text-xl" onClick={() => setFormOpen(false)}>
                 <IoMdClose />
@@ -97,14 +97,14 @@ const CreateOrganizationForm = () => {
             <form onSubmit={handleSubmit(submitHandler)}>
               <div className="mt-3">
                 <Label htmlFor="name" className="text-main-600 capitalize">
-                  Organization name
+                  Institution name
                 </Label>
                 <InputField
                   name="name"
                   type="text"
                   icon={<FaRegUser className="text-sky-400" />}
                   className="mt-1"
-                  placeholder="Organization name"
+                  placeholder="Institution name"
                   register={register}
                 />
                 {errors.name && (

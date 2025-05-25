@@ -72,7 +72,7 @@ const UpdateUsernameForm = ({
   });
 
   const submitHandler = async (data: FormData) => {
-    console.log(data);
+    // console.log(data);
     await updateUsername(data);
   };
 

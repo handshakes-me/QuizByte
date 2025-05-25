@@ -29,7 +29,7 @@ const Page = () => {
       </div>
     );
   }
-  console.log("data : ", data);
+  // console.log("data : ", data);
 
   return (
     <div className="w-full h-screen">

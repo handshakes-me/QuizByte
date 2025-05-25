@@ -52,7 +52,7 @@ const JoinOrganizationForm = ({
     mutationKey: ["joinOrganization"],
     mutationFn: joinOrganization,
     onSuccess: (data) => {
-      console.log("data: ", data);
+      // console.log("data: ", data);
       toast({
         title: "Joined Institution Successfully",
         description: "You have joined the institution successfully",

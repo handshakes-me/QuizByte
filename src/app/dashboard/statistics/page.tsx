@@ -6,7 +6,7 @@ const page = () => {
   return (
     <main className="">
       <div className="w-full bg-main-50 text-main-900 rounded-md">
-        <h2 className="text-2xl font-semibold mb-4">Statistics</h2>
+        <h2 className="text-2xl font-semibold mb-4">Platform Analytics</h2>
         <ClientProvider>
           <StatisticsData />
         </ClientProvider>

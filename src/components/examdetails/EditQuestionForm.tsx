@@ -123,7 +123,7 @@ const EditQuestionForm = ({ question }: { question: Question }) => {
 
   const submitHandler = async (data: formDataType) => {
     // createTestSeries(data);
-    console.log("data : ", data);
+    // console.log("data : ", data);
 
     // this condition will never hit but I just want to make the code bulletproof
     if (data?.options.length !== 4) {

@@ -26,7 +26,7 @@ const OrganizationPage = async () => {
     <main>
       <section>
         <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-semibold">Organizations</h2>
+          <h2 className="text-2xl font-semibold">Institutions</h2>
           <ClientProvider>
             <CreateOrganizationForm />
           </ClientProvider>

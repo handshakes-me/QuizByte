@@ -19,7 +19,7 @@ const fetchHintfn = async (examId: string, data: any) => {
     "/api/exam/" + examId + "/attempt/hint",
     data
   );
-  console.log("gethint response : ", response.data);
+  // console.log("gethint response : ", response.data);
   return response.data;
 };
 
