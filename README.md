@@ -1,6 +1,6 @@
 # QuizByte - Modern Quiz Platform
 
-![QuizByte Banner](https://via.placeholder.com/1200x400/4F46E5/FFFFFF?text=QuizByte+Platform)
+
 
 A full-stack quiz and examination platform built with Next.js, TypeScript, and MongoDB. QuizByte provides a seamless experience for creating, managing, and taking quizzes with real-time analytics.
 
