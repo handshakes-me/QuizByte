@@ -119,7 +119,7 @@ const QuestionList = () => {
             <span className="font-medium text-lg">{formatTime(timeLeft)}</span>{" "}
           </p>
           <p>
-            Hints left{" "}
+            Hints Used{" "}
             <span className="font-medium">
               {hintsUsed}/{hints}
             </span>
