@@ -1,5 +1,4 @@
-'use client'
-
+"use client";
 import { Subject } from "@/types";
 import React, { useEffect, useState } from "react";
 import AddSubject from "./AddSubject";
@@ -31,6 +30,7 @@ const SubjectCard = ({ data: subject }: { data: Subject }) => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
+  // Mutation for editing/updating a subject
   const { mutate: editSubject, isPending } = useMutation({
     mutationFn: async (formData: FormDataType) => {
       const response = await axios.patch(
@@ -42,8 +42,8 @@ const SubjectCard = ({ data: subject }: { data: Subject }) => {
     onSuccess: (data) => {
       if (data.success) {
         toast({
-          title: "Subject added successfully",
-          description: "Subject added successfully",
+          title: "Subject updated successfully",
+          description: "Subject updated successfully",
         });
         queryClient.invalidateQueries({ queryKey: ["examGroup"] });
       }
@@ -51,15 +51,17 @@ const SubjectCard = ({ data: subject }: { data: Subject }) => {
       setFormOpen(false);
     },
     onError: (error: any) => {
-      console.log(error);
+      console.error(error);
       toast({
         title: "Something went wrong",
-        description: error?.response?.data?.error || "Please try again later",
+        description:
+          error?.response?.data?.error || "Please try again later",
         variant: "destructive",
       });
     },
   });
 
+  // Mutation for deleting a subject
   const { mutate: deleteSubject, isPending: isDeletePending } = useMutation({
     mutationFn: async () => {
       const response = await axios.delete(`/api/subject/${subject?._id}`);
@@ -76,27 +78,21 @@ const SubjectCard = ({ data: subject }: { data: Subject }) => {
       setModalOpen(false);
     },
     onError: (error: any) => {
-      console.log(error);
+      console.error(error);
       toast({
         title: "Something went wrong",
-        description: error?.response?.data?.error || "Please try again later",
+        description:
+          error?.response?.data?.error || "Please try again later",
         variant: "destructive",
       });
     },
   });
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    reset,
-    formState: { errors },
-  } = useForm({
+  const { register, handleSubmit, setValue, reset, formState: { errors } } = useForm({
     resolver: zodResolver(formSchema),
   });
 
   const submitHandler = (data: FormDataType) => {
-    // console.log(data);
     editSubject(data);
   };
 
@@ -107,80 +103,79 @@ const SubjectCard = ({ data: subject }: { data: Subject }) => {
 
   const deleteSubjectHandler = () => {
     deleteSubject();
-  }
+  };
 
+  // Pre-fill the form fields when the modal opens
   useEffect(() => {
     setValue("name", subject?.name);
     setValue("description", subject?.description);
     setValue("code", subject?.code);
-  }, [formOpen]);
+  }, [formOpen, setValue, subject]);
 
   return (
     <div>
+      {/* Card Button */}
       <button
-        className={`py-2 px-6 flex flex-col gap-x-1 items-center text-sm text-center shadow-sm shadow-main-950 rounded-md font-semibold bg-white`}
+        className="py-2 px-4 flex flex-col items-center gap-y-1 text-sm text-center shadow-md rounded-2xl font-semibold bg-white transition-transform hover:scale-105 hover:shadow-lg"
         onClick={() => setFormOpen(true)}
       >
         {subject?.name}
-        <span className=" text-xs font-normal text-center">
-          {subject?.code}
-        </span>
+        <span className="text-xs font-light text-gray-600">{subject?.code}</span>
       </button>
+
+      {/* Edit Modal */}
       {formOpen && (
         <div
           onClick={() => setFormOpen(false)}
-          className="fixed inset-0 bg-black/40 flex items-center justify-center rounded-md"
+          className="fixed inset-0 bg-black/40 flex items-center justify-center"
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="relative p-6 bg-main-50 text-main-900 rounded-md w-[580px] shadow-sm shadow-main-950"
+            className="relative p-8 bg-gradient-to-br from-white to-gray-50 text-main-900 rounded-2xl w-[580px] shadow-xl"
           >
             <div className="flex items-center justify-between">
-              <h2 className="text-xl font-semibold text-main-900">
-                Edit subject
-              </h2>
+              <h2 className="text-xl font-semibold">Edit Subject</h2>
               <button className="text-xl" onClick={() => setFormOpen(false)}>
                 <IoMdClose />
               </button>
             </div>
-
-            <form onSubmit={handleSubmit(submitHandler)}>
-              <div className="mt-3">
-                <Label htmlFor="name" className="text-main-600 capitalize">
-                  Subject name
+            <form onSubmit={handleSubmit(submitHandler)} className="mt-4 space-y-4">
+              <div>
+                <Label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                  Subject Name
                 </Label>
                 <InputField
                   name="name"
                   type="text"
                   icon={<IoMdBook className="text-sky-400" />}
-                  className="mt-1"
                   placeholder="Subject name"
                   register={register}
+                  className="mt-1"
                 />
                 {errors.name && (
-                  <span className="text-red-500 text-xs" >{errors.name.message}</span>
+                  <p className="mt-1 text-xs text-red-500">{errors.name.message}</p>
                 )}
               </div>
 
-              <div className="mt-3">
-                <Label htmlFor="name" className="text-main-600 capitalize">
-                  Subject code
+              <div>
+                <Label htmlFor="code" className="block text-sm font-medium text-gray-700">
+                  Subject Code
                 </Label>
                 <InputField
                   name="code"
                   type="text"
                   icon={<PiQrCode className="text-sky-400" />}
-                  className="mt-1"
                   placeholder="Subject code"
                   register={register}
+                  className="mt-1"
                 />
                 {errors.code && (
-                  <span className="text-red-500 text-xs" >{errors.code.message}</span>
+                  <p className="mt-1 text-xs text-red-500">{errors.code.message}</p>
                 )}
               </div>
 
-              <div className="mt-3">
-                <Label htmlFor="name" className="text-main-600 capitalize">
+              <div>
+                <Label htmlFor="description" className="block text-sm font-medium text-gray-700">
                   Subject Description
                 </Label>
                 <TextAreaField
@@ -188,23 +183,21 @@ const SubjectCard = ({ data: subject }: { data: Subject }) => {
                   type="text"
                   resize={false}
                   icon={<MdOutlineDescription className="text-sky-400" />}
-                  className="mt-1"
                   placeholder="Subject description"
                   register={register}
+                  className="mt-1"
                   rows={4}
                 />
                 {errors.description && (
-                  <span className="text-red-500 text-xs" >
-                    {errors.description.message}
-                  </span>
+                  <p className="mt-1 text-xs text-red-500">{errors.description.message}</p>
                 )}
               </div>
 
-              <span className="flex gap-x-4 justify-end mt-6">
+              <div className="flex gap-x-4 justify-end mt-6">
                 <Button type="submit" className="w-full" disabled={isPending}>
                   {isPending ? "Submitting..." : "Submit"}
                 </Button>
-              </span>
+              </div>
             </form>
 
             <Button
@@ -212,32 +205,34 @@ const SubjectCard = ({ data: subject }: { data: Subject }) => {
               variant="destructive"
               className="w-full mt-4"
             >
-              delete
+              Delete
             </Button>
           </div>
         </div>
       )}
+
+      {/* Delete Confirmation Modal */}
       {modalOpen && (
         <div
           onClick={() => setModalOpen(false)}
-          className="inset-0 fixed bg-black/40 flex items-center justify-center"
+          className="fixed inset-0 bg-black/40 flex items-center justify-center"
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="w-max rounded-md shadow-sm shadow-main-950 bg-white flex flex-col gap-y-3 items-center p-8 text-main-900"
+            className="w-max rounded-2xl shadow-xl bg-white flex flex-col gap-y-4 items-center p-8 text-main-900"
           >
-            <h4 className="font-semibold text-2xl">Are you sure?</h4>
+            <h4 className="text-2xl font-semibold">Are you sure?</h4>
             <p className="text-center text-sm font-light">
-              This subject will be deleted permanently
+              This subject will be permanently deleted.
             </p>
-            <span className="space-x-4">
+            <div className="space-x-4">
               <Button onClick={() => setModalOpen(false)} variant="secondary">
-                cancel
+                Cancel
               </Button>
               <Button onClick={deleteSubjectHandler} variant="default">
-                {!isDeletePending? "delete" : "deleting..."}
+                {isDeletePending ? "Deleting..." : "Delete"}
               </Button>
-            </span>
+            </div>
           </div>
         </div>
       )}
