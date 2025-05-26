@@ -398,7 +398,7 @@ const CreateTest = ({
                       type="number"
                       className="mt-1"
                       register={register}
-                      placeholder="duration in minutes"
+                      placeholder="Duration in minutes"
                       name="duration"
                       icon={<FiClock className="text-gray-400" />}
                     />

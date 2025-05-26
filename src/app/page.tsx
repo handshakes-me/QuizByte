@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { FaUserPlus, FaSignInAlt, FaUserGraduate, FaBook } from "react-icons/fa";
+import { FaUserPlus, FaSignInAlt } from "react-icons/fa";
 
 const Page = () => {
   const cards = [
@@ -25,28 +25,27 @@ const Page = () => {
 
   return (
     <div className="relative min-h-screen flex flex-col items-center justify-center p-6 overflow-hidden">
-      {/* Background Layers with Sliding Gradient Effect */}
-      <div className="bg"></div>
-      <div className="bg bg2"></div>
-      <div className="bg bg3"></div>
-
-      {/* Floating Icons (Optional) */}
-      <motion.div
-        initial={{ opacity: 0, x: -50, y: -30 }}
-        animate={{ opacity: 0.3, x: 50, y: 30 }}
-        transition={{ duration: 8, repeat: Infinity, repeatType: "mirror", ease: "easeInOut" }}
-        className="absolute top-10 left-10"
-      >
-        <FaUserGraduate size={60} className="text-white" />
-      </motion.div>
-      <motion.div
-        initial={{ opacity: 0, x: 50, y: 30 }}
-        animate={{ opacity: 0.3, x: -50, y: -30 }}
-        transition={{ duration: 10, repeat: Infinity, repeatType: "mirror", ease: "easeInOut" }}
-        className="absolute bottom-10 right-10"
-      >
-        <FaBook size={70} className="text-white" />
-      </motion.div>
+      {/* Animated Background */}
+      <div className="absolute inset-0 -z-10 bg-gradient-animated" />
+      {/* Global styles for animated background */}
+      <style jsx global>{`
+        .bg-gradient-animated {
+          background: linear-gradient(45deg, #4f46e5, #9333ea, #f43f5e);
+          background-size: 600% 600%;
+          animation: gradient-animation 16s ease infinite;
+        }
+        @keyframes gradient-animation {
+          0% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+          100% {
+            background-position: 0% 50%;
+          }
+        }
+      `}</style>
 
       {/* Project Heading */}
       <motion.div
@@ -55,7 +54,9 @@ const Page = () => {
         transition={{ duration: 0.5 }}
         className="mb-12 text-center"
       >
-        <h1 className="text-5xl font-extrabold text-white drop-shadow-lg">QuizByte</h1>
+        <h1 className="text-5xl font-extrabold text-white drop-shadow-lg">
+          QuizByte
+        </h1>
         <p className="mt-4 text-2xl text-white drop-shadow-lg">
           Your Premier Online Examination System
         </p>
@@ -73,8 +74,12 @@ const Page = () => {
           >
             <div className="flex flex-col items-center">
               {card.icon}
-              <h2 className="text-2xl font-semibold text-gray-800 mb-4">{card.title}</h2>
-              <p className="text-gray-600 text-center mb-6">{card.description}</p>
+              <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+                {card.title}
+              </h2>
+              <p className="text-gray-600 text-center mb-6">
+                {card.description}
+              </p>
             </div>
             <Link
               href={card.link}
@@ -85,36 +90,6 @@ const Page = () => {
           </motion.div>
         ))}
       </div>
-
-      {/* Global CSS for Background Animation */}
-      <style jsx global>{`
-        .bg {
-          animation: slide 3s ease-in-out infinite alternate;
-          background-image: linear-gradient(-60deg, #6c3 50%, #09f 50%);
-          bottom: 0;
-          left: -50%;
-          opacity: 0.5;
-          position: fixed;
-          right: -50%;
-          top: 0;
-          z-index: -1;
-        }
-        .bg2 {
-          animation-direction: alternate-reverse;
-          animation-duration: 4s;
-        }
-        .bg3 {
-          animation-duration: 5s;
-        }
-        @keyframes slide {
-          0% {
-            transform: translateX(-25%);
-          }
-          100% {
-            transform: translateX(25%);
-          }
-        }
-      `}</style>
     </div>
   );
 };
