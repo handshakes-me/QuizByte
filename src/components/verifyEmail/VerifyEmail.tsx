@@ -21,7 +21,8 @@ const VerifyEmail = () => {
     try {
       const response = await axios.post(
         `${BASEURL}/api/auth/verify-email`,
-        { token }
+        { token },
+        { withCredentials: true }
       );
 
       if (response?.data?.success) {
@@ -76,4 +77,4 @@ const VerifyEmail = () => {
   );
 };
 
-export default VerifyEmail;
+export default VerifyEmail;
