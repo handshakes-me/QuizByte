@@ -55,7 +55,7 @@ export const Welcome = ({
 );
 
 Welcome.PreviewProps = {
-  username: "Abhishek",
+  username: "Satyam",
 } as { username: string };
 
 export default Welcome;

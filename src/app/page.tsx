@@ -65,7 +65,8 @@ const Page = () => {
           </motion.div>
         ))}
       </div>
-    </div>
+    </div> 
+        
   );
 };
 
