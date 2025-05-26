@@ -58,7 +58,7 @@ const StudentData = ({ data }: { data: Student[] }) => {
           </div>
 
           <table className="min-w-full divide-y rounded-md overflow-hidden divide-main-200">
-            <thead className="bg-main-100 whitespace-nowrap">
+            <thead className="bg-purple-100 whitespace-nowrap">
               <tr>
                 <th className="px-4 py-4 text-left text-xs font-semibold text-main-900 uppercase tracking-wider">
                   Name

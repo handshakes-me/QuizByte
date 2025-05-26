@@ -8,7 +8,7 @@ const Page = () => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 h-screen w-full">
       {/* Left Section: Illustration & Welcome Message */}
-      <div className="hidden lg:flex lg:col-span-5 relative items-center justify-center bg-gradient-to-br from-blue-600 to-sky-500">
+      <div className="hidden lg:flex lg:col-span-5 relative items-center justify-center bg-gradient-to-br from-blue-600 to-purple-500">
       
         <div className="absolute z-10 p-6 text-center">
           <h1 className="text-white text-4xl font-bold">Welcome Back!</h1>

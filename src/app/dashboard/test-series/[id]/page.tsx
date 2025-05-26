@@ -39,11 +39,11 @@ const Page = () => {
 
   return (
     <main>
-      <div className="w-full bg-main-50 text-main-900 rounded-md">
+      <div className="w-full bg-purple-50 text-main-900 rounded-md">
         {/* back */}
         <button
           onClick={() => window.history.back()}
-          className="flex items-center mb-4 text-xs font-semibold gap-x-1 hover:gap-x-2 transition-all duration-100 hover:text-sky-400"
+          className="flex items-center mb-4 text-lg font-semibold gap-x-1 hover:gap-x-2 transition-all duration-100 hover:text-sky-400"
         >
           <MdArrowBack /> Back
         </button>

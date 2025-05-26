@@ -102,7 +102,7 @@ const AddTestSeriesForm = () => {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="relative p-6 bg-main-50 text-main-900 rounded-md w-[90%] max-w-lg shadow-2xl"
+              className="relative p-6 bg-purple-50 text-main-900 rounded-md w-[90%] max-w-lg shadow-2xl"
             >
               <div className="flex items-center justify-between">
                 <h2 className="text-xl font-semibold text-main-900">

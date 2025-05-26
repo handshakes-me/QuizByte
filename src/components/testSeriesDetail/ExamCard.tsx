@@ -16,7 +16,7 @@ const ExamCard = ({ exam }: { exam: Exam }) => {
   const { id } = useParams();
 
   return (
-    <div className="border p-4 rounded-md bg-white border-main-500 shadow-sm shadow-main-950">
+    <div className="border p-4 rounded-md bg-white shadow-main-950">
       <Link href={`/dashboard/test-series/${id}/${exam?._id}`}>
         <h4 className="text-lg font-semibold mb-4 hover:underline w-max cursor-pointer">
           {exam?.title}
@@ -24,7 +24,7 @@ const ExamCard = ({ exam }: { exam: Exam }) => {
       </Link>
       <div className="flex w-full mb-4 gap-x-4">
         <div className="w-full">
-          <p className="text-base flex gap-x-4 items-center justify-start">
+          <p className="text-base flex gap-x-4 items-center  justify-start">
             <span className="font-semibold flex items-center gap-x-1 text-sm">
               <CgSandClock /> Duration
             </span>

@@ -35,7 +35,7 @@ const Page = () => {
 
   return (
     <main>
-      <div className="w-full bg-main-50 text-main-900 rounded-md">
+      <div className="w-full bg-purple-50 text-main-900 rounded-md">
         {/* back */}
         <button
           onClick={() => window.history.back()}

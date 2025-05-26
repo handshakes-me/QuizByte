@@ -36,7 +36,7 @@ const TextAreaField = ({
 
   return (
     <span
-      className={`${className}  bg-main-50 flex items-start border border-main-700 px-3 py-1 rounded-lg transition-all focus-within:ring-1 focus-within:ring-main-500`}
+      className={`${className}  bg-purple-50 flex items-start border border-main-700 px-3 py-1 rounded-lg transition-all focus-within:ring-1 focus-within:ring-main-500`}
     >
       {Icon && <span className="text-gray-500 px-1 mt-3">{Icon}</span>}
       <Textarea
@@ -52,7 +52,7 @@ const TextAreaField = ({
         style={{
             resize: !resize? "none" : "vertical"
         }}
-        className="w-full bg-transparent placeholder:text-main-700 text-main-900 placeholder:text-base text-lg bg-main-50 !border-none outline-none focus-visible:ring-0 !focus:ring-0 !focus:outline-none"
+        className="w-full bg-transparent placeholder:text-main-700 text-main-900 placeholder:text-base text-lg bg-purple-50 !border-none outline-none focus-visible:ring-0 !focus:ring-0 !focus:outline-none"
         {...(register ? register(name) : {})}
         {...props}
       />

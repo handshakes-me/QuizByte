@@ -97,7 +97,7 @@ const EditOrganizationForm = ({
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="relative p-6 bg-main-50 text-main-900 rounded-md w-[580px] shadow-sm shadow-main-950"
+            className="relative p-6 bg-purple-50 text-main-900 rounded-md w-[580px] shadow-sm shadow-main-950"
           >
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-semibold text-main-900">

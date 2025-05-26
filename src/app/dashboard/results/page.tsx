@@ -8,6 +8,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { useSelector } from "react-redux";
+import { motion } from "framer-motion";
 
 const fetchResults = async (id: string) => {
   const response = await axios.get("/api/examGroup?organizationId=" + id);
@@ -29,79 +30,81 @@ const Page = () => {
       </div>
     );
   }
-  // console.log("data : ", data);
 
   return (
-    <div className="w-full h-screen">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.3 }}
+      className="w-full h-screen p-6 bg-gray-230"
+    >
       <div className="mb-4">
-        <h3 className="text-2xl font-medium">Results</h3>
+        <h3 className="text-2xl font-medium text-gray-800">Results</h3>
       </div>
-      <div>
-        {data?.data?.length === 0 ? (
-          <div className="w-full h-screen flex justify-center items-center">
-            <h3 className="text-2xl font-medium">No results found</h3>
-          </div>
-        ) : (
-          <div>
-            <table className="min-w-full divide-y rounded-md overflow-hidden divide-main-200">
-              <thead className="bg-main-100 whitespace-nowrap">
-                <tr>
-                  <th className="px-4 py-4 text-left text-xs font-semibold text-main-900 uppercase tracking-wider">
-                    Exam Group
-                  </th>
-                  <th className="px-4 py-4 text-left text-xs font-semibold text-main-900 uppercase tracking-wider">
-                    Description
-                  </th>
-                  <th className="px-4 py-4 text-left text-xs font-semibold text-main-900 uppercase tracking-wider">
-                    Subjects
-                  </th>
-                  <th className="px-4 py-4 text-left text-xs font-semibold text-main-900 uppercase tracking-wider">
-                    Students
-                  </th>
-                  <th className="px-4 py-4 text-left text-xs font-semibold text-main-900 uppercase tracking-wider">
-                    Exams
-                  </th>
-                  <th className="px-4 py-4 text-left text-xs font-semibold text-main-900 uppercase tracking-wider">
-                    Actions
-                  </th>
+      {data?.data?.length === 0 ? (
+        <div className="w-full h-full flex justify-center items-center">
+          <h3 className="text-2xl font-medium text-gray-600">No results found</h3>
+        </div>
+      ) : (
+        <div className="overflow-x-auto bg-white rounded-lg shadow-lg">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-blue-100">
+              <tr>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-800 uppercase tracking-wider">
+                  Exam Group
+                </th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-800 uppercase tracking-wider">
+                  Description
+                </th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-800 uppercase tracking-wider">
+                  Subjects
+                </th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-800 uppercase tracking-wider">
+                  Students
+                </th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-800 uppercase tracking-wider">
+                  Exams
+                </th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-gray-800 uppercase tracking-wider">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-200">
+              {data?.data?.map((examGroup: any) => (
+                <tr key={examGroup._id} className="hover:bg-gray-50 transition-colors">
+                  <td className="px-4 py-4 text-sm text-gray-800 font-medium">
+                    {examGroup.name}
+                  </td>
+                  <td className="px-4 py-4 text-sm text-gray-800 font-medium">
+                    {examGroup.description}
+                  </td>
+                  <td className="px-4 py-4 text-sm text-gray-800 font-medium">
+                    {examGroup.subjects.length}
+                  </td>
+                  <td className="px-4 py-4 text-sm text-gray-800 font-medium">
+                    {examGroup.students.length}
+                  </td>
+                  <td className="px-4 py-4 text-sm text-gray-800 font-medium">
+                    {examGroup.exams.length}
+                  </td>
+                  <td className="px-4 py-4 text-sm text-gray-800 font-medium">
+                    <Button
+                      onClick={() =>
+                        router.push(`/dashboard/results/${examGroup._id}`)
+                      }
+                      className="h-8"
+                    >
+                      View Results
+                    </Button>
+                  </td>
                 </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-main-200 whitespace-nowrap">
-                {data?.data?.map((examGroup: any) => (
-                  <tr key={examGroup._id}>
-                    <td className="px-4 py-4 text-sm text-main-900 font-medium">
-                      {examGroup.name}
-                    </td>
-                    <td className="px-4 py-4 text-sm text-main-900 font-medium">
-                      {examGroup.description}
-                    </td>
-                    <td className="px-4 py-4 text-sm text-main-900 font-medium">
-                      {examGroup.subjects.length}
-                    </td>
-                    <td className="px-4 py-4 text-sm text-main-900 font-medium">
-                      {examGroup.students.length}
-                    </td>
-                    <td className="px-4 py-4 text-sm text-main-900 font-medium">
-                      {examGroup.exams.length}
-                    </td>
-                    <td className="py-4 pl-4 text-sm text-main-900 font-medium">
-                      <Button
-                        onClick={() =>
-                          router.push(`/dashboard/results/${examGroup._id}`)
-                        }
-                        className="h-8"
-                      >
-                        View Results
-                      </Button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </div>
-    </div>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </motion.div>
   );
 };
 

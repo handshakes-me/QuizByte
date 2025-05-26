@@ -45,7 +45,7 @@ const VerifyEmail = () => {
 
   return (
     <div className="min-h-screen bg-main-950 flex items-center justify-center">
-      <div className="w-[580px] bg-main-50 min-h-[100px] p-10 rounded-lg">
+      <div className="w-[580px] bg-purple-50 min-h-[100px] p-10 rounded-lg">
         <Link href="/">
           <Image
             width={200}

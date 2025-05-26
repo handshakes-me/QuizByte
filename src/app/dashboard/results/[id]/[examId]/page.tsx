@@ -1,7 +1,6 @@
 "use client";
 
 import Loader from "@/components/common/Loader";
-import ExamDetails from "@/components/examdetails/ExamDetails";
 import ResultAnalytics from "@/components/results/ResultAnalytics";
 import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
@@ -11,8 +10,13 @@ import React, { useState } from "react";
 import { IoMdArrowBack } from "react-icons/io";
 import { motion } from "framer-motion";
 
+const fetchResults = async (id: string) => {
+  const response = await axios.get(`/api/result/${id}`);
+  return response.data;
+};
+
 const Page = () => {
-  const [currentTab, setCurrentTab] = useState("results"); // Default tab is "results"
+  const [currentTab, setCurrentTab] = useState("results"); // Default tab
   const router = useRouter();
   const params = useParams<{ examId: string }>();
   const examId = params.examId;
@@ -33,14 +37,13 @@ const Page = () => {
     );
   }
 
-  // Destructure data from the returned result
+  // Destructure data from the fetched result:
   const analytics = data?.data?.analytics;
   const examAttempts = data?.data?.examAttempts || [];
   const examInfo = data?.data?.exam;
 
   const exportToCSV = () => {
     if (!examAttempts.length) return;
-
     const headers = [
       "S.No",
       "Name",
@@ -71,8 +74,8 @@ const Page = () => {
 
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
-
     const link = document.createElement("a");
+
     link.setAttribute("href", url);
     link.setAttribute("download", `${examInfo?.title || "exam"}_results.csv`);
     link.click();
@@ -83,7 +86,7 @@ const Page = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-200 p-10"
+      className="min-h-screen bg-gray-230 p-10"
     >
       {/* Header Section */}
       <div className="flex flex-col md:flex-row justify-between items-center mb-6">
@@ -112,8 +115,8 @@ const Page = () => {
       {currentTab === "analytics" ? (
         <ResultAnalytics data={analytics} attempts={examAttempts} exam={examInfo} />
       ) : (
-        <div className="overflow-x-auto">
-          <table className="min-w-full border border-gray-300 rounded-md">
+        <div className="overflow-x-auto bg-white rounded-lg shadow-lg">
+          <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-blue-100 border-b border-gray-300">
               <tr>
                 {[
@@ -128,7 +131,7 @@ const Page = () => {
                 ].map((header) => (
                   <th
                     key={header}
-                    className="px-4 py-2 text-left text-sm font-semibold text-gray-800 uppercase tracking-wider"
+                    className="px-4 py-3 text-left text-sm font-semibold text-gray-800 uppercase tracking-wider"
                   >
                     {header}
                   </th>
@@ -146,7 +149,9 @@ const Page = () => {
                 examAttempts.map((attempt: any, index: number) => (
                   <tr
                     key={attempt._id}
-                    className={index % 2 === 0 ? "bg-gray-50" : "bg-white"}
+                    className={`hover:bg-gray-50 transition-colors ${
+                      index % 2 === 0 ? "bg-gray-50" : "bg-white"
+                    }`}
                   >
                     <td className="px-4 py-2 text-center text-sm">{index + 1}</td>
                     <td className="px-4 py-2 text-sm">

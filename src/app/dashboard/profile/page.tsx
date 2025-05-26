@@ -37,7 +37,7 @@ const Page = () => {
           <h2 className="text-xl font-semibold">{titles[type]}</h2>
           <button
             onClick={() => setFormType(null)}
-            className="text-2xl text-gray-600 hover:text-red-500"
+            className="text-2xl text-gray-600 hover:text-red-500 transition"
           >
             <IoMdClose />
           </button>
@@ -48,20 +48,22 @@ const Page = () => {
   };
 
   return (
-    <main className="">
-      <div className=" mx-auto bg-white shadow-md rounded-xl p-6 space-y-6">
-        <h2 className="text-2xl font-medium text-main-900">Profile Overview</h2>
+    <main className="min-h-screen bg-purple-50 py-8">
+      <div className="mx-auto bg-white shadow-lg rounded-2xl p-8 space-y-8 max-w-lg">
+        <h2 className="text-3xl font-bold text-main-900 text-center">
+          Profile Overview
+        </h2>
 
-        <div className="space-y-4">
+        <div className="space-y-6">
           <div>
             <h3 className="text-sm text-gray-500">Full Name</h3>
-            <div className="flex items-center justify-start gap-x-8">
-              <p className="text-lg font-medium">{user?.name}</p>
+            <div className="flex items-center justify-between">
+              <p className="text-lg font-medium text-gray-800">{user?.name}</p>
               <button
                 onClick={() => setFormType("name")}
                 className="text-sky-500 hover:text-sky-700 transition"
               >
-                <FaRegEdit />
+                <FaRegEdit className="text-xl" />
               </button>
             </div>
           </div>
@@ -69,35 +71,26 @@ const Page = () => {
           <div>
             <h3 className="text-sm text-gray-500">Email</h3>
             <div className="flex items-center justify-between">
-              <p className="text-lg font-medium">{user?.email}</p>
-              {/* <button
+              <p className="text-lg font-medium text-gray-800">{user?.email}</p>
+              {/*
+              Uncomment to allow email editing:
+              <button
                 onClick={() => setFormType("email")}
                 className="text-sky-500 hover:text-sky-700 transition"
               >
-                <FaRegEdit />
-              </button> */}
+                <FaRegEdit className="text-xl" />
+              </button>
+              */}
             </div>
           </div>
 
           <div>
             <h3 className="text-sm text-gray-500">Joined On</h3>
-            <p className="text-lg font-medium">
+            <p className="text-lg font-medium text-gray-800">
               {getFormattedDate(user?.createdAt, false)}
             </p>
           </div>
         </div>
-
-        {/* <div>
-          <Button
-            onClick={() => setFormType("password")}
-            className="bg-sky-400 text-white hover:bg-sky-500"
-          >
-            <span className="flex items-center gap-2">
-              <FaRegEdit />
-              Update Password
-            </span>
-          </Button>
-        </div> */}
       </div>
 
       {formType && (
@@ -107,12 +100,28 @@ const Page = () => {
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="bg-white rounded-lg p-6 w-[90%] max-w-lg shadow-2xl animate-fadeIn"
+            className="bg-white rounded-2xl p-8 w-[90%] max-w-lg shadow-2xl animate-fadeIn"
           >
             {renderForm(formType)}
           </div>
         </div>
       )}
+
+      <style jsx>{`
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: scale(0.95);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+        .animate-fadeIn {
+          animation: fadeIn 0.3s ease-out;
+        }
+      `}</style>
     </main>
   );
 };

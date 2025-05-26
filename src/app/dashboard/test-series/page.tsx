@@ -6,7 +6,7 @@ import React from "react";
 const Page = () => {
   return (
     <main>
-      <div className="w-full bg-main-50 text-main-900 rounded-md">
+      <div className="w-full bg-purple-50 text-main-900 rounded-md">
         <ClientProvider>
           {/* page header */}
           <div className="mb-4 flex gap-x-4 justify-between items-center">

@@ -11,9 +11,12 @@ export default function DashboardLayout({
       <ClientProvider>
         <Sidebar />
       </ClientProvider>
-      <div className="overflow-y-auto bg-main-50 text-main-900 p-12">
+      <div className="overflow-y-auto z-index-0  bg-purple-50 text-main-900 p-12 ell">
         {children}
       </div>
+      <style >{`
+      
+      `}</style>
     </div>
   );
 }

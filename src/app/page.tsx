@@ -1,5 +1,4 @@
 "use client";
-
 import React from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -78,7 +77,7 @@ const Page = () => {
             </div>
             <Link
               href={card.link}
-              className="inline-block w-full text-center px-6 py-3 border border-blue-600 text-blue-600 rounded hover:bg-blue-600 hover:text-white transition duration-200 text-lg font-medium"
+              className="inline-block w-full text-center px-6 py-3 border border-blue-600 text-blue-600 rounded hover:bg-purple-600 hover:text-white transition duration-200 text-lg font-medium"
             >
               {card.title}
             </Link>
@@ -89,31 +88,31 @@ const Page = () => {
       {/* Global CSS for Background Animation */}
       <style jsx global>{`
         .bg {
-          animation: slide 3s ease-in-out infinite alternate;
-          background-image: linear-gradient(-60deg, #6c3 50%, #09f 50%);
-          bottom: 0;
-          left: -50%;
-          opacity: 0.5;
-          position: fixed;
-          right: -50%;
-          top: 0;
-          z-index: -1;
-        }
-        .bg2 {
-          animation-direction: alternate-reverse;
-          animation-duration: 4s;
-        }
-        .bg3 {
-          animation-duration: 5s;
-        }
-        @keyframes slide {
-          0% {
-            transform: translateX(-25%);
-          }
-          100% {
-            transform: translateX(25%);
-          }
-        }
+    animation: slide 7s ease-in-out infinite alternate;
+    background-image: linear-gradient(-60deg, #0099ff 50%, #9400a7 50%);
+    bottom: 0;
+    left: -50%;
+    opacity: 0.5;
+    position: fixed;
+    right: -50%;
+    top: 0;
+    z-index: -1;
+  }
+  .bg2 {
+    animation-direction: alternate-reverse;
+    animation-duration: 9s;
+  }
+  .bg3 {
+    animation-duration: 12s;
+  }
+  @keyframes slide {
+    0% {
+      transform: translateX(-25%);
+    }
+    100% {
+      transform: translateX(25%);
+    }
+  }
       `}</style>
     </div>
   );

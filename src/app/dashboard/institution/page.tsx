@@ -26,9 +26,9 @@ const Page = async () => {
 
   return (
     <section>
-      {/* top cards */}
+      {/* Top Cards */}
       <div className="grid grid-cols-4 gap-x-4">
-        <div className="bg-white shadow-sm shadow-main-900 p-6 rounded-md w-full flex justify-center">
+        <div className="bg-white shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300 p-6 rounded-2xl flex justify-center">
           <p className="flex gap-x-2 items-end">
             <span className="text-3xl font-bold text-sky-400">
               {organization?.students?.length || 0}
@@ -37,7 +37,7 @@ const Page = async () => {
           </p>
         </div>
 
-        <div className="bg-white shadow-sm shadow-main-900 p-6 rounded-md w-full flex justify-center">
+        <div className="bg-white shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300 p-6 rounded-2xl flex justify-center">
           <p className="flex gap-x-2 items-end">
             <span className="text-3xl font-bold text-sky-400">
               {response?.examGroups?.length || 0}
@@ -46,10 +46,10 @@ const Page = async () => {
           </p>
         </div>
 
-        <div className="bg-sky-400 col-span-2 shadow-sm shadow-main-900 text-main-100 p-6 rounded-md w-full flex justify-center">
+        <div className="bg-gradient-to-r from-sky-400 to-purple-600 col-span-2 shadow-lg hover:shadow-xl transform hover:scale-105 transition duration-300 text-white p-6 rounded-2xl flex justify-center">
           <p className="flex gap-x-2 items-end">
-            Joined
-            <span className="text-2xl font-bold text-main-50">
+            Joined{" "}
+            <span className="text-2xl font-bold">
               {new Date(response?.createdAt || new Date()).toLocaleDateString(
                 "en-US",
                 {
@@ -85,7 +85,7 @@ const Page = async () => {
         </div>
       </div>
 
-      {/* Invite section */}
+      {/* Invite Section */}
       <ClientProvider>
         <InviteSection
           inviteLink={organization?.inviteLink}

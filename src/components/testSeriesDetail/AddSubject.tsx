@@ -88,7 +88,7 @@ const AddSubject = ({ examGroupId }: { examGroupId: string }) => {
   return (
     <div>
       <button
-        className="h-full bg-sky-400 text-white p-2 text-xl rounded-md font-semibold shadow-sm shadow-main-950"
+        className="h-full bg-green-400 text-white p-3 text-xl rounded-md font-semibold  shadow-main-950 hover:bg-green-600 transition-all"
         onClick={() => setFormOpen(true)}
       >
         <IoMdAdd />
@@ -100,7 +100,7 @@ const AddSubject = ({ examGroupId }: { examGroupId: string }) => {
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="relative p-6 bg-main-50 text-main-900 rounded-md w-[580px] shadow-sm shadow-main-950"
+            className="relative p-6 bg-purple-50 text-main-900 rounded-md w-[580px] shadow-sm shadow-main-950"
           >
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-semibold text-main-900">
