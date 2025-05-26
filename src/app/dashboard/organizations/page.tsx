@@ -17,7 +17,7 @@ const OrganizationPage = async () => {
   if (!organizations) {
     return (
       <div className="text-main-900 min-h-screen grid place-items-center">
-        <div className="text-2xl font-semibold">No organizations found</div>
+        <div className="text-2xl font-semibold">No institutions found</div>
       </div>
     );
   }

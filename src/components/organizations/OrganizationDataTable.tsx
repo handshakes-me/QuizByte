@@ -19,7 +19,7 @@ const OrganizationDataTable = ({ data }: { data: Organization[] }) => {
     <div className="overflow-x-auto">
       {data.length === 0 ? (
         <div className="text-main-900 min-h-screen grid place-items-center">
-          <h2 className="text-2xl font-semibold">No Organizations Found</h2>
+          <h2 className="text-2xl font-semibold">No institutions Found</h2>
         </div>
       ) : (
         <table className="min-w-full divide-y rounded-md overflow-hidden divide-main-200">

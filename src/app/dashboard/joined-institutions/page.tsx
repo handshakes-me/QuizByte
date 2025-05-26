@@ -28,7 +28,7 @@ const Page = () => {
   if (!isPending && data?.data?.length === 0) {
     return (
       <div className="h-screen w-full flex items-center justify-center">
-        <h1 className="text-2xl font-bold">No organizations found</h1>
+        <h1 className="text-2xl font-bold">No institutions found</h1>
       </div>
     );
   }
