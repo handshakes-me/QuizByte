@@ -1,8 +1,10 @@
 "use client";
+
 import { useRouter } from "next/navigation";
 import React from "react";
 import { IoMdArrowForward } from "react-icons/io";
 import { Button } from "../ui/button";
+import { motion } from "framer-motion";
 
 type ExamGroup = {
   _id: string;
@@ -28,9 +30,11 @@ const OrganizationDataTable = ({ data }: { data: Organization[] }) => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       {data.map((org) => (
-        <div
+        <motion.div
           key={org._id}
-          className="bg-white border border-main-200 rounded-xl shadow-sm hover:shadow-md transition-shadow p-6 flex flex-col justify-between"
+          whileHover={{ scale: 1.02, y: -4 }}
+          transition={{ duration: 0.3 }}
+          className="bg-white border border-main-200 rounded-2xl shadow-md hover:shadow-xl transition-transform duration-300 p-6 flex flex-col justify-between"
         >
           {/* Header */}
           <div className="mb-4 border-b border-main-300 pb-2">
@@ -62,12 +66,12 @@ const OrganizationDataTable = ({ data }: { data: Organization[] }) => {
               onClick={() =>
                 router.push(`/dashboard/joined-institutions/${org._id}`)
               }
-              className="w-full flex items-center justify-center gap-2 bg-main-500 hover:bg-main-600 text-white font-semibold py-3 rounded-lg transition"
+              className="w-full flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-lg transition-colors"
             >
-              Explore Active Test Series <IoMdArrowForward />
+              Explore Active Test Series <IoMdArrowForward className="text-lg" />
             </Button>
           </div>
-        </div>
+        </motion.div>
       ))}
     </div>
   );

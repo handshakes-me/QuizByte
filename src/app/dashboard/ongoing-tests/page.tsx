@@ -12,6 +12,7 @@ import {
   FaCheckCircle,
   FaTimesCircle,
 } from "react-icons/fa";
+import { motion } from "framer-motion";
 
 const OngoingExamsPage = () => {
   const router = useRouter();
@@ -36,23 +37,25 @@ const OngoingExamsPage = () => {
   }
 
   return (
-    <div className="">
+    <div className="p-4">
       <h2 className="text-2xl font-medium mb-6">Ongoing Tests</h2>
 
       {data?.data?.length === 0 ? (
-        <div className=" h-[400px] flex items-center justify-center">
+        <div className="h-[400px] flex items-center justify-center">
           <p className="text-gray-500">No ongoing exams available</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {data?.data?.map((exam: any) => (
-            <div
+            <motion.div
               key={exam._id}
-              className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 w-full mx-auto overflow-hidden border border-main-400"
+              whileHover={{ y: -4, scale: 1.02 }}
+              transition={{ duration: 0.3 }}
+              className="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 w-full mx-auto overflow-hidden border border-gray-200"
             >
               {/* Header Bar */}
-              <div className="bg-main-100 px-6 py-3 border-b border-main-400">
-                <h3 className="text-main-900 text-xl font-bold tracking-wide truncate">
+              <div className="bg-gradient-to-r from-blue-100 to-blue-200 px-6 py-4 border-b border-gray-200">
+                <h3 className="text-gray-900 text-xl font-bold tracking-wide truncate">
                   {exam.title}
                 </h3>
               </div>
@@ -125,17 +128,20 @@ const OngoingExamsPage = () => {
                     })
                   }
                   disabled={exam.remainingAttempts === 0}
-                  className={`w-full py-3 rounded-lg text-white font-semibold transition ${exam.remainingAttempts === 0 ? "cursor-not-allowed": ""}`}
+                  className={`w-full py-3 rounded-lg text-white font-semibold transition ${
+                    exam.remainingAttempts === 0 ? "cursor-not-allowed" : ""
+                  }`}
                 >
                   {exam.remainingAttempts === 0
                     ? "No Attempts Left"
                     : "Start Test"}
                 </Button>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       )}
+
       {modalData && (
         <div onClick={() => setModalData(null)} className="">
           <div className="fixed inset-0 bg-black bg-opacity-50 z-40"></div>
@@ -158,13 +164,11 @@ const OngoingExamsPage = () => {
                       else if ((elem as any).msRequestFullscreen)
                         (elem as any).msRequestFullscreen();
 
-                      setModalData(false);
+                      setModalData(null);
                       router.push(`/student/attempt/${modalData?.examId}`);
                     } catch (err) {
                       console.error("Fullscreen request failed:", err);
-                      alert(
-                        "Failed to enter fullscreen mode. Please try again."
-                      );
+                      alert("Failed to enter fullscreen mode. Please try again.");
                     }
                   }}
                 >
