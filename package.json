@@ -33,6 +33,7 @@
     "crypto": "^1.0.1",
     "date-fns": "^4.1.0",
     "dayjs": "^1.11.13",
+    "framer-motion": "^12.12.2",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.485.0",
     "mongoose": "^8.10.1",

@@ -20,24 +20,16 @@ const Sidebar = () => {
   const { user } = useSelector((state: RootState) => state.user);
 
   const linkClasses = (path: string) =>
-    `flex gap-x-3 items-center hover:text-main-900 transition px-4 py-2 rounded-md ${
+    `flex gap-x-3 items-center px-4 py-3 rounded-lg text-gray-700 transition-all duration-300 ease-in-out relative overflow-hidden ${
       pathname === path
-        ? "text-white shadow-sm shadow-main-950 bg-sky-400 hover:text-white"
-        : ""
+        ? "text-white bg-gradient-to-r from-indigo-600 to-indigo-700 shadow-lg shadow-indigo-500/30 scale-[1.02] font-medium"
+        : "hover:bg-white/50 hover:text-indigo-700 hover:scale-[1.02]"
     }`;
 
   return (
-    <section className="h-screen shadow-md bg-main-50 text-main-9000 w-[240px] border-r border-main-300 flex flex-col justify-between">
-      <div className="">
-        <div className="p-4">
-          <Link
-            href="/"
-            className="w-full bg-main-50 rounded-md font-bold py-2 flex items-center justify-center"
-          >
-            <Image src="/logo.png" alt="logo" width={140} height={34} />
-          </Link>
-        </div>
-        <div className="w-full flex flex-col gap-y-2 px-8 py-2">
+    <nav className="h-screen bg-gradient-to-b from-gray-50 to-gray-100 w-[240px] border-r border-gray-200 shadow-lg shadow-gray-200/50 transition-all duration-300 ease-in-out">
+      <div className="flex flex-col items-stretch justify-center h-full gap-8">
+        <div className="flex flex-col gap-y-2 px-8 py-2">
           {user?.role === USERROLE.SUPERADMIN &&
             SUPERADMINPAGES.map((page) => (
               <Link
@@ -69,13 +61,13 @@ const Sidebar = () => {
               </Link>
             ))}
         </div>
+        <div className="px-8">
+          <ClientProvider>
+            <LogoutButton className="w-full" />
+          </ClientProvider>
+        </div>
       </div>
-      <div className="my-8 px-8 ">
-        <ClientProvider>
-          <LogoutButton className="w-full" />
-        </ClientProvider>
-      </div>
-    </section>
+    </nav>
   );
 };
 

@@ -14,14 +14,18 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
 
 const FormSchema = z.object({
   name: z.string().min(1, "Name is required"),
-  email: z.string().min(1, "Email is required").email("Invalid email address"),
+  email: z
+    .string()
+    .min(1, "Email is required")
+    .email("Invalid email address"),
   contactNumber: z
     .string()
-    .min(10, "Contact number must be at least 10 charectors long")
-    .max(14, "Contact number can be maximum of 14 charecters"),
+    .min(10, "Contact number must be at least 10 characters long")
+    .max(14, "Contact number can be maximum of 14 characters"),
 });
 
 type formDataType = z.infer<typeof FormSchema>;
@@ -60,7 +64,7 @@ const CreateOrganizationForm = () => {
         description: "Please try again later",
         variant: "destructive",
       });
-      console.log(error);
+      console.error(error);
     },
   });
 
@@ -77,86 +81,109 @@ const CreateOrganizationForm = () => {
   return (
     <div>
       <Button onClick={() => setFormOpen(true)}>Register new Institution</Button>
-      {formOpen && (
-        <section
-          onClick={() => setFormOpen(false)}
-          className="fixed inset-0 bg-black/40 flex items-center justify-center rounded-md"
-        >
-          <div
-            onClick={(e) => e.stopPropagation()}
-            className="relative p-6 bg-main-50 text-main-900 rounded-md w-[580px] shadow-sm shadow-main-950"
+      <AnimatePresence>
+        {formOpen && (
+          <motion.section
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setFormOpen(false)}
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50"
           >
-            <div className="flex items-center justify-between">
-              <h2 className="text-xl font-semibold text-main-900">
-                Register new Institution
-              </h2>
-              <button className="text-xl" onClick={() => setFormOpen(false)}>
-                <IoMdClose />
-              </button>
-            </div>
-            <form onSubmit={handleSubmit(submitHandler)}>
-              <div className="mt-3">
-                <Label htmlFor="name" className="text-main-600 capitalize">
-                  Institution name
-                </Label>
-                <InputField
-                  name="name"
-                  type="text"
-                  icon={<FaRegUser className="text-sky-400" />}
-                  className="mt-1"
-                  placeholder="Institution name"
-                  register={register}
-                />
-                {errors.name && (
-                  <span className="text-red-500 text-xs" >{errors.name.message}</span>
-                )}
-              </div>
-              <div className="mt-3">
-                <Label htmlFor="email" className="text-main-600 capitalize">
-                  Email
-                </Label>
-                <InputField
-                  name="email"
-                  type="email"
-                  className="mt-1"
-                  icon={<MdOutlineMailOutline className="text-sky-400" />}
-                  placeholder="Email"
-                  register={register}
-                />
-                {errors.email && (
-                  <span className="text-red-500 text-xs" >{errors.email.message}</span>
-                )}
-              </div>
-              <div className="mt-3">
-                <Label
-                  htmlFor="contactNumber"
-                  className="text-main-600 capitalize"
+            <motion.div
+              onClick={(e) => e.stopPropagation()}
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="relative p-6 bg-main-50 text-main-900 rounded-md w-[90%] max-w-lg shadow-2xl"
+            >
+              <div className="flex items-center justify-between">
+                <h2 className="text-xl font-semibold text-main-900">
+                  Register new Institution
+                </h2>
+                <button
+                  className="text-xl text-gray-600 hover:text-red-500"
+                  onClick={() => setFormOpen(false)}
+                  aria-label="Close form"
                 >
-                  Contact number
-                </Label>
-                <InputField
-                  name="contactNumber"
-                  type="number"
-                  icon={<IoIosPhonePortrait className="text-sky-400" />}
-                  className="mt-1"
-                  placeholder="Contact number"
-                  register={register}
-                />
-                {errors.contactNumber && (
-                  <span className="text-red-500 text-xs" >
-                    {errors.contactNumber.message}
-                  </span>
-                )}
+                  <IoMdClose />
+                </button>
               </div>
-              <span className="flex gap-x-4 justify-end mt-6">
-                <Button type="submit" className="w-full" disabled={isPending}>
-                  {isPending ? "Submitting..." : "Submit"}
-                </Button>
-              </span>
-            </form>
-          </div>
-        </section>
-      )}
+              <form onSubmit={handleSubmit(submitHandler)}>
+                <div className="mt-4">
+                  <Label
+                    htmlFor="name"
+                    className="text-main-600 capitalize mb-1 block"
+                  >
+                    Institution name
+                  </Label>
+                  <InputField
+                    name="name"
+                    type="text"
+                    icon={<FaRegUser className="text-sky-400" />}
+                    placeholder="Institution name"
+                    register={register}
+                    className="mt-1"
+                  />
+                  {errors.name && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.name.message}
+                    </p>
+                  )}
+                </div>
+                <div className="mt-4">
+                  <Label
+                    htmlFor="email"
+                    className="text-main-600 capitalize mb-1 block"
+                  >
+                    Email
+                  </Label>
+                  <InputField
+                    name="email"
+                    type="email"
+                    placeholder="Email"
+                    icon={<MdOutlineMailOutline className="text-sky-400" />}
+                    register={register}
+                    className="mt-1"
+                  />
+                  {errors.email && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.email.message}
+                    </p>
+                  )}
+                </div>
+                <div className="mt-4">
+                  <Label
+                    htmlFor="contactNumber"
+                    className="text-main-600 capitalize mb-1 block"
+                  >
+                    Contact number
+                  </Label>
+                  <InputField
+                    name="contactNumber"
+                    type="number"
+                    placeholder="Contact number"
+                    icon={<IoIosPhonePortrait className="text-sky-400" />}
+                    register={register}
+                    className="mt-1"
+                  />
+                  {errors.contactNumber && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.contactNumber.message}
+                    </p>
+                  )}
+                </div>
+                <div className="flex justify-end mt-6">
+                  <Button type="submit" disabled={isPending} className="w-full">
+                    {isPending ? "Submitting..." : "Submit"}
+                  </Button>
+                </div>
+              </form>
+            </motion.div>
+          </motion.section>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

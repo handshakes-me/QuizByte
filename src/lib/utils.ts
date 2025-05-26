@@ -70,7 +70,7 @@ export const STUDENTPAGES = [
     icon: RiProfileLine,
   },
   {
-    name: 'Instrututions',
+    name: 'Institutions',
     href: "/dashboard/joined-institutions",
     icon: HiOutlineCollection,
   },

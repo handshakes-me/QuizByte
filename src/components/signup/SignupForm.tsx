@@ -1,23 +1,22 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Label } from "@/components/ui/label";
-import InputField from "../common/InputField";
-import { FaRegUser } from "react-icons/fa";
-import { MdOutlineMailOutline } from "react-icons/md";
-import { TbPassword } from "react-icons/tb";
-import { USERROLE } from "@/lib/utils";
-import MyButton from "../common/Button";
-import { useSearchParams } from "next/navigation";
+import Link from "next/link";
+import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import { useToast } from "@/hooks/use-toast";
-import Link from "next/link";
-import Image from "next/image";
 
+import { USERROLE } from "@/lib/utils";
+import MyButton from "../common/Button";
+import { useSearchParams } from "next/navigation";
+import { useToast } from "@/hooks/use-toast";
+import { Label } from "@/components/ui/label";
+import { cn } from "@/lib/utils";
+
+// Schema for form validation using zod
 const signUpSchema = z.object({
   name: z
     .string()
@@ -74,9 +73,9 @@ const SignupForm = () => {
   });
 
   const {
+    register,
     handleSubmit,
     setValue,
-    register,
     setError,
     reset,
     formState: { errors },
@@ -91,7 +90,7 @@ const SignupForm = () => {
       setValue("role", USERROLE.ADMIN);
       setValue("token", token);
     }
-  }, []);
+  }, [searchParams, setValue]);
 
   const submitHandler = (data: FormData) => {
     if (data.password !== data.confirmPassword) {
@@ -103,140 +102,138 @@ const SignupForm = () => {
   };
 
   return (
-    <main className="relative p-10 bg-main-50 rounded-xl w-[580px] border border-main-600 shadow-md shadow-main-950">
-      {/* form header */}
-      <div>
-        <Link href={'/'}>
-          <Image
-            src={"/logo.png"} 
-            className="w-[170px]"
-            alt="logo"
-            width={200}
-            height={50}
-          />
-        </Link>
-        <div className="my-6 text-lg space-y-1">
-          {role === USERROLE.ADMIN && (
-            <p>
-              Welcome You have been appointed as an{" "}
-              <span className="text-sky-400 font-semibold">Admin</span>.
-            </p>
-          )}
-          <p>
-            <span className="text-sky-400 font-semibold">Sign up</span> to get
-            started with the application
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-blue-200 flex items-center justify-center px-4">
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="w-full max-w-md bg-white p-8 rounded-xl shadow-lg"
+      >
+        {/* Logo */}
+        <div className="flex justify-center mb-6">
+          <Link href="/" className="text-3xl font-bold text-blue-600">
+            QuizByte
+          </Link>
+        </div>
+        {/* Header */}
+        <div className="text-center mb-8">
+          <h1 className="text-2xl sm:text-3xl font-semibold text-gray-800">
+            {role === USERROLE.ADMIN ? 'Welcome, New Admin' : 'Create Your Account'}
+          </h1>
+          <p className="text-gray-600 mt-2">
+            {role === USERROLE.ADMIN
+              ? 'Complete your admin account setup'
+              : 'Join us to start your learning journey'}
           </p>
         </div>
-      </div>
-
-      {/* form */}
-      <form onSubmit={handleSubmit(submitHandler)}>
-        {/* name */}
-        <div>
-          <Label htmlFor="name" className="text-main-600">
-            Full Name
-          </Label>
-          <InputField
-            name="name"
-            type="text"
-            placeholder="Enter your name"
-            id="name"
-            icon={<FaRegUser className="text-sky-400" />}
-            className="mt-1"
-            register={register}
-          />
-          {errors.name && (
-            <p className="text-danger-500 mt-1 text-sm" >{errors.name.message}</p>
+        {/* Form */}
+        <form onSubmit={handleSubmit(submitHandler)} className="space-y-6">
+          {/* Full Name */}
+          <div>
+            <Label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+              Full Name
+            </Label>
+            <input
+              id="name"
+              type="text"
+              placeholder="Enter your full name"
+              autoComplete="name"
+              className={cn(
+                "w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all",
+                errors.name ? "border-red-500" : "border-gray-300"
+              )}
+              {...register("name")}
+            />
+            {errors.name && <p className="mt-1 text-xs text-red-500">{errors.name.message}</p>}
+          </div>
+          {/* Email */}
+          <div>
+            <Label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+              Email Address
+            </Label>
+            <input
+              id="email"
+              type="email"
+              placeholder="Enter your email"
+              autoComplete="email"
+              className={cn(
+                "w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all",
+                errors.email ? "border-red-500" : "border-gray-300"
+              )}
+              {...register("email")}
+            />
+            {errors.email && <p className="mt-1 text-xs text-red-500">{errors.email.message}</p>}
+          </div>
+          {/* Password */}
+          <div>
+            <Label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+              Password
+            </Label>
+            <input
+              id="password"
+              type="password"
+              placeholder="Create a password"
+              autoComplete="new-password"
+              className={cn(
+                "w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all",
+                errors.password ? "border-red-500" : "border-gray-300"
+              )}
+              {...register("password")}
+            />
+            {errors.password && <p className="mt-1 text-xs text-red-500">{errors.password.message}</p>}
+          </div>
+          {/* Confirm Password */}
+          <div>
+            <Label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">
+              Confirm Password
+            </Label>
+            <input
+              id="confirmPassword"
+              type="password"
+              placeholder="Confirm your password"
+              autoComplete="new-password"
+              className={cn(
+                "w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all",
+                errors.confirmPassword ? "border-red-500" : "border-gray-300"
+              )}
+              {...register("confirmPassword")}
+            />
+            {errors.confirmPassword && <p className="mt-1 text-xs text-red-500">{errors.confirmPassword.message}</p>}
+          </div>
+          {/* Admin Notice */}
+          {role === USERROLE.ADMIN && (
+            <div className="p-3 bg-blue-50 rounded-md text-blue-700 text-sm">
+              You're signing up as an <strong>Admin</strong>. Please use your organization email.
+            </div>
           )}
-        </div>
-
-        {/* email */}
-        <div className="mt-3">
-          <Label htmlFor="email" className="text-main-600">
-            Email
-          </Label>
-          <InputField
-            type="email"
-            placeholder="Enter your email"
-            register={register}
-            id="email"
-            name="email"
-            icon={<MdOutlineMailOutline className="text-sky-400" />}
-            className="mt-1"
-          />
-          {errors.email && (
-            <p className="text-danger-500 mt-1 text-sm" >{errors.email.message}</p>
-          )}
-        </div>
-
-        {/* password */}
-        <div className="mt-3">
-          <Label htmlFor="password" className="text-main-600 capitalize">
-            password
-          </Label>
-          <InputField
-            type="password"
-            placeholder="Enter your password"
-            register={register}
-            id="password"
-            name="password"
-            icon={<TbPassword className="text-sky-400" />}
-            className="mt-1"
-          />
-          {errors.password && (
-            <p className="text-danger-500 mt-1 text-sm" >{errors.password.message}</p>
-          )}
-        </div>
-
-        {/* password */}
-        <div className="mt-3">
-          <Label htmlFor="confirmPassword" className="text-main-600 capitalize">
-            confirm password
-          </Label>
-          <InputField
-            type="password"
-            placeholder="confirm your password"
-            register={register}
-            id="confirmPassword"
-            name="confirmPassword"
-            icon={<TbPassword className="text-sky-400" />}
-            className="mt-1"
-          />
-          {errors.confirmPassword && (
-            <p className="text-danger-500 mt-1 text-sm" >
-              {errors.confirmPassword.message}
+          {/* Terms Notice */}
+          <div className="text-center text-xs text-gray-500">
+            <p>
+              By creating an account, you agree to our{' '}
+              <Link href="/terms" className="text-blue-600 hover:underline">Terms of Service</Link> and{' '}
+              <Link href="/privacy" className="text-blue-600 hover:underline">Privacy Policy</Link>.
             </p>
-          )}
-        </div>
-
-        <p className="text-center pt-4">
-          By submitting the form you agree to our{" "}
-          <span className="text-sky-400  font-semibold cursor-pointer">
-            Terms of Service
-          </span>{" "}
-        </p>
-
-        <MyButton
-          onClick={() => {}}
-          type="submit"
-          variant="primary"
-          className="mt-5 w-full"
-          disabled={isPending}
-        >
-          {isPending ? "Submitting..." : "Submit"}
-        </MyButton>
-
-        <p className="text-center mt-4">
-          already have an account?{" "}
-          <Link
-            href="/login"
-            className="text-sky-400 font-semibold cursor-pointer"
-          >
-            Log in
-          </Link>
-        </p>
-      </form>
-    </main>
+          </div>
+          {/* Submit Button */}
+          <div>
+            <MyButton
+              type="submit"
+              className="w-full py-2.5 text-sm font-medium"
+              disabled={isPending}
+            >
+              Create Account
+            </MyButton>
+          </div>
+          {/* Login Link */}
+          <div className="text-center text-sm text-gray-600">
+            Already have an account?{' '}
+            <Link href="/login" className="font-medium text-blue-600 hover:text-blue-500">
+              Sign In
+            </Link>
+          </div>
+        </form>
+      </motion.div>
+    </div>
   );
 };
 

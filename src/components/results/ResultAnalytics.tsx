@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import {
   FaUserGraduate,
@@ -11,6 +13,7 @@ import {
 import { MarksChart } from "./MarksChart";
 import TimeTakenChart from "./TimeTakenChart";
 import { ResultChart } from "./ResultChart";
+import { motion } from "framer-motion";
 
 type AnalyticsData = {
   totalAttempts: number;
@@ -20,6 +23,18 @@ type AnalyticsData = {
   averageTimeTaken: number; // in seconds
   averageHintsUsed: number;
   passingPercentage: number;
+};
+
+type ResultAnalyticsProps = {
+  data: AnalyticsData;
+  attempts: any;
+  exam: {
+    duration: number;
+    passingMarks: number;
+    totalMarks: number;
+    title: string;
+    description: string;
+  };
 };
 
 const Card = ({
@@ -32,13 +47,17 @@ const Card = ({
   icon: React.ReactNode;
 }) => {
   return (
-    <div className="flex flex-col items-start gap-2 bg-white shadow-sm shadow-main-400 rounded-md p-8">
-      <div className="text-sky-400 text-3xl">{icon}</div>
+    <motion.div
+      whileHover={{ scale: 1.05 }}
+      transition={{ duration: 0.3 }}
+      className="flex flex-col items-start gap-2 bg-white px-6 py-8 shadow-lg hover:shadow-2xl rounded-lg"
+    >
+      <div className="text-indigo-500 text-4xl">{icon}</div>
       <div>
-        <p className="text-xs text-gray-500">{title}</p>
-        <h2 className="text-xl font-semibold">{value}</h2>
+        <p className="text-sm text-gray-500">{title}</p>
+        <h2 className="text-2xl font-semibold text-gray-800">{value}</h2>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
@@ -46,23 +65,14 @@ const ResultAnalytics = ({
   data,
   attempts,
   exam,
-}: {
-  data: AnalyticsData;
-  attempts: any;
-  exam: {
-    duration: number;
-    passingMarks: number;
-    totalMarks: number;
-    title: string;
-    description: string;
-  };
-}) => {
+}: ResultAnalyticsProps) => {
   // Convert average time from seconds to minutes
   const averageTimeMinutes = (data?.averageTimeTaken / 60).toFixed(2);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div className="space-y-8 p-6 bg-gradient-to-br from-gray-50 to-blue-50 rounded-xl">
+      {/* Metrics Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card
           title="Total Attempts"
           value={data?.totalAttempts}
@@ -73,6 +83,7 @@ const ResultAnalytics = ({
           value={data?.completedAttempts}
           icon={<FaCheckCircle />}
         />
+        {/* Optionally enable auto submitted card if needed */}
         {/* <Card title="Auto Submitted" value={data.autoSubmitted} icon={<FaRobot />} /> */}
         <Card
           title="Average Marks"
@@ -96,11 +107,18 @@ const ResultAnalytics = ({
         />
       </div>
 
-      <TimeTakenChart attempts={attempts} exam={exam} />
-
-      <MarksChart attempts={attempts} />
-
-      <ResultChart attempts={attempts} exam={exam} />
+      {/* Charts Section */}
+      <div className="grid grid-cols-1 gap-6">
+        <div className="bg-white shadow-lg rounded-lg p-6">
+          <TimeTakenChart attempts={attempts} exam={exam} />
+        </div>
+        <div className="bg-white shadow-lg rounded-lg p-6">
+          <MarksChart attempts={attempts} />
+        </div>
+        <div className="bg-white shadow-lg rounded-lg p-6">
+          <ResultChart attempts={attempts} exam={exam} />
+        </div>
+      </div>
     </div>
   );
 };
