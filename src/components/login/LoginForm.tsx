@@ -87,10 +87,8 @@ const LoginForm = () => {
       <div className="text-center mb-8">
         <Link href="/" className="inline-block">
           <div className="flex items-center justify-center space-x-2">
-            <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-xl">Q</span>
-            </div>
-            <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-sky-500 bg-clip-text text-transparent">
+          
+            <span className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-sky-500 bg-clip-text text-transparent">
               QuizByte
             </span>
           </div>
