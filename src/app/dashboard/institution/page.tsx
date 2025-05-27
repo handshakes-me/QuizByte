@@ -67,7 +67,7 @@ const Page = async () => {
       <div className="flex justify-start my-8 px-4 gap-x-12">
         <div className="py-2">
           <p className="text-sm font-normal text-main-600">Institution Name</p>
-          <h3 className="text-xl font-semibold text-main-900">
+          <h3 className="text-xl font-semibold first-letter:uppercase  text-main-900">
             {organization?.name}
           </h3>
         </div>
