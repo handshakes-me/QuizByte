@@ -29,7 +29,7 @@ const Sidebar = () => {
     <nav className="h-screen text-main-900  bg-gradient-to-b bg-blue-200 w-[240px] border-r border-gray-200 shadow-lg shadow-gray-200/50 transition-all duration-300 ease-in-out">
       <div className="flex  flex-col h-full justify-between gap-8">
         {/* QuizByte Logo/Title */}
-        <div className="px-8 py-4">
+        <div className="px-14 py-4">
           <Link href="/" className="text-3xl font-bold text-indigo-700">
             QuizByte
           </Link>
