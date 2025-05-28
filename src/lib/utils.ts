@@ -84,6 +84,11 @@ export const STUDENTPAGES = [
     href: "/dashboard/ongoing-tests",
     icon: FaRegClock,
   },
+  {
+    name: 'My Results',
+    href: "/dashboard/my-results",
+    icon: PiExamDuotone,
+  },
 ]
 
 export const EXAMGROUPSTATUS = {
